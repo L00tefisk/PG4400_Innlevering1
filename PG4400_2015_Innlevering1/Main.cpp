@@ -2,7 +2,7 @@
 #include <SDL.h>
 
 #include "EventHandler.h"
-#include "GameObject.h";
+#include "GameObject.h"
 
 int main(int argc, char* argv[])
 {
@@ -31,7 +31,6 @@ int main(int argc, char* argv[])
 		SDL_Quit();
 		return EXIT_FAILURE;
 	}
-
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	if (renderer == NULL)
@@ -45,7 +44,8 @@ int main(int argc, char* argv[])
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	SDL_Surface* image = SDL_LoadBMP("sdl2.bmp");
+	SDL_Surface* image = SDL_LoadBMP("Resources/sdl2.bmp");
+
 	
 
 	if (image == NULL)
@@ -53,11 +53,11 @@ int main(int argc, char* argv[])
 		std::cerr << "Failed to load image, details:" << SDL_GetError() << std::endl;
 		SDL_Quit();
 		SDL_DestroyWindow(window);
-		SDL_DestroyRenderer(renderer);
+		SDL_DestroyRenderer(renderer);<<
 		return EXIT_FAILURE;
 	}
 
-	SDL_Surface* sdlBro = SDL_LoadBMP("sdl_bro.bmp");
+	SDL_Surface* sdlBro = SDL_LoadBMP("Resources/sdl_bro.bmp");
 	if (sdlBro == NULL)
 	{
 		std::cerr << "Failed to load image, details:" << SDL_GetError() << std::endl;
