@@ -78,8 +78,38 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="sdl2.bmp" />
-    <Image Include="sdl_bro.bmp" />
+    <Image Include="Resources\Background\background.jpg" />
+    <Image Include="Resources\Balls\ball_blue.png" />
+    <Image Include="Resources\Balls\ball_green.png" />
+    <Image Include="Resources\Balls\ball_orange.png" />
+    <Image Include="Resources\Balls\ball_red.png" />
+    <Image Include="Resources\Balls\ball_silver.png" />
+    <Image Include="Resources\Balls\ball_yellow.png" />
+    <Image Include="Resources\Bats\bat_black.png" />
+    <Image Include="Resources\Bats\bat_blue.png" />
+    <Image Include="Resources\Bats\bat_orange.png" />
+    <Image Include="Resources\Bats\bat_pink.png" />
+    <Image Include="Resources\Bats\bat_yellow.png" />
+    <Image Include="Resources\Bricks\brick_blue_small.png" />
+    <Image Include="Resources\Bricks\brick_blue_small_cracked.png" />
+    <Image Include="Resources\Bricks\brick_green_small.png" />
+    <Image Include="Resources\Bricks\brick_green_small_cracked.png" />
+    <Image Include="Resources\Bricks\brick_pink_small.png" />
+    <Image Include="Resources\Bricks\brick_pink_small_try.png" />
+    <Image Include="Resources\Bricks\brick_violet_small.png" />
+    <Image Include="Resources\Bricks\brick_violet_small_cracked.png" />
+    <Image Include="Resources\Bricks\brick_yellow_small.png" />
+    <Image Include="Resources\Bricks\brick_yellow_small_cracked.png" />
+    <Image Include="Resources\Power ups\star.png" />
+    <Image Include="Resources\Power ups\star_blue.png" />
+    <Image Include="Resources\Power ups\star_gree.png" />
+    <Image Include="Resources\Power ups\star_red.png" />
+    <Image Include="Resources\sdl2.bmp" />
+    <Image Include="Resources\sdl_bro.bmp" />
+    <Image Include="Resources\Walls\brick.png" />
+    <Image Include="Resources\Walls\brick_blue.png" />
+    <Image Include="Resources\Walls\brick_pink_side.png" />
+    <Image Include="Resources\Walls\brick_red.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
