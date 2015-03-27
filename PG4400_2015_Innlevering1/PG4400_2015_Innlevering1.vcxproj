@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(PG4400_SDL2_PATH)\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(PG4400_SDL2_PATH)\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(PG4400_SDL2_PATH)\include;$(PG400_SDL2_IMAGE_PATH)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(PG4400_SDL2_IMAGE_PATH)\lib\x86;$(PG4400_SDL2_PATH)\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
