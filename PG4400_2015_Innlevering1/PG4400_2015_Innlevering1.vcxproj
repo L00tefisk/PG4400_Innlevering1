@@ -69,11 +69,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="..\..\..\..\Documents\Visual Studio 2013\Projects\F06_KodingITimen\SdlOppsettTest\EventHandler.cpp" />
+    <ClCompile Include="..\..\..\..\Documents\Visual Studio 2013\Projects\F06_KodingITimen\SdlOppsettTest\InputManager.cpp" />
+    <ClCompile Include="..\..\..\..\Documents\Visual Studio 2013\Projects\F06_KodingITimen\SdlOppsettTest\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\Development\PG4400_06_SDL2_Test\SDLTest\sdl2.bmp" />
     <Image Include="..\..\..\..\..\Development\PG4400_06_SDL2_Test\SDLTest\sdl_bro.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Documents\Visual Studio 2013\Projects\F06_KodingITimen\SdlOppsettTest\EventHandler.h" />
+    <ClInclude Include="..\..\..\..\Documents\Visual Studio 2013\Projects\F06_KodingITimen\SdlOppsettTest\InputManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
