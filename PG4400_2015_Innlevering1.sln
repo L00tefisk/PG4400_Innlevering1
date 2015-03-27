@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PG4400_2015_Innlevering1", "PG4400_2015_Innlevering1\PG4400_2015_Innlevering1.vcxproj", "{B0F617A2-2AC4-4A8E-994B-1BE3496D4825}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{97D0DF55-9754-47EF-ADC2-3FB2553617B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +17,10 @@ Global
 		{B0F617A2-2AC4-4A8E-994B-1BE3496D4825}.Debug|Win32.Build.0 = Debug|Win32
 		{B0F617A2-2AC4-4A8E-994B-1BE3496D4825}.Release|Win32.ActiveCfg = Release|Win32
 		{B0F617A2-2AC4-4A8E-994B-1BE3496D4825}.Release|Win32.Build.0 = Release|Win32
+		{97D0DF55-9754-47EF-ADC2-3FB2553617B3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{97D0DF55-9754-47EF-ADC2-3FB2553617B3}.Debug|Win32.Build.0 = Debug|Win32
+		{97D0DF55-9754-47EF-ADC2-3FB2553617B3}.Release|Win32.ActiveCfg = Release|Win32
+		{97D0DF55-9754-47EF-ADC2-3FB2553617B3}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
