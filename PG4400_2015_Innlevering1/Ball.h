@@ -2,8 +2,9 @@
 #define BALL_H
 
 #include "GameObject.h"
+#include "Drawable.h"
 
-class Ball : public GameObject
+class Ball : public GameObject, public Drawable
 {
 public:
 	Ball();

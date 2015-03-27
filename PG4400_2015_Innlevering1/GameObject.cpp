@@ -9,9 +9,3 @@ GameObject::~GameObject()
 {
 	// Intentionally left blank.
 }
-
-void GameObject::Draw()
-{
-	// Draw stuff.
-}
-

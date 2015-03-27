@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 
-class Brick : public GameObject
+class Brick : public GameObject, public Drawable
 {
 public:
 	Brick();

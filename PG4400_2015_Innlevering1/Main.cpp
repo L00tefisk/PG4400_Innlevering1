@@ -1,8 +1,11 @@
 #include <iostream>
 #include <SDL.h>
+#include <SDL_image.h>
+#include <array>
 
 #include "EventHandler.h"
 #include "GameObject.h"
+
 
 int main(int argc, char* argv[])
 {
@@ -23,7 +26,7 @@ int main(int argc, char* argv[])
 		1024,
 		576,
 		SDL_WINDOW_SHOWN
-	);
+		);
 
 	if (window == NULL)
 	{
@@ -44,9 +47,9 @@ int main(int argc, char* argv[])
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	SDL_Surface* image = SDL_LoadBMP("../Resources/sdl2.bmp");
+	SDL_Surface* image = IMG_Load("../Resources/sdl2.bmp");
 
-	
+	std::array<SDL_Texture*, 2> textureArray;
 
 	if (image == NULL)
 	{
@@ -58,6 +61,7 @@ int main(int argc, char* argv[])
 	}
 
 	SDL_Surface* sdlBro = SDL_LoadBMP("../Resources/sdl_bro.bmp");
+
 	if (sdlBro == NULL)
 	{
 		std::cerr << "Failed to load image, details:" << SDL_GetError() << std::endl;
@@ -67,9 +71,9 @@ int main(int argc, char* argv[])
 		return EXIT_FAILURE;
 	}
 
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
+	textureArray[0] = SDL_CreateTextureFromSurface(renderer, image);
 
-	if (texture == NULL)
+	if (textureArray[0] == NULL)
 	{
 		std::cerr << "Failed to generate texture, details:" << SDL_GetError() << std::endl;
 		SDL_Quit();
@@ -79,8 +83,8 @@ int main(int argc, char* argv[])
 		return EXIT_FAILURE;
 	}
 
-	SDL_Texture* sdlBroTex = SDL_CreateTextureFromSurface(renderer, sdlBro);
-	if (sdlBroTex == NULL)
+	textureArray[1] = SDL_CreateTextureFromSurface(renderer, sdlBro);
+	if (textureArray[1] == NULL)
 	{
 		std::cerr << "Failed to generate texture, details:" << SDL_GetError() << std::endl;
 		SDL_Quit();
@@ -119,16 +123,18 @@ int main(int argc, char* argv[])
 		broBox.x = inputManager->getMouseX() - broBox.w/2;
 		broBox.y = inputManager->getMouseY() - broBox.h/2;
 
-		
-		SDL_RenderCopy(renderer, texture, NULL, &bounding_box);
-		SDL_RenderCopy(renderer, sdlBroTex, NULL, &broBox);
+		SDL_RenderCopy(renderer, textureArray[0], NULL, &bounding_box);
+		SDL_RenderCopy(renderer, textureArray[1], NULL, &broBox);
+
 		SDL_RenderPresent(renderer);
 	}
 
 	std::cout << "Everything went better than expected!" << std::endl;
 	
 
-	SDL_DestroyTexture(texture);
+	SDL_DestroyTexture(textureArray[0]);
+	SDL_DestroyTexture(textureArray[1]);
+
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

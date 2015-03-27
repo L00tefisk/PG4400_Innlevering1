@@ -8,3 +8,8 @@ void Paddle::Update()
 {
 
 }
+
+void Paddle::Draw()
+{
+
+}
