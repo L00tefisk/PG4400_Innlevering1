@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Paddle.h"
+#include "InputManager.h"
 
 class Player
 {

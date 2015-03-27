@@ -5,11 +5,11 @@
 
 class Paddle : public GameObject
 {
+	friend class Player;
 public:
 	Paddle();
-	void Update();
-	void Draw();
-private:
+	void Update() override;
+
 };
 
 #endif

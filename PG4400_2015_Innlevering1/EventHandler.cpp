@@ -24,7 +24,8 @@ void EventHandler::update()
 			exitGame = true;
 			
 		else if (ev.type == SDL_KEYDOWN || ev.type == SDL_KEYUP || // Keyboard events
-			ev.type == SDL_MOUSEBUTTONDOWN || ev.type == SDL_MOUSEBUTTONUP || ev.type == SDL_MOUSEMOTION || ev.type == SDL_MOUSEWHEEL) // Mouse events
+			ev.type == SDL_MOUSEBUTTONDOWN || ev.type == SDL_MOUSEBUTTONUP ||  // Mouse events
+			ev.type == SDL_MOUSEMOTION || ev.type == SDL_MOUSEWHEEL)
 			processInputEvent(ev);
 		else if (ev.type == SDL_WINDOWEVENT)
 			processWindowEvent(ev);

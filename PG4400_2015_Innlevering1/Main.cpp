@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	SDL_Surface* image = SDL_LoadBMP("Resources/sdl2.bmp");
+	SDL_Surface* image = SDL_LoadBMP("../Resources/sdl2.bmp");
 
 	
 
@@ -53,11 +53,11 @@ int main(int argc, char* argv[])
 		std::cerr << "Failed to load image, details:" << SDL_GetError() << std::endl;
 		SDL_Quit();
 		SDL_DestroyWindow(window);
-		SDL_DestroyRenderer(renderer);<<
+		SDL_DestroyRenderer(renderer);
 		return EXIT_FAILURE;
 	}
 
-	SDL_Surface* sdlBro = SDL_LoadBMP("Resources/sdl_bro.bmp");
+	SDL_Surface* sdlBro = SDL_LoadBMP("../Resources/sdl_bro.bmp");
 	if (sdlBro == NULL)
 	{
 		std::cerr << "Failed to load image, details:" << SDL_GetError() << std::endl;
@@ -108,6 +108,7 @@ int main(int argc, char* argv[])
 	SDL_FreeSurface(sdlBro);
 	
 	eventHandler->update();
+
 	while (!eventHandler->exitGame)
 	{
 		if (inputManager->KeyDown(SDL_SCANCODE_Q))
@@ -123,18 +124,6 @@ int main(int argc, char* argv[])
 		SDL_RenderCopy(renderer, sdlBroTex, NULL, &broBox);
 		SDL_RenderPresent(renderer);
 	}
-	// ---------------------------------------
-	// Game loop would normally run from here.
-
-	// TODO: 1) Get input.
-
-	// TODO: 2) Do business (domain) logic.
-
-	// 3) Render output:
-
-
-	// Game loop would normally end here.
-	// ---------------------------------------
 
 	std::cout << "Everything went better than expected!" << std::endl;
 	
