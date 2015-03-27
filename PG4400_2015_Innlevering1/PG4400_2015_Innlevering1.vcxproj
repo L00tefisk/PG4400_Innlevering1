@@ -87,6 +87,7 @@
     <ClInclude Include="Brick.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Board.cpp" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Paddle.h" />
     <ClInclude Include="Player.h" />

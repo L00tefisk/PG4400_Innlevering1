@@ -7,6 +7,8 @@ public:
 	GameObject();
 	virtual ~GameObject() = 0;
 protected:
+	int width; 
+	int height;
 	float x;
 	float y;
 };
