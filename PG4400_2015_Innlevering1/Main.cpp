@@ -2,6 +2,7 @@
 #include <SDL.h>
 
 #include "EventHandler.h"
+#include "GameObject.h";
 
 int main(int argc, char* argv[])
 {

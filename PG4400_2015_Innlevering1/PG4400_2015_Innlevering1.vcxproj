@@ -81,6 +81,16 @@
     <Image Include="sdl2.bmp" />
     <Image Include="sdl_bro.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Ball.h" />
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="Brick.h" />
+    <ClInclude Include="EventHandler.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Paddle.h" />
+    <ClInclude Include="Player.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
