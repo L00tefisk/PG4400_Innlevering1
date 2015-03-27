@@ -20,8 +20,6 @@ int main(int argc, char* argv[])
 		"An awesome SDL window",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		550,
-		400,
 		SDL_WINDOW_SHOWN
 	);
 
