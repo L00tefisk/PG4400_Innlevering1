@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "Drawable.h"
 
-class Paddle : public GameObject, public Drawable
+class Paddle : public GameObject
 {
 	friend class Player;
 

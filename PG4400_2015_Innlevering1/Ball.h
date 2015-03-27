@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "Drawable.h"
 
-class Ball : public GameObject, public Drawable
+class Ball : public GameObject
 {
 public:
 	Ball();

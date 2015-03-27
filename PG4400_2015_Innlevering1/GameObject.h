@@ -3,7 +3,8 @@
 
 #include <SDL.h>
 #include <memory>
-class GameObject
+#include "Drawable.h"
+class GameObject : public Drawable
 {
 public:
 	GameObject();
