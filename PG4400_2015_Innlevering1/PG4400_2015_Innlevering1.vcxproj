@@ -47,12 +47,16 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -69,17 +73,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Documents\Visual Studio 2013\Projects\F06_KodingITimen\SdlOppsettTest\EventHandler.cpp" />
-    <ClCompile Include="..\..\..\..\Documents\Visual Studio 2013\Projects\F06_KodingITimen\SdlOppsettTest\InputManager.cpp" />
-    <ClCompile Include="..\..\..\..\Documents\Visual Studio 2013\Projects\F06_KodingITimen\SdlOppsettTest\Main.cpp" />
+    <ClCompile Include="EventHandler.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Development\PG4400_06_SDL2_Test\SDLTest\sdl2.bmp" />
-    <Image Include="..\..\..\..\..\Development\PG4400_06_SDL2_Test\SDLTest\sdl_bro.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\Documents\Visual Studio 2013\Projects\F06_KodingITimen\SdlOppsettTest\EventHandler.h" />
-    <ClInclude Include="..\..\..\..\Documents\Visual Studio 2013\Projects\F06_KodingITimen\SdlOppsettTest\InputManager.h" />
+    <Image Include="sdl2.bmp" />
+    <Image Include="sdl_bro.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
