@@ -6,44 +6,38 @@
 
 #include <SDL.h>
 #include <iostream>
+#include <memory>
 
 class InputManager
 {
 public:
-	static InputManager* GetInstance();
+	static std::shared_ptr<InputManager> GetInstance();
 	bool KeyDown(int key);
 	int getMouseX();
 	int getMouseY();
-	
-	// redundant?
-	bool keyUp(int key);
-	bool keyStillDown(int key);
-	bool keyStillUp(int key);
 
 	void update(SDL_Event &ev);
 private:
 	InputManager();
+	bool handleKeyboardEvent(SDL_Event &ev);
+	bool handleMouseEvent(SDL_Event &ev);
+	bool handleJoystickEvent(SDL_Event &ev);
 
-	static InputManager *instance;
+	static std::shared_ptr<InputManager> instance;
 
 	// Keyboard variables
 	int keyAmount;
 	bool* keys;
 
 	// Mouse variables
+	bool buttons[6];
 	unsigned int x;
 	unsigned int y;
 	int dY;
 	int dX;
 	int wheelX;
 	int wheelY;
-
-	bool* buttons;
-
-protected:
-	bool handleKeyboardEvent(SDL_Event &ev);
-	bool handleMouseEvent(SDL_Event &ev);
-	bool handleJoystickEvent(SDL_Event &ev);
+	
 };
 
 #endif

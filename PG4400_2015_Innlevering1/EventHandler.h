@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <SDL.h>
+#include <memory>
 
 #include "InputManager.h"
 
@@ -12,16 +13,15 @@
 class EventHandler
 {
 public:
-	static EventHandler* GetInstance();
+	static std::shared_ptr<EventHandler> GetInstance();
 	void init();
 	void update();
 	bool exitGame;
 private:
 	EventHandler();
 
-	static EventHandler *instance;
-	InputManager *inputManagerInstance;
-protected:
+	static std::shared_ptr<EventHandler> instance;
+	std::shared_ptr<InputManager> inputManagerInstance;
 	void processInputEvent(SDL_Event &ev);
 	void processWindowEvent(SDL_Event &ev);
 };

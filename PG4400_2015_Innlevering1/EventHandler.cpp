@@ -1,6 +1,6 @@
 #include "EventHandler.h"
 
-EventHandler* EventHandler::instance = 0;
+std::shared_ptr<EventHandler> EventHandler::instance = 0;
 
 EventHandler::EventHandler()
 {
@@ -8,10 +8,10 @@ EventHandler::EventHandler()
 	exitGame = false;
 }
 
-EventHandler* EventHandler::GetInstance()
+std::shared_ptr<EventHandler> EventHandler::GetInstance()
 {
 	if (instance == 0)
-		instance = new EventHandler();
+		instance = std::shared_ptr<EventHandler>(new EventHandler);
 	return instance;
 }
 

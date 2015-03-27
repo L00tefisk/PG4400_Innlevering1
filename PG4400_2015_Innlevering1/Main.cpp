@@ -6,8 +6,8 @@
 
 int main(int argc, char* argv[])
 {
-	EventHandler *eventHandler = EventHandler::GetInstance();
-	InputManager *inputManager = InputManager::GetInstance();
+	std::shared_ptr<EventHandler> eventHandler = EventHandler::GetInstance();
+	std::shared_ptr<InputManager> inputManager = InputManager::GetInstance();
 
 	if (SDL_Init(SDL_INIT_VIDEO))
 	{

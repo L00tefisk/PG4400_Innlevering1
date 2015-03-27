@@ -1,12 +1,12 @@
 #include "InputManager.h"
 
-InputManager* InputManager::instance = 0;
+std::shared_ptr<InputManager> InputManager::instance = 0;
 
 // Public methods
-InputManager* InputManager::GetInstance()
+std::shared_ptr<InputManager> InputManager::GetInstance()
 {
 	if (instance == 0)
-		instance = new InputManager();
+		instance = std::unique_ptr<InputManager>(new InputManager);
 	return instance;
 }
 void InputManager::update(SDL_Event &ev)
@@ -39,12 +39,10 @@ InputManager::InputManager()
 	// Mouse stuff
 	x = y = dX = dY = 0;
 	wheelX = wheelY = 0;
-	buttons = new bool[6];
 	for (int i = 0; i < 6; i++)
 		buttons[i] = false;
 };
 
-//Protected methods
 bool InputManager::handleKeyboardEvent(SDL_Event &ev)
 {
 	if (ev.type == SDL_KEYDOWN)
