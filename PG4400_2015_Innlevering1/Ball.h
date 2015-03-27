@@ -8,6 +8,8 @@ class Ball : public GameObject
 public:
 	Ball();
 	~Ball();
+	void Update();
+	void Draw();
 };
 
 #endif

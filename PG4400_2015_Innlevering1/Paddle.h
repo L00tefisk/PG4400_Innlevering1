@@ -5,7 +5,11 @@
 
 class Paddle : public GameObject
 {
-
+public:
+	Paddle();
+	void Update();
+	void Draw();
+private:
 };
 
 #endif

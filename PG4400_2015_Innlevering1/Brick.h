@@ -8,6 +8,8 @@ class Brick : public GameObject
 public:
 	Brick();
 	~Brick();
+	void Update();
+	void Draw();
 };
 
 #endif

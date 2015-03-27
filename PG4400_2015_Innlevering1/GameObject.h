@@ -4,8 +4,10 @@
 class GameObject
 {
 public:
-	GameObject();
-	virtual ~GameObject() = 0;
+	GameObject(){};
+	virtual ~GameObject(){};
+	virtual void Update() = 0;
+	virtual void Draw() = 0;
 protected:
 	int width; 
 	int height;
