@@ -5,10 +5,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -24,104 +20,6 @@
     <ClCompile Include="EventHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resources\sdl2.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\sdl_bro.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Walls\brick_red.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Balls\ball_blue.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Balls\ball_green.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Balls\ball_orange.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Balls\ball_red.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Balls\ball_silver.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Balls\ball_yellow.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bats\bat_black.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bats\bat_blue.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bats\bat_orange.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bats\bat_pink.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bats\bat_yellow.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bricks\brick_blue_small.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bricks\brick_blue_small_cracked.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bricks\brick_green_small.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bricks\brick_green_small_cracked.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bricks\brick_pink_small.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bricks\brick_pink_small_try.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bricks\brick_violet_small.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bricks\brick_violet_small_cracked.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bricks\brick_yellow_small.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Bricks\brick_yellow_small_cracked.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Power ups\star.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Power ups\star_blue.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Power ups\star_gree.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Power ups\star_red.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Walls\brick.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Walls\brick_blue.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Walls\brick_pink_side.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\Background\background.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EventHandler.h">
