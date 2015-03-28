@@ -3,14 +3,18 @@
 
 #include <SDL.h>
 #include <memory>
-#include "Drawable.h"
-class GameObject : public Drawable
+#include <string>
+
+
+class GameObject
 {
 public:
 	GameObject();
 	virtual ~GameObject();
+	virtual void Draw();
 	virtual void Update() = 0;
 protected:
+	std::string texPath;
 	SDL_Rect locationSizeMap;
 };
 

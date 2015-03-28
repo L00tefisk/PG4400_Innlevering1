@@ -5,18 +5,25 @@
 #include <memory>
 #include <SDL.h>
 #include <SDL_image.h>
-#include "Drawable.h"
 
 class DrawEngine
 {
 public:
-	DrawEngine();
-
-	void Draw(std::shared_ptr<Drawable>);
+	//~DrawEngine();
+	 void init();
+	 static DrawEngine& GetInstance()
+	 {
+		 static DrawEngine instance;
+		 return instance;
+	 }
+	//void Draw(std::shared_ptr<Drawable>);
+	int Draw(SDL_Rect locationSizeMap, std::string path);
 
 private:
+	DrawEngine();
+
 	SDL_Renderer* renderer;
-	static std::shared_ptr<DrawEngine> instance;
+	SDL_Window* window;
 	//std::array<SDL_Texture, 4> textures;
 
 };

@@ -88,7 +88,6 @@
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Brick.h" />
-    <ClInclude Include="Drawable.h" />
     <ClInclude Include="DrawEngine.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="GameObject.h" />
