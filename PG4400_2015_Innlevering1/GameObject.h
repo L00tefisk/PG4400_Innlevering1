@@ -14,6 +14,7 @@ public:
 	virtual void Draw();
 	virtual void Update() = 0;
 protected:
+	std::unique<SDL_Renderer*> renderer;
 	std::string texPath;
 	SDL_Rect locationSizeMap;
 };
