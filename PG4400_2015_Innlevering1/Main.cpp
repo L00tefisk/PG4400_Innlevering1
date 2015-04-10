@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 	rect.h = 25;
 
 	Player player(rect);
-
+	Ball ball;
 	player.paddle.loadResource("../Resources/Bats/paddle0002.png");
 	eventHandler->update();
 
@@ -57,11 +57,11 @@ int main(int argc, char* argv[])
 			// logic
 			eventHandler->update();
 			player.Update();
-
+			ball.Update();
 			// Draw
 			SDL_RenderClear(renderer);
 			player.Draw();
-			
+			ball.Draw ();
 			SDL_RenderPresent(renderer);
 
 			system("cls");
