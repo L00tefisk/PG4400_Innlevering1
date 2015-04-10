@@ -6,22 +6,30 @@
 #include "EventHandler.h"
 #include "GameObject.h"
 #include "Player.h"
-
+#include "Ball.h"
 
 int main(int argc, char* argv[])
 {
 	std::vector<std::string> texturePathList;
 	std::shared_ptr<EventHandler> eventHandler = EventHandler::GetInstance();
 	std::shared_ptr<InputManager> inputManager = InputManager::GetInstance();
-	SDL_Window *window = SDL_CreateWindow("Test.", 100, 100, 400, 400, NULL);
-	SDL_Renderer *renderer = SDL_CreateRenderer(window, NULL, NULL);
+	SDL_Window *window = SDL_CreateWindow("Test.", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_ShowCursor(false);
+	if (renderer == NULL)
+		std::cout << "renderer creation failed." << std::endl;
 
-	texturePathList.push_back(std::string("../Resources/Bats/paddle0001.png"));
+	Drawable::Init(renderer);
+	SDL_Rect rect;
+	rect.x = 100;
+	rect.y = 550;
+	rect.w = 100;
+	rect.h = 25;
 
-	Drawable::Init(texturePathList, window, renderer);
-
-	Player player;
-
+	Player player(rect);
+//	Ball ball;
+	
+	player.paddle.loadResource("../Resources/Bats/paddle0001.png");
 	eventHandler->update();
 
 	while (!eventHandler->exitGame)
@@ -32,12 +40,10 @@ int main(int argc, char* argv[])
 		// logic
 		eventHandler->update();
 		player.Update();
-
 		// Draw
 		SDL_RenderClear(renderer);
-
 		player.Draw();
-
+		//ball.Draw();
 		SDL_RenderPresent(renderer);
 	}
 

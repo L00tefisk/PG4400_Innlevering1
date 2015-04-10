@@ -7,13 +7,14 @@
 class Player
 {
 public:
-	Player();
+	Player(const SDL_Rect &rect);
 	~Player();
 
 	void Update();
 	void Draw();
-private:
+
 	Paddle paddle;
+private:
 	std::shared_ptr<InputManager> inputManager;
 };
 

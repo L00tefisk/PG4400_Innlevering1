@@ -1,9 +1,8 @@
 #include "Player.h"
 
-Player::Player()
+Player::Player(const SDL_Rect &rect)
 {
-	paddle.rect.y = 500;
-	paddle.rect.x = 500;
+	paddle.rect = rect;
 	inputManager = InputManager::GetInstance();
 }
 
