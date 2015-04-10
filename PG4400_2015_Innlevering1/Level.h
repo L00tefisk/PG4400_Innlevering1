@@ -10,8 +10,10 @@ class Level
 public:
 	Level();
 	~Level();
+
+	//void LoadLevel();
 private:
-	std::vector<Brick> map;
+	std::vector<GameObject> map;
 	int width;
 	int height;
 };

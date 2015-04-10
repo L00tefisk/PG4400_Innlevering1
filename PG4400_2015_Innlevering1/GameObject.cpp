@@ -3,7 +3,7 @@
 
 GameObject::GameObject()
 {
-	// Intentionally left blank.
+
 }
 
 GameObject::~GameObject()
