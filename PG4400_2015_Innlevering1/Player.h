@@ -13,6 +13,7 @@ public:
 	void update();
 private:
 	Paddle paddle;
+	std::shared_ptr<InputManager> inputManager;
 };
 
 #endif

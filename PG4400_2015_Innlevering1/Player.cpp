@@ -2,18 +2,20 @@
 
 Player::Player()
 {
-	paddle.locationSizeMap.y = 300;
+	paddle.locationSizeMap.y = 500;
 	paddle.locationSizeMap.x = 500;
-}
-
-void Player::update()
-{
-	paddle.locationSizeMap.x = static_cast<float>(InputManager::GetInstance()->getMouseX()) - paddle.locationSizeMap.w/2;
-
-	paddle.Update();
+	inputManager = InputManager::GetInstance();
 }
 
 Player::~Player()
 {
 	//TODO
 }
+
+void Player::update()
+{
+	paddle.locationSizeMap.x = inputManager->getMouseX() - paddle.locationSizeMap.w/2;
+
+	paddle.Update();
+}
+

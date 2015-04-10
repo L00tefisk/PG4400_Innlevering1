@@ -88,17 +88,7 @@ int main(int argc, char* argv[])
 
 		player->update();
 		eventHandler->update();
-
-		broBox.x = inputManager->getMouseX() - broBox.w/2;
-		broBox.y = inputManager->getMouseY() - broBox.h/2;
-
-		//drawEngine->Draw(broBox, "../Resources/sdl_bro.bmp");
 	}
-
-	std::cout << "Everything went better than expected!" << std::endl;
-	
-
-	//drawEngine->~DrawEngine();
 
 	return EXIT_SUCCESS;
 }

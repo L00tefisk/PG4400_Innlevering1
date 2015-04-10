@@ -37,6 +37,7 @@ DrawEngine::DrawEngine()
 
 int DrawEngine::Draw(SDL_Rect locationSizeMap, std::string path)
 {
+	SDL_RenderClear(renderer);
 	std::string respath = "../Resources/";				//NEVER
 	respath.append(path);								//EVER
 	char fpath[1024];									//DO
@@ -48,9 +49,9 @@ int DrawEngine::Draw(SDL_Rect locationSizeMap, std::string path)
 	if (surface == NULL)
 	{
 		std::cerr << "Failed to load image, details:" << SDL_GetError() << std::endl;
-		SDL_Quit();
-		SDL_DestroyWindow(window);
 		SDL_DestroyRenderer(renderer);
+		SDL_DestroyWindow(window);
+		SDL_Quit();
 		return EXIT_FAILURE;
 	}
 
@@ -59,10 +60,10 @@ int DrawEngine::Draw(SDL_Rect locationSizeMap, std::string path)
 	if (texture == NULL)
 	{
 		std::cerr << "Failed to generate texture, details:" << SDL_GetError() << std::endl;
-		SDL_Quit();
-		SDL_DestroyWindow(window);
-		SDL_DestroyRenderer(renderer);
 		SDL_FreeSurface(surface);
+		SDL_DestroyRenderer(renderer);
+		SDL_DestroyWindow(window);
+		SDL_Quit();
 		return EXIT_FAILURE;
 	}
 
