@@ -5,11 +5,11 @@
 #include "Brick.h"
 #include "Drawable.h"
 
-class Board : public Drawable
+class Level
 {
 public:
-	Board();
-	~Board();
+	Level();
+	~Level();
 private:
 	std::vector<Brick> map;
 	int width;

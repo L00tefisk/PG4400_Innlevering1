@@ -2,8 +2,8 @@
 
 Player::Player()
 {
-	paddle.locationSizeMap.y = 500;
-	paddle.locationSizeMap.x = 500;
+	paddle.rect.y = 500;
+	paddle.rect.x = 500;
 	inputManager = InputManager::GetInstance();
 }
 
@@ -12,10 +12,15 @@ Player::~Player()
 	//TODO
 }
 
-void Player::update()
+void Player::Update()
 {
-	paddle.locationSizeMap.x = inputManager->getMouseX() - paddle.locationSizeMap.w/2;
+	paddle.rect.x = inputManager->getMouseX() - paddle.rect.w/2;
 
 	paddle.Update();
+}
+
+void Player::Draw()
+{
+	paddle.Draw();
 }
 

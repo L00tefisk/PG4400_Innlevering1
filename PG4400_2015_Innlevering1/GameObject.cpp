@@ -1,5 +1,4 @@
 #include "GameObject.h"
-#include "DrawEngine.h"
 #include <iostream>
 
 GameObject::GameObject()
@@ -11,8 +10,8 @@ GameObject::~GameObject()
 {
 	// Intentionally left blank.
 }
+
 void GameObject::Draw()
 {
-	int success = DrawEngine::GetInstance().Draw(locationSizeMap, texPath);
+	SDL_RenderCopy(renderer, textureList[textureID], NULL, &rect);
 }
-

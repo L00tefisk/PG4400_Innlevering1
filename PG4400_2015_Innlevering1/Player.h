@@ -10,7 +10,8 @@ public:
 	Player();
 	~Player();
 
-	void update();
+	void Update();
+	void Draw();
 private:
 	Paddle paddle;
 	std::shared_ptr<InputManager> inputManager;

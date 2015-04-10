@@ -2,6 +2,7 @@
 #define BRICK_H
 
 #include "GameObject.h"
+#include "Drawable.h"
 
 class Brick : public GameObject
 {
@@ -9,7 +10,6 @@ public:
 	Brick();
 	~Brick();
 	void Update() override;
-	//void Draw();
 };
 
 #endif

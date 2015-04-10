@@ -2,6 +2,7 @@
 #define BALL_H
 
 #include "GameObject.h"
+#include "Drawable.h"
 
 class Ball : public GameObject
 {

@@ -5,18 +5,17 @@
 #include <memory>
 #include <string>
 
+#include "Drawable.h"
 
-class GameObject
+class GameObject : public Drawable
 {
 public:
 	GameObject();
 	virtual ~GameObject();
-	virtual void Draw();
 	virtual void Update() = 0;
+	virtual void Draw();
 protected:
-	std::unique<SDL_Renderer*> renderer;
-	std::string texPath;
-	SDL_Rect locationSizeMap;
+	SDL_Rect rect;
 };
 
 #endif
