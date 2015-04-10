@@ -19,6 +19,7 @@ int hitTest (SDL_Rect rect1, SDL_Rect rect2)
 	{
 		//HIT
 	}
+	return true;
 }
 
 void Ball::Update()
