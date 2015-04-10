@@ -47,18 +47,11 @@ bool InputManager::handleKeyboardEvent(SDL_Event &ev)
 {
 	if (ev.type == SDL_KEYDOWN)
 	{
-		std::cout << "Key: " << SDL_GetKeyName(ev.key.keysym.sym) << " was ";
-		if (keys[ev.key.keysym.scancode])
-			std::cout << "repeated\n";
-		else
-			std::cout << "pressed\n";
 		keys[ev.key.keysym.scancode] = true;
 		return true;
 	}
 	else if (ev.type == SDL_KEYUP)
 	{
-		std::cout << "Key: " << SDL_GetKeyName(ev.key.keysym.sym) << " was ";
-		std::cout << "released\n";
 		keys[ev.key.keysym.scancode] = false;
 		return true;
 	}
@@ -69,33 +62,23 @@ bool InputManager::handleMouseEvent(SDL_Event &ev)
 	// Most of the time it'll be the mousemotion event
 	if (ev.type == SDL_MOUSEMOTION)
 	{
-		std::cout << "Mouse moved.";
 		dX = ev.motion.x - x;
 		dY = ev.motion.y - y;
 		x = ev.motion.x;
 		y = ev.motion.y;
-		std::cout << "[ " << x << "," << y << "," << dX << "," << dY << "]\n";
 	}
 	else if (ev.type == SDL_MOUSEWHEEL)
 	{
 		wheelX = ev.wheel.x;
 		wheelY = ev.wheel.y;
 
-		std::cout << "Mousewheel moved (" << wheelX << "," << wheelY << ") ";
-		if (wheelY > 0)
-			std::cout << "up.\n";
-		else
-			std::cout << "down.\n";
-
 	}
 	else if (ev.type == SDL_MOUSEBUTTONDOWN)
 	{
-		std::cout << "mouse button " << (int)ev.button.button << " was clicked.\n";
 		buttons[ev.button.button] = true;
 	}
 	else // Has to be the mousebutton up at this point, no point checking for it.
 	{
-		std::cout << "mouse button " << (int)ev.button.button << " was released.\n";
 		buttons[ev.button.button] = false;
 	}
 	return true;

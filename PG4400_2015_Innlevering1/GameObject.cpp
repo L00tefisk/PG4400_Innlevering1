@@ -13,7 +13,5 @@ GameObject::~GameObject()
 
 void GameObject::Draw()
 {
-	std::cout << "Drawing." << std::endl;
-	std::cout << "Rect (" << rect.x << "," << rect.y << "," << rect.w << "," << rect.h << ")" << std::endl;
 	SDL_RenderCopy(renderer, textureList[textureID], NULL, &rect);
 }
