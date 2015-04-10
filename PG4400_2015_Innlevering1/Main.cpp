@@ -61,6 +61,7 @@ int main(int argc, char* argv[])
 			// Draw
 			SDL_RenderClear(renderer);
 			player.Draw();
+			
 			SDL_RenderPresent(renderer);
 
 			system("cls");
