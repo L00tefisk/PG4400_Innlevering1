@@ -9,7 +9,7 @@ class Brick : public GameObject
 public:
 	Brick();
 	~Brick();
-	virtual void Update(const double& dt) override;
+	void Update() override;
 };
 
 #endif

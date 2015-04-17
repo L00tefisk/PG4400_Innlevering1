@@ -12,11 +12,11 @@ class GameObject : public Drawable
 public:
 	GameObject();
 	virtual ~GameObject();
-	virtual void Update(const double& dt) = 0;
+	virtual void Update() = 0;
 	virtual void Draw();
-	
-protected:
 	SDL_Rect rect;
+protected:
+	
 };
 
 #endif

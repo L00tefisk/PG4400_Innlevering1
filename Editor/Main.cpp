@@ -1,4 +1,4 @@
-// Editor for BreakkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkOut Clone.
+// Editor for BreakOut Clone 
 
 /*
 
@@ -10,108 +10,88 @@
 */
 
 #include <iostream>
-#include <fstream>
+#include <SDL.h>
+#include <SDL_image.h>
 #include <array>
-#include <vector>
 
-class Vector2D
+#include "EventHandler.h"
+#include "GameObject.h"
+#include "Player.h"
+#include "Ball.h"
+#include "Editor.h"
+
+int main(int argc, char* argv[])
 {
-public:
-	Vector2D(int x, int y)
+	Uint32 time = 0;
+	Uint32 previousTime = 0;
+	Uint32 dt = 0;
+	double fps = (1 / 60.0) * 1000;
+	double accumulator = 0.0;
+	int frames = 0;
+	bool mouseButtonLock = false;
+
+	std::vector<std::string> texturePathList;
+	std::shared_ptr<EventHandler> eventHandler = EventHandler::GetInstance();
+	std::shared_ptr<InputManager> inputManager = InputManager::GetInstance();
+	SDL_Window *window = SDL_CreateWindow("Test.", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, SDL_WINDOW_SHOWN);
+	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	if (renderer == NULL)
+		std::cout << "renderer creation failed." << std::endl;
+	Drawable::Init(renderer);
+	Drawable::loadAllTextures();
+	eventHandler->update();
+
+	Editor* editor = Editor::GetInstance();
+	editor->loadLevel();
+	while (!eventHandler->exitGame)
 	{
-		this->x = x;
-		this->y = y;
+		previousTime = time;
+		time = SDL_GetTicks();
+		dt = time - previousTime;
+		accumulator += dt;
+
+		eventHandler->update();
+		
+		if (inputManager->KeyDown(SDL_SCANCODE_Q))
+			eventHandler->exitGame = true;
+
+		if (inputManager->getMouseButton(1) && !mouseButtonLock)
+		{
+			Brick b;
+			b.textureID = editor->currentBrickID;
+			b.rect.x = inputManager->getMouseX();
+			b.rect.y = inputManager->getMouseY();
+			b.rect.w = 40;
+			b.rect.h = 10;
+			editor->AddBrick(b);
+			mouseButtonLock = true;
+		}
+		else if (!inputManager->getMouseButton(1))
+			mouseButtonLock = false;
+		if (inputManager->getMouseButton(3))
+		{
+			editor->RemoveBrick(inputManager->getMouseX(), inputManager->getMouseY());
+		}
+
+
+		if (accumulator >= fps)
+		{
+			frames++;
+			accumulator -= fps;
+
+			// logic
+			
+
+
+			// Draw
+			SDL_RenderClear(renderer);
+			editor->draw();
+			SDL_RenderPresent(renderer);
+
+		
+		}
+		editor->SaveLevel();
 	}
 
-	Vector2D()
-	{
-		Vector2D(0, 0);
-	}
-	int x;
-	int y;
-
-};
-
-class Brick
-{
-public:
-	Brick()
-	{
-		Brick(0, 0, 0);
-	}
-
-	Brick(unsigned int x, unsigned int y, unsigned short type)
-	{
-		position.x = x;
-		position.y = y;
-		this->type = type;
-	};
-
-	Vector2D getPosition()
-	{
-		return position;
-	}
-
-	unsigned short getType()
-	{
-		return type;
-	}
-
-private:
-	Vector2D position;
-	unsigned short type;
-};
-
-void loadFile()
-{
-	// Placeholder variables, these will be available through a class.
-	std::vector<Brick> blockList;
-	std::string fileName;
-
-	unsigned int x = 0;
-	unsigned int y = 0;
-	unsigned short type = 0;
-
-
-	std::ifstream inStream;
-	inStream.open(fileName, std::ifstream::binary);
-
-	while(!inStream.eof())
-	{
-		inStream >> x;
-		inStream >> y;
-		inStream >> type;
-		blockList.push_back(Brick(x, y, type));
-	}
-
-	inStream.close();
-}
-
-void saveFile()
-{
-	// Placeholder variables, these will be available through a class.
-	std::string fileName;
-	std::array<Brick, 10> brickList;
-	std::ofstream outStream;
-	outStream.open(fileName, std::ofstream::binary);
-	
-	for (Brick b : brickList)
-	{
-		outStream << b.getPosition().x;
-		outStream << b.getPosition().y;
-		outStream << b.getType();
-	}
-
-	
-	outStream.close();
-}
-
-int main(int argc, char *argv[])
-{
-
-	int a = 0;
-	auto wut = [](int &a)->int { a = 2; return a; };
-	wut(a);
-	std::cout << "a: " << a << std::endl;
-	system("pause");
+	return EXIT_SUCCESS;
 }

@@ -2,6 +2,7 @@
 
 SDL_Renderer* Drawable::renderer;
 std::vector<SDL_Texture*> Drawable::textureList;
+std::vector<std::string> Drawable::loadedResources;
 
 
 Drawable::Drawable()
@@ -39,7 +40,7 @@ void Drawable::loadResource(const std::string &path)
 		std::cout << "Texture creation failed." << SDL_GetError() << std::endl;
 	// and store them in textureArray
 	textureList.push_back(texture);
-
+	
 	textureID = textureList.size() - 1;
 	loadedResources.push_back(path);
 }

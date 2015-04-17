@@ -6,7 +6,7 @@ Paddle::Paddle()
 	rect.w = 200;
 
 }
-void Paddle::Update(const double& dt)
+void Paddle::Update()
 {
 	// Do shit
 }

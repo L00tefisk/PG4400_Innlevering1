@@ -9,7 +9,7 @@ Brick::~Brick()
 {
 
 }
-void Brick::Update(const double& dt)
+void Brick::Update()
 {
 
 }

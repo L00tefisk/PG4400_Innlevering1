@@ -9,7 +9,7 @@ class Paddle : public GameObject
 	friend class Player;
 public:
 	Paddle();
-	void Update(const double& dt);
+	void Update();
 };
 
 #endif

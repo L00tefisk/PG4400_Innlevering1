@@ -8,7 +8,7 @@ class Ball : public GameObject
 public:
 	Ball();
 	~Ball();
-	void Update(const double& dt) override;
+	void Update() override;
 private:
 	float xSpeed;
 	float ySpeed;

@@ -5,7 +5,7 @@ Ball::Ball () {
 	rect.y = 500;
 	rect.w = 25;
 	rect.h = 25;
-	xSpeed = 1;
+	xSpeed = 10;
 	ySpeed = xSpeed;
 	loadResource ("../Resources/Balls/ball0001.png");
 }
@@ -25,12 +25,12 @@ int hitTest (SDL_Rect rect1, SDL_Rect rect2) {
 	return 0;
 }
 
-void Ball::Update (const double &dt) {
-	rect.x += xSpeed * dt;
-	rect.y -= ySpeed * dt;
+void Ball::Update () {
+	rect.x += xSpeed;
+	rect.y -= ySpeed;
 
-	if (rect.x < 0 || rect.x + rect.w > 1280)
+	if (rect.x < 0 || rect.x + rect.w > 800)
 		xSpeed *= -1;
-	if (rect.y < 0 || rect.y + rect.h > 720)
+	if (rect.y < 0 || rect.y + rect.h > 600)
 		ySpeed *= -1;
 }

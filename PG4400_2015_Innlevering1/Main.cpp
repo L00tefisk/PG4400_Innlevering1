@@ -8,15 +8,39 @@
 #include "Player.h"
 #include "Ball.h"
 
+class Timer
+{
+public:
+	Timer(double updateRate) :
+		updateRate(updateRate),
+		time(0),
+		previousTime(0),
+		dt(0),
+		accumulator(0.0){};
+
+
+	void Update()
+	{
+		previousTime = time;
+		time = SDL_GetTicks();
+		dt = time - previousTime;
+		accumulator += dt;
+	}
+	Uint32 time;
+	Uint32 previousTime;
+	Uint32 dt;
+	double updateRate;
+	double accumulator;
+private:
+
+};
+
 int main(int argc, char* argv[])
 {
-	Uint32 time = 0;
-	Uint32 previousTime = 0;
-	Uint32 dt = 0;
-	double fps = (1 / 60.0) * 1000;
-	double accumulator = 0.0;
-	int frames = 0;
-
+	Timer logicTimer((1 / 60.0 ) * 1000);
+	Timer drawTimer((1 / 60.0) * 1000);
+	double logicFrames = 0;
+	double drawFrames = 0;
 	std::vector<std::string> texturePathList;
 	std::shared_ptr<EventHandler> eventHandler = EventHandler::GetInstance();
 	std::shared_ptr<InputManager> inputManager = InputManager::GetInstance();
@@ -38,38 +62,59 @@ int main(int argc, char* argv[])
 	player.paddle.loadResource("../Resources/Bats/paddle0002.png");
 	eventHandler->update();
 
-
+	double seconds = 0;
+	double offsetSeconds = 0;
 	while (!eventHandler->exitGame)
 	{
-		previousTime = time;
-		time = SDL_GetTicks();
-		dt = time - previousTime;
-		accumulator += dt;
 
+		logicTimer.Update();
+		drawTimer.Update();
+		eventHandler->update();
 		if (inputManager->KeyDown(SDL_SCANCODE_Q))
 			eventHandler->exitGame = true;
 
-		if (accumulator >= fps)
+		if (inputManager->KeyDown(SDL_SCANCODE_R))
 		{
-			frames++;
-			accumulator -= fps;
-
-			// logic
-			eventHandler->update();
-			player.Update();
-			ball.Update();
-			// Draw
-			SDL_RenderClear(renderer);
-			player.Draw();
-			ball.Draw ();
-			SDL_RenderPresent(renderer);
-
-			system("cls");
-			std::cout << "Frames: " << frames << std::endl;
-			std::cout << "Seconds: " << SDL_GetTicks() / 1000.0 << std::endl;
-			std::cout << "FPS: " << frames / (SDL_GetTicks() / 1000.0) << std::endl;
+			logicFrames = 0;
+			drawFrames = 0;
+			offsetSeconds = SDL_GetTicks();
 		}
 
+
+		while (logicTimer.accumulator >= logicTimer.updateRate)
+		{
+			logicTimer.accumulator -= logicTimer.updateRate;
+			logicFrames++;
+
+			// logic			
+			player.Update();
+			ball.Update(logicTimer.updateRate);
+
+		}
+
+		//SDL_Delay(100);
+		// Draw
+		if (drawTimer.accumulator >= drawTimer.updateRate)
+		{
+
+			drawFrames++;
+			drawTimer.accumulator -= drawTimer.updateRate;
+
+			SDL_RenderClear(renderer);
+			player.Draw();
+			ball.Draw();
+			SDL_RenderPresent(renderer);
+
+			
+			system("cls");
+			std::cout << "Logical frames: " << logicFrames << std::endl;
+			std::cout << "Logical seconds: " << (logicTimer.time - offsetSeconds) << std::endl;
+			std::cout << "Logical FPS: " << logicFrames / ((logicTimer.time - offsetSeconds) / 1000 ) << std::endl;
+
+			std::cout << "Program frames: " << drawFrames << std::endl;
+			std::cout << "Program seconds: " << drawTimer.time - offsetSeconds << std::endl;
+			std::cout << "Program FPS: " << drawFrames / ((drawTimer.time - offsetSeconds) / 1000) << std::endl;
+		}
 	}
 
 	return EXIT_SUCCESS;
