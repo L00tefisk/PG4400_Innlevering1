@@ -9,8 +9,9 @@
 class Collider
 {
 public:
+	Collider();
 	void init(const SDL_Rect&);
-	virtual void onHit() = 0;
+	//virtual void onHit() = 0;
 	
 protected:
 	//static std::vector<SDL_Rect> colliderList;
