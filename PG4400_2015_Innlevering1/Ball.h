@@ -9,9 +9,10 @@ public:
 	Ball();
 	~Ball();
 	void Update(const double& dt) override;
+	float ySpeed;
 private:
 	float xSpeed;
-	float ySpeed;
+	
 };
 
 #endif

@@ -5,7 +5,6 @@ std::shared_ptr<EventHandler> EventHandler::instance = 0;
 EventHandler::EventHandler()
 {
 	inputManagerInstance = InputManager::GetInstance();
-	exitGame = false;
 }
 
 std::shared_ptr<EventHandler> EventHandler::GetInstance()
@@ -21,7 +20,7 @@ void EventHandler::update()
 	while (SDL_PollEvent(&ev))
 	{
 		if (ev.type == SDL_QUIT)
-			exitGame = true;
+			quit = true;
 			
 		else if (ev.type == SDL_KEYDOWN || ev.type == SDL_KEYUP || // Keyboard events
 			ev.type == SDL_MOUSEBUTTONDOWN || ev.type == SDL_MOUSEBUTTONUP ||  // Mouse events

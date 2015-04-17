@@ -1,5 +1,5 @@
-#ifndef BOARD_H
-#define BOARD_H
+#ifndef LEVEL_H
+#define LEVEL_H
 
 #include <vector>
 #include <fstream>
@@ -9,10 +9,15 @@
 class Level
 {
 public:
-	Level();
-	~Level();
+	Level(){};
+	~Level(){};
+
+	void AddBrick(const Brick &b);
+	void RemoveBrick(const int x, const int y);
+	void loadLevel();
+
 private:
-	std::vector<GameObject> gameObjects;
+	std::vector<Brick> map;
 };
 
 #endif

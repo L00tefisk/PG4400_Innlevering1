@@ -8,7 +8,7 @@ class PowerUp : public GameObject
 public:
 	PowerUp();
 	virtual ~PowerUp() = 0;
-	void Update () override;
+	virtual void Update(const double& dt);
 
 	enum type { Buff, Shrink, Slow };
 protected:

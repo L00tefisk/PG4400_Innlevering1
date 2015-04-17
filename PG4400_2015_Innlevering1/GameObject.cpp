@@ -15,3 +15,8 @@ void GameObject::Draw()
 {
 	SDL_RenderCopy(renderer, textureList[textureID], NULL, &rect);
 }
+
+SDL_Rect GameObject::getRectangle()
+{
+	return rect;
+}

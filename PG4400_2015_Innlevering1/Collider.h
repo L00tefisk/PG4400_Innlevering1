@@ -13,7 +13,7 @@ public:
 	virtual void onHit() = 0;
 	
 protected:
-	static std::vector<SDL_Rect> colliderList;
+	//static std::vector<SDL_Rect> colliderList;
 	SDL_Rect& collisionRect;
 };
 

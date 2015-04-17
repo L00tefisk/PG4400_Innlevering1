@@ -1,9 +1,14 @@
 #include "Player.h"
 
+Player::Player()
+{
+	inputManager = InputManager::GetInstance();
+}
 Player::Player(const SDL_Rect &rect)
 {
-	paddle.rect = rect;
+	
 	inputManager = InputManager::GetInstance();
+	paddle.rect = rect;
 }
 
 Player::~Player()
@@ -13,7 +18,7 @@ Player::~Player()
 
 void Player::Update()
 {
-	paddle.rect.x = inputManager->getMouseX() - paddle.rect.w/2;
+	paddle.rect.x = inputManager->getMouseX();// -paddle.rect.w / 2;
 
 	paddle.Update(0);
 }

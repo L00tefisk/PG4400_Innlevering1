@@ -14,8 +14,10 @@ public:
 		
 		return instance;
 	}
+
 	void AddBrick(const Brick &b)
 	{
+		std::cout << "Added brick at (" << b.rect.x << "," << b.rect.y << ")" << std::endl;
 		map.push_back(b);
 		for (int i = 0; i < resourcesInUse.size(); i++)
 		{
@@ -23,7 +25,7 @@ public:
 				return;
 		}
 		resourcesInUse.push_back(Drawable::loadedResources[b.textureID]);
-		std::cout << "Added brick at (" << b.rect.x << "," << b.rect.y << ")" << std::endl;
+		
 	}
 	void RemoveBrick(int x, int y)
 	{
@@ -40,58 +42,65 @@ public:
 
 	void SaveLevel()
 	{
-		std::ofstream outputStream("test", std::ofstream::out | std::ofstream::trunc);
+		std::ofstream outputStream("test", std::ofstream::binary | std::ofstream::out | std::ofstream::trunc);
 
-		outputStream << resourcesInUse.size() << std::endl;
-		for (int i = 0; i < resourcesInUse.size(); i++)
+		//int size = resourcesInUse.size();
+		//outputStream << size << std::endl;
+
+		//for (int i = 0; i < resourcesInUse.size(); i++)
+		//{
+		//	outputStream << resourcesInUse[i] << std::endl;
+		//}
+		//outputStream.clear();
+		for (int i = 0; i < map.size(); i++)
 		{
-			outputStream << resourcesInUse[i] << std::endl;
-		}
 		
-		outputStream.close();
-		outputStream.open("test", std::ifstream::binary | std::ifstream::app);
+			outputStream.write(reinterpret_cast<char*>(&map[i].rect), sizeof(SDL_Rect));
 
-		for (Brick b : map)
-		{
-			outputStream << b.rect.x << std::endl;
-			outputStream << b.rect.y << std::endl;
-			outputStream << b.rect.w << std::endl;
-			outputStream << b.rect.h << std::endl;
-			for (int i = 0; i < resourcesInUse.size(); i++)
+			for (unsigned short i = 0; i < resourcesInUse.size(); i++)
 			{
-				if (Drawable::loadedResources[b.textureID] == resourcesInUse[i])
+				if (Drawable::loadedResources[map[i].textureID] == resourcesInUse[i])
 				{
-					outputStream << i << std::endl;
+					outputStream.write(reinterpret_cast<char*>(&i), sizeof(unsigned short));
 					break;
 				}
 			}
 		}
+		outputStream.close();
 	}
 
 	void loadLevel()
 	{
-		std::ifstream inputStream("test", std::ifstream::in);
+		std::ifstream inputStream("test", std::ifstream::binary | std::ifstream::in);
+		
 		if (!inputStream)
 			return;
-		int numResourcesInUse;
+
+	/*	int numResourcesInUse = 0;
 		inputStream >> numResourcesInUse;
+
 		for (int i = 0; i < numResourcesInUse; i++)
 		{
 			std::string s;
 			inputStream >> s;
 			resourcesInUse.push_back(s);
 		}
-		inputStream.close();
-		inputStream.open("test", std::ifstream::binary | std::ifstream::app);
-
+*/
+		inputStream.peek();
 		while (!inputStream.eof())
 		{
+
+			SDL_Rect rect;
+			unsigned short textureID;
+			inputStream.read(reinterpret_cast<char*>(&rect), sizeof(SDL_Rect));
+			inputStream.read(reinterpret_cast<char*>(&textureID), sizeof(unsigned short));
+			inputStream.peek();
+			std::cout << "Rect(" << rect.x << ", " << rect.y << ", " << rect.w << ", " << rect.h << ")" << std::endl;
+			std::cout << "Texture ID: " << textureID << std::endl;
 			Brick b;
-			inputStream >> b.rect.x;
-			inputStream >> b.rect.y;
-			inputStream >> b.rect.w;
-			inputStream >> b.rect.h;
-			inputStream >> b.textureID;
+			b.rect = rect;
+			b.textureID = textureID;
+			AddBrick(b);
 		}
 
 		inputStream.close();

@@ -8,7 +8,9 @@ class Brick : public GameObject
 {
 public:
 	Brick();
-	~Brick();
+	Brick(const SDL_Rect &rect, const unsigned short texID);
+
+	virtual ~Brick();
 	virtual void Update(const double& dt) override;
 };
 

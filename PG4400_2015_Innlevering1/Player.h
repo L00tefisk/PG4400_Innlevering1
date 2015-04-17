@@ -7,6 +7,7 @@
 class Player
 {
 public:
+	Player();
 	Player(const SDL_Rect &rect);
 	~Player();
 

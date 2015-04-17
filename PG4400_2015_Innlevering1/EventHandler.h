@@ -16,14 +16,16 @@ public:
 	static std::shared_ptr<EventHandler> GetInstance();
 	void init();
 	void update();
-	bool exitGame;
+
+	bool quit;
 private:
 	EventHandler();
-
 	static std::shared_ptr<EventHandler> instance;
 	std::shared_ptr<InputManager> inputManagerInstance;
 	void processInputEvent(SDL_Event &ev);
 	void processWindowEvent(SDL_Event &ev);
+
+	
 };
 
 #endif

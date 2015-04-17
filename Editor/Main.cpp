@@ -52,17 +52,27 @@ int main(int argc, char* argv[])
 
 		eventHandler->update();
 		
+		Brick b;
+		b.textureID = editor->currentBrickID;
+		if (inputManager->KeyDown(SDL_SCANCODE_LSHIFT))
+		{
+			b.rect.x = inputManager->getMouseX() / 40 * 40;
+			b.rect.y = inputManager->getMouseY() / 10 * 10;
+		}
+		else
+		{
+			b.rect.x = inputManager->getMouseX();
+			b.rect.y = inputManager->getMouseY();
+		}
+		b.rect.w = 40;
+		b.rect.h = 10;
+
 		if (inputManager->KeyDown(SDL_SCANCODE_Q))
 			eventHandler->exitGame = true;
 
 		if (inputManager->getMouseButton(1) && !mouseButtonLock)
 		{
-			Brick b;
-			b.textureID = editor->currentBrickID;
-			b.rect.x = inputManager->getMouseX();
-			b.rect.y = inputManager->getMouseY();
-			b.rect.w = 40;
-			b.rect.h = 10;
+
 			editor->AddBrick(b);
 			mouseButtonLock = true;
 		}
@@ -79,19 +89,14 @@ int main(int argc, char* argv[])
 			frames++;
 			accumulator -= fps;
 
-			// logic
-			
-
-
 			// Draw
 			SDL_RenderClear(renderer);
+			SDL_RenderCopy(renderer, Drawable::textureList[0], NULL, &b.rect);
 			editor->draw();
 			SDL_RenderPresent(renderer);
-
-		
 		}
-		editor->SaveLevel();
+		
 	}
-
+	editor->SaveLevel();
 	return EXIT_SUCCESS;
 }

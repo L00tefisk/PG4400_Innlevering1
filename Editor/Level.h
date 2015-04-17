@@ -11,6 +11,8 @@ class Level
 public:
 	Level();
 	~Level();
+
+	void LoadLevel();
 private:
 	std::vector<GameObject> gameObjects;
 };

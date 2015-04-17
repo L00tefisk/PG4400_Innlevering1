@@ -20,6 +20,7 @@ public:
 	static void Init(SDL_Renderer *renderer);
 	static std::vector<std::string> loadedResources;
 	unsigned short textureID;
+	static std::vector<SDL_Texture *> textureList;
 
 	static void loadAllTextures()
 	{
@@ -48,7 +49,7 @@ public:
 
 protected:
 	static SDL_Renderer *renderer;
-	static std::vector<SDL_Texture *> textureList;
+	
 	
 
 private:

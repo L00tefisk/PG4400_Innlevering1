@@ -3,6 +3,7 @@
 Brick::Brick()
 {
 
+	
 }
 
 Brick::~Brick()

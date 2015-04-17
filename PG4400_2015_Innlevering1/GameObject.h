@@ -14,6 +14,8 @@ public:
 	virtual ~GameObject();
 	virtual void Update(const double& dt) = 0;
 	virtual void Draw();
+
+	SDL_Rect getRectangle();
 	
 protected:
 	SDL_Rect rect;
