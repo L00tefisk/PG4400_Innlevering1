@@ -84,6 +84,7 @@
     </ClInclude>
     <ClInclude Include="Level.cpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
