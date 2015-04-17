@@ -38,7 +38,7 @@ private:
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 
-	Level currentLevel;
+	Level level;
 	Player player;
 	Ball ball;
 

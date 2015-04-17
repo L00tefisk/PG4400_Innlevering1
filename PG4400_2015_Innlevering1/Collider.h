@@ -15,7 +15,7 @@ public:
 	
 protected:
 	//static std::vector<SDL_Rect> colliderList;
-	SDL_Rect& collisionRect;
+	//SDL_Rect& collisionRect;
 };
 
 #endif

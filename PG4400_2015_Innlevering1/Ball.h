@@ -9,10 +9,13 @@ public:
 	Ball();
 	~Ball();
 	void Update(const double& dt) override;
+	void Fire();
+
 	float ySpeed;
-private:
 	float xSpeed;
+private:
 	
+	bool onPaddle;
 };
 
 #endif

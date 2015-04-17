@@ -9,15 +9,16 @@
 class Level
 {
 public:
-	Level(){};
-	~Level(){};
+	Level();
+	~Level();
 
 	void AddBrick(const Brick &b);
 	void RemoveBrick(const int x, const int y);
 	void loadLevel();
-
-private:
+	void draw();
 	std::vector<Brick> map;
+private:
+
 };
 
 #endif

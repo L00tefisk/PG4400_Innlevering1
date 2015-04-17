@@ -32,8 +32,6 @@ void Drawable::loadResource(const std::string &path)
 		}
 	}
 
-	//if (renderer == NULL)
-	//	std::cout << "Renderer is messed up." << std::endl;
 
 	SDL_Surface *surface = IMG_Load(path.c_str());
 	if (surface == NULL)

@@ -12,13 +12,15 @@ class GameObject : public Drawable
 public:
 	GameObject();
 	virtual ~GameObject();
-	virtual void Update(const double& dt) = 0;
+	virtual void Update(const double& dt);
 	virtual void Draw();
 
 	SDL_Rect getRectangle();
-	
+	float centerX;
+	float centerY;
 protected:
 	SDL_Rect rect;
+
 };
 
 #endif
