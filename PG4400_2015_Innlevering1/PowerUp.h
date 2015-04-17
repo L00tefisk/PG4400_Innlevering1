@@ -8,6 +8,9 @@ class PowerUp : public GameObject
 public:
 	PowerUp();
 	virtual ~PowerUp() = 0;
+	void Update () override;
+
+	enum type { Buff, Shrink, Slow };
 protected:
 	const float fallSpeed = 1;
 	float duration;
