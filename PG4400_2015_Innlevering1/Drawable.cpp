@@ -21,14 +21,14 @@ void Drawable::Init(SDL_Renderer *rend)
 	Drawable::renderer = rend;
 }
 
-void Drawable::loadResource(const std::string &path)
+int Drawable::loadResource(const std::string &path)
 {
 	for (int i = 0; i < loadedResources.size(); i++)
 	{
 		if (loadedResources[i] == path)
 		{
-			textureID = i;
-			return;
+			return i;
+			;
 		}
 	}
 
@@ -46,6 +46,6 @@ void Drawable::loadResource(const std::string &path)
 	// and store them in textureArray
 	textureList.push_back(texture);
 
-	textureID = textureList.size() - 1;
 	loadedResources.push_back(path);
+	return textureList.size() - 1;
 }
