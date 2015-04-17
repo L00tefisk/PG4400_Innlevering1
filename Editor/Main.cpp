@@ -72,7 +72,6 @@ int main(int argc, char* argv[])
 
 		if (inputManager->getMouseButton(1) && !mouseButtonLock)
 		{
-
 			editor->AddBrick(b);
 			mouseButtonLock = true;
 		}

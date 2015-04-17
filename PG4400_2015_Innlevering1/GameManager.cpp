@@ -8,7 +8,7 @@ GameManager::GameManager(SDL_Window *window, SDL_Renderer *renderer)
 
 	logicTimer = Timer((1 / 60.0) * 1000); // multiplied by 1000 because we want it in milliseconds
 	drawTimer = Timer((1 / 60.0) * 1000);
-	currentLevel = Level();
+	level = Level();
 	run = true;
 };
 GameManager::~GameManager()
@@ -22,7 +22,7 @@ void GameManager::Init()
 	inputManager = InputManager::GetInstance();
 
 	
-	gameState = PLAY;
+	gameState = MAINMENU;
 }
 
 void GameManager::SetupGame()
@@ -34,6 +34,7 @@ void GameManager::SetupGame()
 	rect.h = 25;
 
 	player = Player(rect);
+	level.loadLevel();
 }
 
 void GameManager::Run()
@@ -72,6 +73,19 @@ void GameManager::Run()
 		
 	}
 }
+
+bool CollisionCheck(GameObject a, GameObject b)
+{
+	if (a.getRectangle().x + a.getRectangle().w > b.getRectangle().x &&
+		a.getRectangle().y + a.getRectangle().h > b.getRectangle().y &&
+		a.getRectangle().x < b.getRectangle().x + b.getRectangle().w &&
+		a.getRectangle().y < b.getRectangle().y + b.getRectangle().h)
+	{
+		return true;
+	}
+	return false;
+}
+
 void GameManager::Play(const double dt)
 {
 	bool draw = false;
@@ -85,39 +99,121 @@ void GameManager::Play(const double dt)
 			run = false;
 			return;
 		}
+		if (inputManager->getMouseButton(1))
+			ball.Fire();
 		while (logicTimer.accumulator >= logicTimer.updateRate)
 		{
 			logicTimer.accumulator -= logicTimer.updateRate;
 
 			player.Update();
-			ball.Update(dt);
+			ball.Update(dt/1000);
 
-
+			for (Brick b : level.map)
+			{
+				if (CollisionCheck(ball, b))
+				{
+					if (ball.centerY < b.getRectangle().y || // Top
+						ball.centerY > b.getRectangle().y + b.getRectangle().h) // bottom
+						ball.ySpeed = -ball.ySpeed;
+					else
+						ball.xSpeed = -ball.xSpeed;
+					
+					level.RemoveBrick(b.getRectangle().x, b.getRectangle().y);
+					
+					std::cout << "Flip!" << std::endl;
+					break;
+				}
+			}
+			
+			if (CollisionCheck(ball, player.paddle))
+			{
+				ball.ySpeed = -ball.ySpeed;
+			}
 			draw = true;
 		}
 
 		if (draw)
 		{
+			draw = false;
 			// Draw
 			SDL_RenderClear(renderer);
 			player.Draw();
 			ball.Draw();
+			level.draw();
 			SDL_RenderPresent(renderer);
 		}
+		SDL_Delay(1);
 	}
 	
 }
+
+
+int selection = 0;
+
 void GameManager::MainMenu()
 {
-	int selection;
-	
+	if (inputManager->KeyNonRepeat(SDL_SCANCODE_DOWN))
+	{
+		if (--selection < 0)
+			selection = 3;
 
-	// if play
-	 // playGame()
-	// if options
-	 // Options()
-	// if highscores
-	 // Highscores()
+		switch (selection)
+		{
+		case 0:
+			std::cout << "Play." << std::endl;
+			break;
+		case 1:
+			std::cout << "Options." << std::endl;
+			break;
+		case 2:
+			std::cout << "Highscore." << std::endl;
+			break;
+		case 3:
+			std::cout << "Exit." << std::endl;
+			break;
+		}
+	}
+	else if (inputManager->KeyNonRepeat(SDL_SCANCODE_UP))
+	{
+		if (++selection > 3)
+			selection = 0;
+
+		switch (selection)
+		{
+		case 0:
+			std::cout << "Play." << std::endl;
+			break;
+		case 1:
+			std::cout << "Options." << std::endl;
+			break;
+		case 2:
+			std::cout << "Highscore." << std::endl;
+			break;
+		case 3:
+			std::cout << "Exit." << std::endl;
+			break;
+		}
+	}
+
+	if (inputManager->KeyDown(SDL_SCANCODE_RETURN))
+	{
+		switch (selection)
+		{
+		case 0:
+			gameState = PLAY;
+			break;
+		case 1:
+			std::cout << "Options." << std::endl;
+			break;
+		case 2:
+			std::cout << "Highscore." << std::endl;
+			break;
+		case 3:
+			gameState = EXIT;
+			break;
+		}
+	}
+	SDL_Delay(15);
 }
 void GameManager::Options()
 {

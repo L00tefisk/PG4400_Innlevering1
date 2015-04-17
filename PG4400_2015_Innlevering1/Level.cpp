@@ -61,4 +61,10 @@ void Level::loadLevel()
 	}
 
 	inputStream.close();
+};
+
+void Level::draw()
+{
+	for (int i = 0; i < map.size(); i++)
+		map[i].Draw();
 }
