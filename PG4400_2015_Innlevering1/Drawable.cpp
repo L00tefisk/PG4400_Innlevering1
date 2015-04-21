@@ -22,13 +22,15 @@ void Drawable::Init(SDL_Renderer *rend)
 	Drawable::renderer = rend;
 }
 
-int Drawable::loadResource(const std::string &path)
+void Drawable::loadResource(const std::string &path, const SDL_Rect& target)
 {
 	for (int i = 0; i < loadedResources.size(); i++)
 	{
 		if (loadedResources[i] == path)
 		{
-			return i;
+			drawList[i] = target;
+			textureIDList.push_back(i);
+			return;
 		}
 	}
 
@@ -44,5 +46,6 @@ int Drawable::loadResource(const std::string &path)
 	textureList.push_back(texture);
 
 	loadedResources.push_back(path);
-	return textureList.size() - 1;
+	drawList[textureList.size() - 1] = target;
+	textureIDList.push_back(textureList.size() - 1);
 }

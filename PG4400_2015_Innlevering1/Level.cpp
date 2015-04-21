@@ -30,20 +30,22 @@ void Level::RemoveBrick(const Brick &b)
 void Level::loadLevel()
 {
 	std::ifstream inputStream("test", std::ifstream::binary | std::ifstream::in);
-
+	std::vector<std::string> resourcesInUse;
 	if (!inputStream)
 		return;
 
-	/*	int numResourcesInUse = 0;
-	inputStream >> numResourcesInUse;
+	unsigned int numResourcesInUse;
 
-	for (int i = 0; i < numResourcesInUse; i++)
+	inputStream.read(reinterpret_cast<char*>(&numResourcesInUse), sizeof(unsigned int));
+
+	for (unsigned int i = 0; i < numResourcesInUse; i++)
 	{
-	std::string s;
-	inputStream >> s;
-	resourcesInUse.push_back(s);
+		char buffer[64];
+
+		inputStream.read(buffer, 64);
+		resourcesInUse.push_back(buffer);
 	}
-	*/
+
 	inputStream.peek();
 	while (!inputStream.eof())
 	{
@@ -55,8 +57,8 @@ void Level::loadLevel()
 		inputStream.peek();
 		std::cout << "Rect(" << rect.x << ", " << rect.y << ", " << rect.w << ", " << rect.h << ")" << std::endl;
 		std::cout << "Texture ID: " << textureID << std::endl;
-		Brick b(rect, textureID);
-
+		Brick b(rect);
+		b.loadResource(resourcesInUse[textureID], rect);
 		AddBrick(b);
 	}
 

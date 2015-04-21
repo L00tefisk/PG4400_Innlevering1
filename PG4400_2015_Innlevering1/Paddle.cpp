@@ -2,6 +2,10 @@
 
 Paddle::Paddle()
 {	
+
+}
+void Paddle::Init()
+{
 	rect.x = 100;
 	rect.y = 600;
 	rect.w = 100;
@@ -19,16 +23,12 @@ Paddle::Paddle()
 	lRect.w = rect.h / 2;
 	mRect.w = rect.w - lRect.w - rRect.w;
 
-	leftTextureID = loadResource("../Resources/Bats/paddle1l.png");
-	textureID = loadResource("../Resources/Bats/paddle1.png");
-	rightTextureID = loadResource("../Resources/Bats/paddle1r.png");
-	
+	loadResource("../Resources/Bats/paddle1l.png", lRect);
+	loadResource("../Resources/Bats/paddle1.png", mRect);
+	loadResource("../Resources/Bats/paddle1r.png", rRect);
+
 }
-void Paddle::Draw() {
-	SDL_RenderCopy(renderer, textureList[leftTextureID], NULL, &lRect);
-	SDL_RenderCopy(renderer, textureList[textureID], NULL, &mRect);
-	SDL_RenderCopy(renderer, textureList[rightTextureID], NULL, &rRect);
-}
+
 
 void Paddle::Update(const double& dt)
 {
@@ -36,4 +36,8 @@ void Paddle::Update(const double& dt)
 	lRect.x = rect.x;
 	mRect.x = lRect.x + lRect.w;
 	rRect.x = mRect.x + mRect.w;
+
+	drawList[textureIDList[0]] = lRect;
+	drawList[textureIDList[1]] = mRect;
+	drawList[textureIDList[2]] = rRect;
 }

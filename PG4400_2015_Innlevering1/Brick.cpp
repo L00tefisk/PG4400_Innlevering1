@@ -4,17 +4,15 @@ Brick::Brick()
 {
 	hp = 1;
 }
-
-Brick::Brick(const SDL_Rect &rect, const unsigned short texID)
+Brick::Brick(const SDL_Rect& rect)
 {
 	this->rect = rect;
-	this->textureID = texID;
 }
-
 Brick::~Brick()
 {
 
 }
+
 void Brick::Update(const double& dt)
 {
 

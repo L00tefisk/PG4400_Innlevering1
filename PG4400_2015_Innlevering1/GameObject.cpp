@@ -11,9 +11,14 @@ GameObject::~GameObject()
 	// Intentionally left blank.
 }
 
+void GameObject::Init()
+{
+	// Intentionally left blank.
+}
 void GameObject::Draw()
 {
-	SDL_RenderCopy(renderer, textureList[textureID], NULL, &rect);
+	for (int i = 0; i < textureIDList.size(); i++)
+		SDL_RenderCopy(renderer, textureList[textureIDList[i]], NULL, &drawList[textureIDList[i]]);
 }
 
 void GameObject::Update(const double& dt)

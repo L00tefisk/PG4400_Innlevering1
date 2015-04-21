@@ -9,8 +9,9 @@ class Paddle : public GameObject
 	friend class Player;
 public:
 	Paddle();
-	void Update(const double& dt);
-	void Draw() override;
+	virtual void Init() override;
+	virtual void Update(const double& dt);
+
 private:
 	int leftTextureID;
 	int rightTextureID;

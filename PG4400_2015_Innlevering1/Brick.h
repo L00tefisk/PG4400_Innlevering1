@@ -8,7 +8,7 @@ class Brick : public GameObject
 {
 public:
 	Brick();
-	Brick(const SDL_Rect &rect, const unsigned short texID);
+	Brick(const SDL_Rect &rect);
 
 	void Damage();
 	virtual ~Brick();

@@ -44,14 +44,14 @@ public:
 	{
 		std::ofstream outputStream("test", std::ofstream::binary | std::ofstream::out | std::ofstream::trunc);
 
-		//int size = resourcesInUse.size();
-		//outputStream << size << std::endl;
+		unsigned int numResourcesInUse = resourcesInUse.size();
+		outputStream.write(reinterpret_cast<char*>(&numResourcesInUse), sizeof(unsigned int));
+		
+		for (std::string s : resourcesInUse)
+		{
+			outputStream.write(s.c_str(), 64);
+		}
 
-		//for (int i = 0; i < resourcesInUse.size(); i++)
-		//{
-		//	outputStream << resourcesInUse[i] << std::endl;
-		//}
-		//outputStream.clear();
 		for (int i = 0; i < map.size(); i++)
 		{
 		
@@ -75,21 +75,21 @@ public:
 		
 		if (!inputStream)
 			return;
+		unsigned int numResourcesInUse;
 
-	/*	int numResourcesInUse = 0;
-		inputStream >> numResourcesInUse;
+		inputStream.read(reinterpret_cast<char*>(&numResourcesInUse), sizeof(unsigned int));
 
-		for (int i = 0; i < numResourcesInUse; i++)
+		for (unsigned int i = 0; i < numResourcesInUse; i++)
 		{
-			std::string s;
-			inputStream >> s;
-			resourcesInUse.push_back(s);
+			char buffer[64];
+
+			inputStream.read(buffer, 64);
+			resourcesInUse.push_back(buffer);
 		}
-*/
 		inputStream.peek();
+
 		while (!inputStream.eof())
 		{
-
 			SDL_Rect rect;
 			unsigned short textureID;
 			inputStream.read(reinterpret_cast<char*>(&rect), sizeof(SDL_Rect));
@@ -100,6 +100,7 @@ public:
 			Brick b;
 			b.rect = rect;
 			b.textureID = textureID;
+			b.loadResource(resourcesInUse[textureID]);
 			AddBrick(b);
 		}
 

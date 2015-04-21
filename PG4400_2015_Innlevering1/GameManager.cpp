@@ -30,6 +30,8 @@ void GameManager::Init()
 void GameManager::SetupGame()
 {
 	level.loadLevel();
+	player.Init();
+	ball.Init();
 }
 
 void GameManager::Run()

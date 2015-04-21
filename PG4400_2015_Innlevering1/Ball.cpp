@@ -1,34 +1,29 @@
 #include "Ball.h"
 #include "InputManager.h"
 
-Ball::Ball (){
+Ball::Ball()
+{
+}
+
+Ball::~Ball()
+{
+}
+
+void Ball::Init()
+{
 	rect.x = 50;
 	rect.y = 100;
 	rect.w = 10;
 	rect.h = 10;
 	centerX = rect.x + (rect.w / 2);
 	centerY = rect.y + (rect.h / 2);
-	xSpeed = 200;
+	xSpeed = 400;
 	ySpeed = 0;
-	textureID = loadResource("../Resources/Balls/ball0002.png");
+	loadResource("../Resources/Balls/ball0002.png", rect);
 	onPaddle = true;
 }
 
-Ball::~Ball () {
-
-}
-
-int hitTest (SDL_Rect rect1, SDL_Rect rect2) {
-	if (rect1.x < rect2.x + rect2.w &&
-		rect1.x + rect1.w > rect2.x &&
-		rect1.y < rect2.y + rect2.w &&
-		rect1.h + rect1.y > rect2.y) {
-		//HIT
-		return 1;
-	}
-	return 0;
-}
-void Ball::Update (const double &dt) 
+void Ball::Update(const double &dt) 
 {
 	if (onPaddle)
 	{
@@ -45,6 +40,9 @@ void Ball::Update (const double &dt)
 		if (rect.y < 0 || rect.y + rect.h > 720)
 			ySpeed *= -1;
 	}
+
+	drawList[textureIDList[0]] = rect;
+
 }
 
 /*
@@ -79,6 +77,6 @@ void Ball::Fire()
 		return;
 
 	onPaddle = false;
-	xSpeed = 200;
-	ySpeed = -200;
+	xSpeed = 800;
+	ySpeed = -800;
 }

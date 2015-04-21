@@ -16,7 +16,7 @@ public:
 	virtual ~Drawable();
 	virtual void Draw() = 0;
 
-	void loadResource(const std::string &path);
+	virtual void loadResource(const std::string &path);
 	static void Init(SDL_Renderer *renderer);
 	static std::vector<std::string> loadedResources;
 	unsigned short textureID;

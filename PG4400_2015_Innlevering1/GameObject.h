@@ -12,6 +12,7 @@ class GameObject : public Drawable
 public:
 	GameObject();
 	virtual ~GameObject();
+	virtual void Init();
 	virtual void Update(const double& dt);
 	virtual void Draw();
 	virtual int Collide(const GameObject &obj, double dt);
