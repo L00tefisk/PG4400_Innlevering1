@@ -13,7 +13,7 @@ public:
 	~Level();
 
 	void AddBrick(const Brick &b);
-	void RemoveBrick(const int x, const int y);
+	void RemoveBrick(const Brick &b);
 	void loadLevel();
 	void draw();
 	std::vector<Brick> map;

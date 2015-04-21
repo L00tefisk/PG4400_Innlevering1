@@ -74,18 +74,6 @@ void GameManager::Run()
 	}
 }
 
-bool CollisionCheck(GameObject a, GameObject b)
-{
-	if (a.getRectangle().x + a.getRectangle().w > b.getRectangle().x &&
-		a.getRectangle().y + a.getRectangle().h > b.getRectangle().y &&
-		a.getRectangle().x < b.getRectangle().x + b.getRectangle().w &&
-		a.getRectangle().y < b.getRectangle().y + b.getRectangle().h)
-	{
-		return true;
-	}
-	return false;
-}
-
 void GameManager::Play(const double dt)
 {
 	bool draw = false;
@@ -108,27 +96,31 @@ void GameManager::Play(const double dt)
 			player.Update();
 			ball.Update(dt/1000);
 
+			
 			for (Brick b : level.map)
 			{
-				if (CollisionCheck(ball, b))
+				int collisionStatus = ball.Collide(b, dt / 1000);
+				if (collisionStatus == 1)
 				{
-					if (ball.centerY < b.getRectangle().y || // Top
-						ball.centerY > b.getRectangle().y + b.getRectangle().h) // bottom
-						ball.ySpeed = -ball.ySpeed;
-					else
-						ball.xSpeed = -ball.xSpeed;
-					
-					level.RemoveBrick(b.getRectangle().x, b.getRectangle().y);
-					
-					std::cout << "Flip!" << std::endl;
+					ball.ySpeed = -ball.ySpeed;
+					level.RemoveBrick(b);
+					break;
+				}
+				else if (collisionStatus == 2)
+				{
+					ball.xSpeed = -ball.xSpeed;
+					level.RemoveBrick(b);
 					break;
 				}
 			}
 			
-			if (CollisionCheck(ball, player.paddle))
-			{
+			int collisionStatus = ball.Collide(player.paddle, dt / 1000);
+
+			if (collisionStatus == 1)
 				ball.ySpeed = -ball.ySpeed;
-			}
+			else if (collisionStatus == 2)
+				ball.xSpeed = -ball.xSpeed;
+
 			draw = true;
 		}
 

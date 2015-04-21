@@ -54,18 +54,19 @@ int main(int argc, char* argv[])
 		
 		Brick b;
 		b.textureID = editor->currentBrickID;
+		b.rect.w = 60;
+		b.rect.h = 20;
 		if (inputManager->KeyDown(SDL_SCANCODE_LSHIFT))
 		{
-			b.rect.x = inputManager->getMouseX() / 40 * 40;
-			b.rect.y = inputManager->getMouseY() / 10 * 10;
+			b.rect.x = inputManager->getMouseX() / b.rect.w * b.rect.w; // Here I (ab?)use the rounding
+			b.rect.y = inputManager->getMouseY() / b.rect.h * b.rect.h; // to lock them to a grid.
 		}
 		else
 		{
 			b.rect.x = inputManager->getMouseX();
 			b.rect.y = inputManager->getMouseY();
 		}
-		b.rect.w = 40;
-		b.rect.h = 10;
+
 
 		if (inputManager->KeyDown(SDL_SCANCODE_Q))
 			eventHandler->exitGame = true;

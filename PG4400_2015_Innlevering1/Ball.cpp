@@ -29,7 +29,8 @@ int hitTest (SDL_Rect rect1, SDL_Rect rect2) {
 	return 0;
 }
 
-void Ball::Update (const double &dt) {
+void Ball::Update (const double &dt) 
+{
 	if (onPaddle)
 	{
 		rect.y = 590;
@@ -45,6 +46,32 @@ void Ball::Update (const double &dt) {
 		if (rect.y < 0 || rect.y + rect.h > 720)
 			ySpeed *= -1;
 	}
+}
+
+/*
+
+*/
+int Ball::Collide(const GameObject &obj, double dt)
+{
+	SDL_Rect tempRect = rect;
+	tempRect.x += xSpeed * dt;
+	tempRect.y += ySpeed * dt;
+	if (tempRect.x + tempRect.w > obj.getRectangle().x &&
+		tempRect.y + tempRect.h > obj.getRectangle().y &&
+		tempRect.x < obj.getRectangle().x + obj.getRectangle().w &&
+		tempRect.y < obj.getRectangle().y + obj.getRectangle().h)
+	{
+		tempRect.x -= xSpeed * dt;
+
+		if (tempRect.x + tempRect.w > obj.getRectangle().x &&
+			tempRect.y + tempRect.h > obj.getRectangle().y &&
+			tempRect.x < obj.getRectangle().x + obj.getRectangle().w &&
+			tempRect.y < obj.getRectangle().y + obj.getRectangle().h)
+			return 1;
+
+		return 2;
+	}
+	return 0;
 }
 
 void Ball::Fire()

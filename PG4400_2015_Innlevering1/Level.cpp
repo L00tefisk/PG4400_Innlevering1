@@ -12,14 +12,14 @@ void Level::AddBrick(const Brick &b)
 	map.push_back(b);
 }
 
-void Level::RemoveBrick(int x, int y)
+void Level::RemoveBrick(const Brick &b)
 {
+	SDL_Rect brickRect = b.getRectangle();
 	for (auto it = map.begin(); it != map.end(); it++)
 	{
 		SDL_Rect rect = it->getRectangle();
-
-		if (x >= rect.x && x < rect.x + rect.w &&
-			y >= rect.y && y < rect.y + rect.h)
+		if (brickRect.x >= rect.x && brickRect.x < rect.x + rect.w &&
+			brickRect.y >= rect.y && brickRect.y < rect.y + rect.h)
 		{
 			map.erase(it);
 			return;

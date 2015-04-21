@@ -21,7 +21,19 @@ void GameObject::Update(const double& dt)
 	// Intentionally left blank.
 }
 
-SDL_Rect GameObject::getRectangle()
+int GameObject::Collide(const GameObject& obj, double dt)
+{
+	if (rect.x + rect.w > obj.rect.x &&
+		rect.y + rect.h > obj.rect.y &&
+		rect.x < obj.rect.x + obj.rect.w &&
+		rect.y < obj.rect.y + obj.rect.h)
+	{
+		return true;
+	}
+	return false;
+}
+
+SDL_Rect GameObject::getRectangle() const
 {
 	return rect;
 }
