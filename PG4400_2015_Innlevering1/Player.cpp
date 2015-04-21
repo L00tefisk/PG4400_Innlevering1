@@ -4,13 +4,6 @@ Player::Player()
 {
 	inputManager = InputManager::GetInstance();
 }
-Player::Player(const SDL_Rect &rect)
-{
-	
-	inputManager = InputManager::GetInstance();
-	paddle.rect = rect;
-}
-
 Player::~Player()
 {
 	//TODO

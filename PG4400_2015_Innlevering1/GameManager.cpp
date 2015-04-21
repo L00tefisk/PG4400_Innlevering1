@@ -10,6 +10,12 @@ GameManager::GameManager(SDL_Window *window, SDL_Renderer *renderer)
 	drawTimer = Timer((1 / 60.0) * 1000);
 	level = Level();
 	run = true;
+
+	eventHandler = EventHandler::GetInstance();
+	inputManager = InputManager::GetInstance();
+
+
+	gameState = MAINMENU;
 };
 GameManager::~GameManager()
 {
@@ -18,22 +24,11 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
-	eventHandler = EventHandler::GetInstance();
-	inputManager = InputManager::GetInstance();
 
-	
-	gameState = MAINMENU;
 }
 
 void GameManager::SetupGame()
 {
-	SDL_Rect rect;
-	rect.x = 100;
-	rect.y = 600;
-	rect.w = 200;
-	rect.h = 50;
-
-	player = Player(rect);
 	level.loadLevel();
 }
 

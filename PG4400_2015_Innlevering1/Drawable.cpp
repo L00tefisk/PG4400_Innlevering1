@@ -2,7 +2,7 @@
 
 SDL_Renderer* Drawable::renderer;
 std::vector<SDL_Texture*> Drawable::textureList;
-
+std::vector<std::string> Drawable::loadedResources;
 
 Drawable::Drawable()
 {
@@ -18,6 +18,7 @@ void Drawable::Init(SDL_Renderer *rend)
 {
 	if (rend == NULL)
 		std::cout << "Renderer is messed up." << std::endl;
+
 	Drawable::renderer = rend;
 }
 
@@ -30,7 +31,6 @@ int Drawable::loadResource(const std::string &path)
 			return i;
 		}
 	}
-
 
 	SDL_Surface *surface = IMG_Load(path.c_str());
 	if (surface == NULL)

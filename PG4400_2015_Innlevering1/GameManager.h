@@ -43,12 +43,13 @@ private:
 	Level level;
 	Player player;
 	Ball ball;
+	Timer logicTimer;
+	Timer drawTimer;
 
 	unsigned short gameState;
 	std::shared_ptr<EventHandler> eventHandler;
 	std::shared_ptr<InputManager> inputManager;
-	Timer logicTimer;
-	Timer drawTimer;
+
 
 	bool run;
 };

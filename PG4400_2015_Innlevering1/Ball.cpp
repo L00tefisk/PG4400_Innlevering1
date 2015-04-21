@@ -10,7 +10,7 @@ Ball::Ball (){
 	centerY = rect.y + (rect.h / 2);
 	xSpeed = 200;
 	ySpeed = 0;
-	loadResource ("../Resources/Balls/ball0002.png");
+	textureID = loadResource("../Resources/Balls/ball0002.png");
 	onPaddle = true;
 }
 
@@ -28,7 +28,6 @@ int hitTest (SDL_Rect rect1, SDL_Rect rect2) {
 	}
 	return 0;
 }
-
 void Ball::Update (const double &dt) 
 {
 	if (onPaddle)
