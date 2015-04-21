@@ -84,7 +84,6 @@
   <ItemGroup>
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Brick.cpp" />
-    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -99,7 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
-    <ClInclude Include="Collider.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Brick.h" />

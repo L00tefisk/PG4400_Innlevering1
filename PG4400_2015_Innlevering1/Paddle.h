@@ -10,6 +10,13 @@ class Paddle : public GameObject
 public:
 	Paddle();
 	void Update(const double& dt);
+	void Draw() override;
+private:
+	int leftTextureID;
+	int rightTextureID;
+	SDL_Rect lRect;
+	SDL_Rect mRect;
+	SDL_Rect rRect;
 };
 
 #endif

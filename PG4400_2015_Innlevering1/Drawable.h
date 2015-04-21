@@ -16,7 +16,7 @@ public:
 	virtual ~Drawable();
 	virtual void Draw() = 0;
 
-	void loadResource(const std::string &path);
+	int loadResource(const std::string &path);
 	static void Init(SDL_Renderer *renderer);
 	
 protected:
