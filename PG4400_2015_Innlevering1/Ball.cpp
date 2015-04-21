@@ -24,10 +24,10 @@ void Ball::Update (const double &dt) {
 		rect.y = 590;
 		rect.x = InputManager::GetInstance()->getMouseX() + 35;
 	}
-	else
-	{
+	else {
 		rect.x += xSpeed * dt;
 		rect.y += ySpeed * dt;
+	}
 
 	if (rect.x < 0 || rect.x + rect.w > 1280)
 		xSpeed *= -1;

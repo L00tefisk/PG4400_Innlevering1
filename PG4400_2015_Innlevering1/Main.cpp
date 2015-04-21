@@ -3,7 +3,7 @@
 int main(int argc, char* argv[])
 {
 	//SDL_Init(SDL_INIT_VIDEO);
-	SDL_Window* window = SDL_CreateWindow("Test.", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, SDL_WINDOW_SHOWN);
+	SDL_Window* window = SDL_CreateWindow("Test.", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_SHOWN);
 	if (window == NULL)
 		std::cout << "Window creation failed" << std::endl;
 

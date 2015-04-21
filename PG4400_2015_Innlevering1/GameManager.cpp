@@ -30,8 +30,8 @@ void GameManager::SetupGame()
 	SDL_Rect rect;
 	rect.x = 100;
 	rect.y = 600;
-	rect.w = 100;
-	rect.h = 25;
+	rect.w = 200;
+	rect.h = 50;
 
 	player = Player(rect);
 	level.loadLevel();

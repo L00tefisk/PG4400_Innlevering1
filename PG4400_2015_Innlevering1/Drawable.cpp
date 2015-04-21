@@ -28,7 +28,6 @@ int Drawable::loadResource(const std::string &path)
 		if (loadedResources[i] == path)
 		{
 			return i;
-			;
 		}
 	}
 

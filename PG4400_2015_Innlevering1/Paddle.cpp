@@ -2,10 +2,6 @@
 
 Paddle::Paddle()
 {	
-	rect.y = 650;
-	rect.x = 100;
-	rect.h = 50;
-	rect.w = 200;
 	lRect.h = rect.h;
 	mRect.h = rect.h;
 	rRect.h = rect.h;
@@ -32,7 +28,7 @@ void Paddle::Draw() {
 }
 void Paddle::Update(const double& dt)
 {
-	mRect.w = rect.w - lRect.w - rRect.w;
+	//mRect.w = rect.w - lRect.w - rRect.w;
 	lRect.x = rect.x;
 	mRect.x = lRect.x + lRect.w;
 	rRect.x = mRect.x + mRect.w;
