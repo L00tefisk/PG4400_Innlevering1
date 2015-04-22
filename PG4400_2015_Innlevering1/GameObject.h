@@ -17,7 +17,8 @@ public:
 	virtual void Draw();
 	virtual int Collide(const GameObject &obj, double dt);
 
-	SDL_Rect getRectangle() const;
+	const SDL_Rect& getRectangle() const;
+	void setRectangle(const SDL_Rect& rect);
 	float centerX;
 	float centerY;
 protected:

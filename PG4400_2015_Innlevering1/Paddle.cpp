@@ -26,10 +26,9 @@ void Paddle::Init()
 	loadResource("../Resources/Bats/paddle1l.png", lRect);
 	loadResource("../Resources/Bats/paddle1.png", mRect);
 	loadResource("../Resources/Bats/paddle1r.png", rRect);
-
 }
 
-
+	
 void Paddle::Update(const double& dt)
 {
 	//mRect.w = rect.w - lRect.w - rRect.w;

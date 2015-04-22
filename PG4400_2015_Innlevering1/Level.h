@@ -16,8 +16,11 @@ public:
 	void RemoveBrick(const Brick &b);
 	void loadLevel();
 	void draw();
-	std::vector<Brick> map;
+
+	bool hasBrick(const SDL_Rect &b);
+	const std::shared_ptr< std::vector<Brick> > getMap();
 private:
+	std::shared_ptr< std::vector<Brick> > map;
 
 };
 

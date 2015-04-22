@@ -8,6 +8,7 @@ class Brick : public GameObject
 {
 public:
 	Brick();
+	Brick(int x, int y, int w, int h);
 	Brick(const SDL_Rect &rect);
 
 	void Damage();

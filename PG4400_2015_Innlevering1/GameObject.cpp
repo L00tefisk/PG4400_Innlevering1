@@ -38,7 +38,12 @@ int GameObject::Collide(const GameObject& obj, double dt)
 	return false;
 }
 
-SDL_Rect GameObject::getRectangle() const
+const SDL_Rect& GameObject::getRectangle() const
 {
 	return rect;
+}
+
+void GameObject::setRectangle(const SDL_Rect& rect)
+{
+	this->rect = rect;
 }
