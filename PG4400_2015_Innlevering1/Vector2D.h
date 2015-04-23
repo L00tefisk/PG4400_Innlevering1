@@ -12,10 +12,10 @@ public:
 	float magnitude();
 	Vector2D getNormal();
 	Vector2D getVector();
-private:
-	float size;
 	float x;
 	float y;
+private:
+	float size;
 };
 
 #endif

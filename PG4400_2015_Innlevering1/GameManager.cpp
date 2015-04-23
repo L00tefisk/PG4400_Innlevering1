@@ -1,5 +1,5 @@
 #include "GameManager.h"
-
+#include "Vector2D.h"
 
 GameManager::GameManager(SDL_Window *window, SDL_Renderer *renderer)
 {
@@ -140,84 +140,33 @@ void GameManager::Play(const double dt)
 				int collisionStatus = ball.Collide(b, dt / 1000);
 				if (collisionStatus)
 				{
-					SDL_Rect leftBlock, rightBlock, aboveBlock, belowBlock;
-					float distLeftBlock, distRightBlock, distAboveBlock, distBelowBlock, distCollBlock;
-					distLeftBlock = distRightBlock = distAboveBlock = distBelowBlock = 9001;
-					int closestBlock = 0;
+					const SDL_Rect& rect = b.getRectangle();
+					Vector2D cm(rect.x + (rect.w / 2), rect.y - (rect.h / 2));
+					double angle = atan2(ball.centerY - cm.y, ball.centerX - cm.x) * 180 / M_PI;
+					double rectAngle = atan2(rect.h, rect.w) * 180 / M_PI; //wow
+					int zone = 0;
 
-					leftBlock = rightBlock = aboveBlock = belowBlock = b.getRectangle();
+					if (angle <= 0)
+						angle += 360;
 
-					leftBlock.x += leftBlock.w;
-					rightBlock.x -= rightBlock.w;
-					aboveBlock.y -= aboveBlock.h;
-					belowBlock.y += belowBlock.h;
-
-					distCollBlock = ((b.getRectangle().x + (b.getRectangle().w / 2)) - (ball.getRectangle().x + (ball.getRectangle().w / 2))) +
-   						((b.getRectangle().y + (b.getRectangle().h / 2)) - (ball.getRectangle().y + (ball.getRectangle().h / 2)));
-
-					if (level.hasBrick(leftBlock))
-						distLeftBlock = ((leftBlock.x + (leftBlock.w / 2)) - (ball.getRectangle().x + (ball.getRectangle().w / 2))) +
-						((leftBlock.y + (leftBlock.h / 2)) - (ball.getRectangle().y + (ball.getRectangle().h / 2)));
-
-					if (level.hasBrick(rightBlock))
-						distRightBlock = ((rightBlock.x + (rightBlock.w / 2)) - (ball.getRectangle().x + (ball.getRectangle().w / 2))) +
-						((rightBlock.y + (rightBlock.h / 2)) - (ball.getRectangle().y + (ball.getRectangle().h / 2)));
-
-					if (level.hasBrick(aboveBlock))
-						distAboveBlock = ((aboveBlock.x + (aboveBlock.w / 2)) - (ball.getRectangle().x + (ball.getRectangle().w / 2))) +
-						((aboveBlock.y + (aboveBlock.h / 2)) - (ball.getRectangle().y + (ball.getRectangle().h / 2)));
-
-					if (level.hasBrick(belowBlock))
-						distBelowBlock = ((belowBlock.x + (belowBlock.w / 2)) - (ball.getRectangle().x + (ball.getRectangle().w / 2))) +
-						((belowBlock.y + (belowBlock.h / 2)) - (ball.getRectangle().y + (ball.getRectangle().h / 2)));
-
-					if (distLeftBlock < distRightBlock &&
-						distLeftBlock < distAboveBlock &&
-						distLeftBlock < distBelowBlock &&
-						distLeftBlock < distCollBlock)
-						closestBlock = 0;
-					else if (
-						distRightBlock < distAboveBlock &&
-						distRightBlock < distBelowBlock &&
-						distRightBlock < distCollBlock)
-						closestBlock = 1;
-					else if (
-						distAboveBlock < distBelowBlock &&
-						distAboveBlock < distCollBlock)
-						closestBlock = 2;
-					else if (distBelowBlock < distCollBlock)
-						closestBlock = 3;
-					else
-						closestBlock = 4;
-
-					int side = -1;
-					switch (closestBlock)
-					{
-					case 0: // left
-						side = getSide(ball.getRectangle(), leftBlock);
-						break;
-					case 1: // right
-						side = getSide(ball.getRectangle(), rightBlock);
-						break;
-					case 2: // above
-						side = getSide(ball.getRectangle(), aboveBlock);
-						break;
-					case 3: // below
-						side = getSide(ball.getRectangle(), belowBlock);
-						break;
-					case 4: // the block we collided with
-						side = getSide(ball.getRectangle(), b.getRectangle());
-						break;
+					if (angle > rectAngle && angle < 180 - rectAngle) {// TOP
+						ball.ySpeed *= -1;
+						zone = 1;
 					}
-					int direction = getDirection(side);
-
-					if (direction == 1)
-						ball.ySpeed = -ball.ySpeed;
-					else if (direction == 2)
-						ball.xSpeed = -ball.xSpeed;
-
-					level.RemoveBrick(b);
-					break;
+					if (angle > 180 - rectAngle && angle < 180 + rectAngle){ // LEFT
+						ball.xSpeed *= -1;
+						zone = 2;
+					}
+					if (angle > 180 + rectAngle && angle < 360 - rectAngle){ // BOTTOM
+						ball.ySpeed *= -1;
+						zone = 3;
+					}
+					else {
+						ball.xSpeed *= -1;
+						zone = 4;
+					}
+					rectAngle = zone;
+					//level.RemoveBrick(b);
 
 				}
 
