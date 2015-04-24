@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Drawable.h"
+#include "Vector2D.h"
 
 class GameObject : public Drawable
 {
@@ -15,7 +16,7 @@ public:
 	virtual void Init();
 	virtual void Update(const double& dt);
 	virtual void Draw();
-	virtual int Collide(const GameObject &obj, double dt);
+	virtual Vector2D Collide(const GameObject &obj, double dt);
 
 	const SDL_Rect& getRectangle() const;
 	void setRectangle(const SDL_Rect& rect);

@@ -63,6 +63,8 @@ void Level::loadLevel()
 		std::cout << "Texture ID: " << textureID << std::endl;
 		Brick b(rect);
 		b.loadResource(resourcesInUse[textureID], rect);
+		b.centerX = rect.x + (rect.w / 2);
+		b.centerY = rect.y + (rect.h / 2);
 		AddBrick(b);
 	}
 

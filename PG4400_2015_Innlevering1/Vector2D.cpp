@@ -4,7 +4,9 @@
 
 Vector2D::Vector2D()
 {
-	// Intentionally left blank
+	x = 0;
+	y = 0;
+	size = 0;
 }
 
 Vector2D::Vector2D(float x, float y)
@@ -25,12 +27,21 @@ float Vector2D::project(const Vector2D& vec)
 	return size * cos(angle);
 }
 
+float Vector2D::magnitude()
+{
+	return size;
+}
+
 Vector2D Vector2D::getNormal()
 {
 	return *this;
 }
-
+Vector2D Vector2D::getNormalizedVector()
+{
+	return Vector2D(x / size, y / size);
+}
 Vector2D Vector2D::getVector()
 {
 	return *this;
 }
+

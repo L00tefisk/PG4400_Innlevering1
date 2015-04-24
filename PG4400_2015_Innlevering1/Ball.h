@@ -2,7 +2,7 @@
 #define BALL_H
 
 #include "GameObject.h"
-
+#include "Vector2D.h"
 class Ball : public GameObject
 {
 public:
@@ -10,7 +10,6 @@ public:
 	~Ball();
 	virtual void Init() override;
 	virtual void Update(const double& dt) override;
-	virtual int Collide(const GameObject &obj, double dt) override;
 	virtual void Fire();
 
 	float ySpeed;

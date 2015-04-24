@@ -137,139 +137,49 @@ void GameManager::Play(const double dt)
 			
 			for (Brick b : *level.getMap())
 			{
-				int collisionStatus = ball.Collide(b, dt / 1000);
-				if (collisionStatus)
+				Vector2D overlapVector = ball.Collide(b, dt);
+				if (overlapVector.magnitude() != 0)
 				{
-					const SDL_Rect& rect = b.getRectangle();
-					Vector2D cm(rect.x + (rect.w / 2), rect.y - (rect.h / 2));
-					double angle = atan2(ball.centerY - cm.y, ball.centerX - cm.x) * 180 / M_PI;
-					double rectAngle = atan2(rect.h, rect.w) * 180 / M_PI; //wow
-					int zone = 0;
-
-					if (angle <= 0)
-						angle += 360;
-
-					if (angle > rectAngle && angle < 180 - rectAngle) {// TOP
-						ball.ySpeed *= -1;
-						zone = 1;
-					}
-					if (angle > 180 - rectAngle && angle < 180 + rectAngle){ // LEFT
-						ball.xSpeed *= -1;
-						zone = 2;
-					}
-					if (angle > 180 + rectAngle && angle < 360 - rectAngle){ // BOTTOM
-						ball.ySpeed *= -1;
-						zone = 3;
-					}
-					else {
-						ball.xSpeed *= -1;
-						zone = 4;
-					}
-					rectAngle = zone;
-					//level.RemoveBrick(b);
-
-				}
-
-				/*
-				if (collisionStatus == 1) // top or bottom
-				{
-					SDL_Rect tempRect = ball.getRectangle();
-	
-					if (ball.ySpeed > 0)
-						tempRect.y = b.getRectangle().y;
+					SDL_Rect ballRect = ball.getRectangle();
+					Vector2D normalizedVector = overlapVector.getNormalizedVector();
+					if (abs(normalizedVector.x) > abs(normalizedVector.y))
+						ball.ySpeed = -ball.ySpeed;
 					else
-						tempRect.y = b.getRectangle().y + b.getRectangle().h;
-					ball.setRectangle(tempRect);
+						ball.xSpeed = -ball.xSpeed;
 
-					ball.ySpeed = -ball.ySpeed;
+					if (abs(overlapVector.x) < abs(overlapVector.y))
+						ballRect.x += overlapVector.x;
+					else 
+						ballRect.y += overlapVector.y;
+
+					ball.setRectangle(ballRect);
+
 					level.RemoveBrick(b);
 					break;
 				}
-				else if (collisionStatus == 2) // left or right
-				{
-					SDL_Rect tempRect = ball.getRectangle();
-					if (ball.xSpeed > 0)
-						tempRect.x = b.getRectangle().x;
-					else
-						tempRect.x = b.getRectangle().x + b.getRectangle().w;
-	
-					ball.xSpeed = -ball.xSpeed;
-					level.RemoveBrick(b);
-					break;
-				}
-				else if (collisionStatus == 3)
-				{
-					SDL_Rect tempRect = b.getRectangle();
-					Brick tempBrick;
-					if (ball.ySpeed > 0) // Top
-					{
-						tempBrick = Brick(tempRect.x, tempRect.y + tempRect.h, tempRect.w, tempRect.h);
-						if (level.hasBrick(tempBrick))
-						{
-							if (ball.xSpeed > 0)
-								tempRect.x = b.getRectangle().x;
-							else
-								tempRect.x = b.getRectangle().x + b.getRectangle().w;
-
-							ball.xSpeed = -ball.xSpeed;
-						}
-						else
-						{
-							if (ball.ySpeed > 0)
-								tempRect.y = b.getRectangle().y;
-							else
-								tempRect.y = b.getRectangle().y + b.getRectangle().h;
-
-							ball.ySpeed = -ball.ySpeed;
-						}
-					}
-					else// bottom
-					{
-						tempBrick = Brick(tempRect.x, tempRect.y - tempRect.h, tempRect.w, tempRect.h);
-						if (level.hasBrick(tempBrick))
-						{
-							if (ball.xSpeed > 0)
-								tempRect.x = b.getRectangle().x;
-							else
-								tempRect.x = b.getRectangle().x + b.getRectangle().w;
-
-							ball.xSpeed = -ball.xSpeed;
-						}
-						else
-						{
-							if (ball.ySpeed > 0)
-								tempRect.y = b.getRectangle().y;
-							else
-								tempRect.y = b.getRectangle().y + b.getRectangle().h;
-
-							ball.ySpeed = -ball.ySpeed;
-						}
-					}
-
-
-				}*/
 			}
 			
-			int collisionStatus = ball.Collide(player.paddle, dt / 1000);
+			/*int collisionStatus = ball.Collide(player.paddle);
 
 			if (collisionStatus == 1)
 				ball.ySpeed = -ball.ySpeed;
 			else if (collisionStatus == 2)
-				ball.xSpeed = -ball.xSpeed;
+				ball.xSpeed = -ball.xSpeed;*/
 
 			draw = true;
+			if (draw)
+			{
+				draw = false;
+				// Draw
+				SDL_RenderClear(renderer);
+				player.Draw();
+				ball.Draw();
+				level.draw();
+				SDL_RenderPresent(renderer);
+			}
 		}
 
-		if (draw)
-		{
-			draw = false;
-			// Draw
-			SDL_RenderClear(renderer);
-			player.Draw();
-			ball.Draw();
-			level.draw();
-			SDL_RenderPresent(renderer);
-		}
+
 		SDL_Delay(1);
 	}
 	

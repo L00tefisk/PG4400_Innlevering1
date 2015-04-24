@@ -10,6 +10,8 @@ Brick::Brick(int x, int y, int w, int h)
 	rect.y = y;
 	rect.w = w;
 	rect.h = h;
+	centerX = x + (w / 2);
+	centerY = y + (h / 2);
 }
 Brick::Brick(const SDL_Rect& rect)
 {

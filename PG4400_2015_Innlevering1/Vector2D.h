@@ -11,6 +11,7 @@ public:
 	float project(const Vector2D &vec);
 	float magnitude();
 	Vector2D getNormal();
+	Vector2D getNormalizedVector();
 	Vector2D getVector();
 	float x;
 	float y;
