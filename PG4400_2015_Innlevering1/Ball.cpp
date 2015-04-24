@@ -25,6 +25,7 @@ void Ball::Init()
 	onPaddle = true;
 }
 
+
 void Ball::Update(const double &dt) 
 {
 

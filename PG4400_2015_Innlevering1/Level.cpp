@@ -31,6 +31,11 @@ void Level::RemoveBrick(const Brick &b)
 	}
 }
 
+void Level::spawnPowerUp(const PowerUp& pow)
+{
+	pMap.push_back(pow);
+}
+
 void Level::loadLevel()
 {
 	std::ifstream inputStream("test", std::ifstream::binary | std::ifstream::in);
@@ -61,7 +66,7 @@ void Level::loadLevel()
 		inputStream.peek();
 		std::cout << "Rect(" << rect.x << ", " << rect.y << ", " << rect.w << ", " << rect.h << ")" << std::endl;
 		std::cout << "Texture ID: " << textureID << std::endl;
-		Brick b(rect);
+		Brick b(rect, 0);
 		b.loadResource(resourcesInUse[textureID], rect);
 		b.centerX = rect.x + (rect.w / 2);
 		b.centerY = rect.y + (rect.h / 2);
@@ -91,4 +96,7 @@ void Level::draw()
 {
 	for (int i = 0; i < map->size(); i++)
 		map->at(i).Draw();
+
+	for (int i = 0; i < pMap.size(); i++)
+		pMap[i].Draw();
 }

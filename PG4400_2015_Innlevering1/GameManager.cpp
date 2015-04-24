@@ -154,17 +154,35 @@ void GameManager::Play(const double dt)
 
 					ball.setRectangle(ballRect);
 
-					level.RemoveBrick(b);
+					if (b.Crack())
+					{
+						PowerUp pow(PowerUp::Kill, b.getRectangle());
+						level.spawnPowerUp(pow);
+						level.RemoveBrick(b);
+					}
 					break;
 				}
 			}
 			
-			/*int collisionStatus = ball.Collide(player.paddle);
+			for (PowerUp &pow : level.pMap)
+				pow.Update(dt / 1000);
 
-			if (collisionStatus == 1)
-				ball.ySpeed = -ball.ySpeed;
-			else if (collisionStatus == 2)
-				ball.xSpeed = -ball.xSpeed;*/
+			Vector2D overlapVector = ball.Collide(player.paddle, dt / 1000);
+
+			if (overlapVector.magnitude() != 0)
+			{
+				Vector2D normalizedVector = overlapVector.getNormalizedVector();
+				if (abs(normalizedVector.x) > abs(normalizedVector.y))
+					ball.ySpeed = -ball.ySpeed;
+				else
+					ball.xSpeed = -ball.xSpeed;
+				SDL_Rect ballRect = ball.getRectangle();
+				if (abs(overlapVector.x) < abs(overlapVector.y))
+					ballRect.x += overlapVector.x;
+				else
+					ballRect.y += overlapVector.y;
+				ball.setRectangle(ballRect);
+			}
 
 			draw = true;
 			if (draw)

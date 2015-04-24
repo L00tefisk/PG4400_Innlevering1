@@ -4,7 +4,7 @@ Brick::Brick()
 {
 	hp = 1;
 }
-Brick::Brick(int x, int y, int w, int h)
+Brick::Brick(int x, int y, int w, int h, unsigned short type)
 {
 	rect.x = x;
 	rect.y = y;
@@ -12,22 +12,22 @@ Brick::Brick(int x, int y, int w, int h)
 	rect.h = h;
 	centerX = x + (w / 2);
 	centerY = y + (h / 2);
+	hp = 1;
+	brickType = type;
 }
-Brick::Brick(const SDL_Rect& rect)
+Brick::Brick(const SDL_Rect& rect, unsigned short type) : 
+Brick(rect.x, rect.y, rect.w, rect.h, type)
 {
-	this->rect = rect;
+
 }
 Brick::~Brick()
 {
 
 }
 
-void Brick::Update(const double& dt)
-{
 
-}
-void Brick::Damage() {
-	hp--;
-	if (hp <= 0)
-		delete this;
+
+bool Brick::Crack()
+{
+	return --hp == 0;
 }

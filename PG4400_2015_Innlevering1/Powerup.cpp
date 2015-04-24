@@ -66,8 +66,7 @@ PowerUp::~PowerUp () {
 void PowerUp::Update(const double& dt)
 {
 	//if(rect.y > 720)//GameManager::WindowHeight)
-	ypos += 10;
-	rect.y += 10;
+	rect.y += 100 * dt;
 	duration -= dt;
 
 	drawList[textureIDList[0]] = rect;

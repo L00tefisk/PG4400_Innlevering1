@@ -8,14 +8,14 @@ class Brick : public GameObject
 {
 public:
 	Brick();
-	Brick(int x, int y, int w, int h);
-	Brick(const SDL_Rect &rect);
+	Brick(int x, int y, int w, int h, unsigned short type);
+	Brick(const SDL_Rect &rect, unsigned short type);
 
-	void Damage();
 	virtual ~Brick();
-	virtual void Update(const double& dt) override;
+	bool Crack();
 private:
-	int hp;
+	unsigned short hp;
+	unsigned short brickType;
 };
 
 #endif
