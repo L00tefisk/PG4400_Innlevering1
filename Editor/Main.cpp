@@ -54,8 +54,8 @@ int main(int argc, char* argv[])
 		
 		Brick b;
 		b.textureID = editor->currentBrickID;
-		b.rect.w = 60;
-		b.rect.h = 20;
+		b.rect.w = 1280/16;
+		b.rect.h = b.rect.w / 2;
 		if (inputManager->KeyDown(SDL_SCANCODE_LSHIFT))
 		{
 			b.rect.x = inputManager->getMouseX() / b.rect.w * b.rect.w; // Here I (ab?)use the rounding
