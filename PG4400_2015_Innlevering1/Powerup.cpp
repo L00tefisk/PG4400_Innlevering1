@@ -13,46 +13,41 @@ PowerUp::PowerUp(const powerType &type, const SDL_Rect &spawnBox)
 	rect.h = size;
 
 	rect.x = spawnBox.x + spawnBox.w / 2 - rect.w / 2;
-	rect.y = spawnBox.y + spawnBox.h / 2 - rect.h / 2 + ypos;
+	rect.y = spawnBox.y + spawnBox.h / 2 - rect.h / 2;
 
+	if (type >= 5)
+		loadResource("../Resources/Power ups/bg_bad.png", rect);
+	else
+		loadResource("../Resources/Power ups/bg_good.png", rect);
 
 	this->type = type;
 	switch(type)
 	{
 		case Grow:
-			loadResource("../Resources/Power ups/bg_good.png", rect);
 			loadResource("../Resources/Power ups/grow.png", rect);
 			break;
 		case Slow:
-			loadResource("../Resources/Power ups/bg_good.png", rect);
 			loadResource("../Resources/Power ups/slow.png", rect);
 			break;
 		case Rocket:
-			loadResource("../Resources/Power ups/bg_good.png", rect);
 			loadResource("../Resources/Power ups/rocket.png", rect);
 			break;
 		case Magnet:
-			loadResource("../Resources/Power ups/bg_good.png", rect);
 			loadResource("../Resources/Power ups/magnet.png", rect);
 			break;
 		case Super:
-			loadResource("../Resources/Power ups/bg_good.png", rect);
 			loadResource("../Resources/Power ups/super.png", rect);
 			break;
 		case Split:
-			loadResource("../Resources/Power ups/bg_good.png", rect);
 			loadResource("../Resources/Power ups/split.png", rect);
 			break;
-
 		case Shrink:
-			loadResource("../Resources/Power ups/bg_bad.png", rect);
 			loadResource("../Resources/Power ups/shrink.png", rect);
 			break;
 		case Rush:
-			loadResource("../Resources/Power ups/bg_bad.png", rect);
 			loadResource("../Resources/Power ups/rush.png", rect);
+			break;
 		case Kill:
-			loadResource("../Resources/Power ups/bg_bad.png", rect);
 			loadResource("../Resources/Power ups/kill.png", rect);
 			break;
 	}

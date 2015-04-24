@@ -156,7 +156,7 @@ void GameManager::Play(const double dt)
 
 					if (b.Crack())
 					{
-						PowerUp pow(PowerUp::Kill, b.getRectangle());
+						PowerUp pow(static_cast<PowerUp::powerType>(rand() % 9), b.getRectangle());
 						level.spawnPowerUp(pow);
 						level.RemoveBrick(b);
 					}

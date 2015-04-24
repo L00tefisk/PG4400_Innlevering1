@@ -8,7 +8,7 @@ class PowerUp : public GameObject
 public:
 	enum powerType
 	{
-		Grow, Shrink, Slow, Rush, Rocket, Magnet, Super, Split, Kill
+		Grow, Rocket, Magnet, Super, Split, Kill, Slow, Shrink, Rush
 	};
 
 	PowerUp();
@@ -17,8 +17,6 @@ public:
 	
 	virtual ~PowerUp();
 	virtual void Update(const double& dt) override;
-
-	int ypos;
 
 protected:
 	int size;
