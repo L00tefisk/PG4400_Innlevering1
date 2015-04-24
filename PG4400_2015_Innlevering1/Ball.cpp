@@ -58,6 +58,6 @@ void Ball::Fire()
 		return;
 
 	onPaddle = false;
-	xSpeed = 200;
-	ySpeed = -200;
+	xSpeed = 400;
+	ySpeed = -400;
 }

@@ -14,6 +14,7 @@ public:
 	virtual ~GameObject();
 	virtual void Update() = 0;
 	virtual void Draw();
+
 	SDL_Rect rect;
 protected:
 	

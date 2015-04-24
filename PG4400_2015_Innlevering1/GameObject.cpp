@@ -26,14 +26,14 @@ void GameObject::Update(const double& dt)
 	// Intentionally left blank.
 }
 
-Vector2D GameObject::Collide(const GameObject& obj, double dt)
+Vector2D GameObject::Collide(const GameObject& obj)
 {
 	// Very simplified SAT collision detection for rectangle vs rectangle collision.
 	SDL_Rect objRect = obj.getRectangle();
-	float overlapX1 = 90000;
-	float overlapX2 = 90000;
-	float overlapY1 = 90000;
-	float overlapY2 = 90000;
+	float overlapX1 = 0;
+	float overlapX2 = 0;
+	float overlapY1 = 0;
+	float overlapY2 = 0;
 
 	float minX = 0;
 	float minY = 0;

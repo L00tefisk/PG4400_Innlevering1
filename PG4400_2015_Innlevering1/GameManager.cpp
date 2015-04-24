@@ -71,48 +71,7 @@ void GameManager::Run()
 	}
 }
 
-int getSide(const SDL_Rect &ball, const SDL_Rect &brick)
-{
-	float ballCenterX = ball.x + ball.w / 2;
-	float ballCenterY = ball.y + ball.h / 2;
-	float brickCenterX = brick.x + ball.w / 2;
-	float brickCenterY = brick.y + ball.h / 2;
-
-	float deltaX = ballCenterX - brickCenterX;
-	float deltaY = ballCenterY - brickCenterY;
-
-	deltaY *= 3;
-
-	if (deltaX > deltaY) // left or right
-	{
-		if (deltaX < 0) // right
-			return 2;
-		else // left;
-			return 4;
-		
-	}
-	else // top or bottom
-	{
-		if (deltaY < 0) // top
-			return 1;
-		else if(deltaY > 0) // bottom
-			return 3;
-	}
-	return 0;
-}
-
-int getDirection(int side)
-{
-	if (side == 1 || side == 3)
-		return 1;
-	else if (side == 2 || side == 4)
-		return 2;
-
-	// shouldn't happen.
-	return 0;
-}
-
-void GameManager::Play(const double dt)
+bool GameManager::Play(const double dt)
 {
 	bool draw = false;
 	
@@ -123,7 +82,7 @@ void GameManager::Play(const double dt)
 		if (inputManager->KeyDown(SDL_SCANCODE_Q))
 		{
 			run = false;
-			return;
+			return false;
 		}
 		if (inputManager->getMouseButton(1))
 			ball.Fire();
@@ -137,7 +96,7 @@ void GameManager::Play(const double dt)
 			
 			for (Brick b : *level.getMap())
 			{
-				Vector2D overlapVector = ball.Collide(b, dt);
+				Vector2D overlapVector = ball.Collide(b);
 				if (overlapVector.magnitude() != 0)
 				{
 					SDL_Rect ballRect = ball.getRectangle();
@@ -164,10 +123,19 @@ void GameManager::Play(const double dt)
 				}
 			}
 			
-			for (PowerUp &pow : level.pMap)
-				pow.Update(dt / 1000);
+			for (auto it = level.pMap.begin(); it != level.pMap.end();) 
+			{
+				it->Update(dt / 1000);
+				Vector2D overlapVector = it->Collide(player.paddle);
+				if (overlapVector.magnitude() != 0)
+				{
+					it = level.pMap.erase(it);
+				}
+				else
+					it++;
+			}
 
-			Vector2D overlapVector = ball.Collide(player.paddle, dt / 1000);
+			Vector2D overlapVector = ball.Collide(player.paddle);
 
 			if (overlapVector.magnitude() != 0)
 			{
@@ -184,23 +152,26 @@ void GameManager::Play(const double dt)
 				ball.setRectangle(ballRect);
 			}
 
+			if (level.getMap()->size() == 0)
+				return true;
+
 			draw = true;
-			if (draw)
-			{
-				draw = false;
-				// Draw
-				SDL_RenderClear(renderer);
-				player.Draw();
-				ball.Draw();
-				level.draw();
-				SDL_RenderPresent(renderer);
-			}
+
 		}
 
-
+		if (draw)
+		{
+			draw = false;
+			// Draw
+			SDL_RenderClear(renderer);
+			player.Draw();
+			ball.Draw();
+			level.draw();
+			SDL_RenderPresent(renderer);
+		}
 		SDL_Delay(1);
 	}
-	
+	return false;
 }
 
 

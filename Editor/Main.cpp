@@ -56,6 +56,13 @@ int main(int argc, char* argv[])
 		b.textureID = editor->currentBrickID;
 		b.rect.w = 1280/16;
 		b.rect.h = b.rect.w / 2;
+
+		if (b.textureID == 0)
+			b.type = 0;
+		else if (b.textureID >= 1 && b.textureID <= 3)
+			b.type = 1;
+		else if (b.textureID == 4)
+			b.type = 2;
 		if (inputManager->KeyDown(SDL_SCANCODE_LSHIFT))
 		{
 			b.rect.x = inputManager->getMouseX() / b.rect.w * b.rect.w; // Here I (ab?)use the rounding
@@ -71,13 +78,14 @@ int main(int argc, char* argv[])
 		if (inputManager->KeyDown(SDL_SCANCODE_Q))
 			eventHandler->exitGame = true;
 
-		if (inputManager->getMouseButton(1) && !mouseButtonLock)
+		if (inputManager->getMouseButton(1))
 		{
 			editor->AddBrick(b);
-			mouseButtonLock = true;
 		}
-		else if (!inputManager->getMouseButton(1))
-			mouseButtonLock = false;
+		if (inputManager->KeyNonRepeat(SDL_SCANCODE_E))
+			editor->changeBrickID(false);
+		else if (inputManager->KeyNonRepeat(SDL_SCANCODE_R))
+			editor->changeBrickID(true);
 		if (inputManager->getMouseButton(3))
 		{
 			editor->RemoveBrick(inputManager->getMouseX(), inputManager->getMouseY());
@@ -91,7 +99,7 @@ int main(int argc, char* argv[])
 
 			// Draw
 			SDL_RenderClear(renderer);
-			SDL_RenderCopy(renderer, Drawable::textureList[0], NULL, &b.rect);
+			SDL_RenderCopy(renderer, Drawable::textureList[editor->currentBrickID], NULL, &b.rect);
 			editor->draw();
 			SDL_RenderPresent(renderer);
 		}

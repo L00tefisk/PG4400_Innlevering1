@@ -7,12 +7,15 @@
 #include <SDL.h>
 #include <iostream>
 #include <memory>
+#include <vector>
 
 class InputManager
 {
 public:
 	static std::shared_ptr<InputManager> GetInstance();
 	bool KeyDown(int key);
+	bool KeyNonRepeat(int key);
+
 	int getMouseX();
 	int getMouseY();
 	bool getMouseButton(int button);
@@ -28,7 +31,8 @@ private:
 
 	// Keyboard variables
 	int keyAmount;
-	bool* keys;
+	bool *keys;
+	std::vector<int> previouslyCheckedKeys;
 
 	// Mouse variables
 	bool buttons[6];
@@ -38,7 +42,7 @@ private:
 	int dX;
 	int wheelX;
 	int wheelY;
-	
+
 };
 
 #endif

@@ -38,6 +38,10 @@ void Level::spawnPowerUp(const PowerUp& pow)
 
 void Level::loadLevel()
 {
+	short x, y, w, h;
+	unsigned short textureID;
+	unsigned short type;
+	SDL_Rect rect;
 	std::ifstream inputStream("test", std::ifstream::binary | std::ifstream::in);
 	std::vector<std::string> resourcesInUse;
 	if (!inputStream)
@@ -55,23 +59,34 @@ void Level::loadLevel()
 		resourcesInUse.push_back(buffer);
 	}
 
+	std::cout << numResourcesInUse << " resources loaded" << std::endl;
 	inputStream.peek();
+
+
+	inputStream.read(reinterpret_cast<char*>(&w), sizeof(short));
+	inputStream.read(reinterpret_cast<char*>(&h), sizeof(short));
 	while (!inputStream.eof())
 	{
 
-		SDL_Rect rect;
-		unsigned short textureID;
-		inputStream.read(reinterpret_cast<char*>(&rect), sizeof(SDL_Rect));
+		inputStream.read(reinterpret_cast<char*>(&x), sizeof(short));
+		inputStream.read(reinterpret_cast<char*>(&y), sizeof(short));
+		inputStream.read(reinterpret_cast<char*>(&type), sizeof(short));
 		inputStream.read(reinterpret_cast<char*>(&textureID), sizeof(unsigned short));
 		inputStream.peek();
-		std::cout << "Rect(" << rect.x << ", " << rect.y << ", " << rect.w << ", " << rect.h << ")" << std::endl;
-		std::cout << "Texture ID: " << textureID << std::endl;
-		Brick b(rect, 0);
+
+		rect.x = x;
+		rect.y = y;
+		rect.w = w;
+		rect.h = h;
+		Brick b(rect, type);
 		b.loadResource(resourcesInUse[textureID], rect);
 		b.centerX = rect.x + (rect.w / 2);
 		b.centerY = rect.y + (rect.h / 2);
+		
 		AddBrick(b);
 	}
+
+	std::cout << map->size() << " objects loaded " << std::endl;
 
 	inputStream.close();
 };

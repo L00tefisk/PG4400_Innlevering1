@@ -13,7 +13,14 @@ public:
 
 	virtual ~Brick();
 	bool Crack();
+	void ApplyPowerUp(int powType);
 private:
+
+	// Powerup flags
+	static bool magnet; // How does it work?
+	static bool speedUp;
+	static bool speedDown;
+
 	unsigned short hp;
 	unsigned short brickType;
 };

@@ -29,5 +29,16 @@ Brick::~Brick()
 
 bool Brick::Crack()
 {
-	return --hp == 0;
+	if (brickType != 2)
+		return --hp == 0;
+
+	return false;
+}
+
+void Brick::ApplyPowerUp(int powType)
+{
+	switch (powType)
+	{
+		case 
+	}
 }

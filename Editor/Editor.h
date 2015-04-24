@@ -15,8 +15,12 @@ public:
 		return instance;
 	}
 
-	void AddBrick(const Brick &b)
+	void AddBrick(const Brick& b)
 	{
+		for (const Brick& brick : map)
+			if (brick == b)
+				return;
+
 		std::cout << "Added brick at (" << b.rect.x << "," << b.rect.y << ")" << std::endl;
 		map.push_back(b);
 		for (int i = 0; i < resourcesInUse.size(); i++)
@@ -52,25 +56,44 @@ public:
 			outputStream.write(s.c_str(), 64);
 		}
 
+
+		short w = map[0].rect.w;
+		short h = map[0].rect.h;
+		short x = 0;
+		short y = 0;
+		short type = 0;
+		outputStream.write(reinterpret_cast<char*>(&w), sizeof(short));
+		outputStream.write(reinterpret_cast<char*>(&h), sizeof(short));
 		for (int i = 0; i < map.size(); i++)
 		{
 		
-			outputStream.write(reinterpret_cast<char*>(&map[i].rect), sizeof(SDL_Rect));
+			x = map[i].rect.x;
+			y = map[i].rect.y;
+			type = map[i].type;
+			outputStream.write(reinterpret_cast<char*>(&x), sizeof(short));
+			outputStream.write(reinterpret_cast<char*>(&y), sizeof(short));
+			outputStream.write(reinterpret_cast<char*>(&type), sizeof(short));
 
-			for (unsigned short i = 0; i < resourcesInUse.size(); i++)
+
+			for (unsigned short j = 0; j < resourcesInUse.size(); j++)
 			{
-				if (Drawable::loadedResources[map[i].textureID] == resourcesInUse[i])
+				if (Drawable::loadedResources[map[i].textureID] == resourcesInUse[j])
 				{
-					outputStream.write(reinterpret_cast<char*>(&i), sizeof(unsigned short));
+					outputStream.write(reinterpret_cast<char*>(&j), sizeof(unsigned short));
 					break;
 				}
 			}
 		}
+
 		outputStream.close();
 	}
 
 	void loadLevel()
 	{
+		short x, y, w, h;
+		unsigned short textureID;
+		SDL_Rect rect;
+		short type; 
 		std::ifstream inputStream("test", std::ifstream::binary | std::ifstream::in);
 		
 		if (!inputStream)
@@ -88,19 +111,33 @@ public:
 		}
 		inputStream.peek();
 
+
+
+		inputStream.read(reinterpret_cast<char*>(&w), sizeof(short));
+		inputStream.read(reinterpret_cast<char*>(&h), sizeof(short));
 		while (!inputStream.eof())
 		{
-			SDL_Rect rect;
-			unsigned short textureID;
-			inputStream.read(reinterpret_cast<char*>(&rect), sizeof(SDL_Rect));
+			
+
+			inputStream.read(reinterpret_cast<char*>(&x), sizeof(short));
+			inputStream.read(reinterpret_cast<char*>(&y), sizeof(short));
+			inputStream.read(reinterpret_cast<char*>(&type), sizeof(short));
+
 			inputStream.read(reinterpret_cast<char*>(&textureID), sizeof(unsigned short));
 			inputStream.peek();
-			std::cout << "Rect(" << rect.x << ", " << rect.y << ", " << rect.w << ", " << rect.h << ")" << std::endl;
+
+			std::cout << "Rect(" << x << ", " << y << ", " << w << ", " << h << ")" << std::endl;
 			std::cout << "Texture ID: " << textureID << std::endl;
-			Brick b;
-			b.rect = rect;
-			b.textureID = textureID;
+
+			
+			rect.x = x;
+			rect.y = y;
+			rect.w = w;
+			rect.h = h;
+			Brick b(rect, textureID, type);
+
 			b.loadResource(resourcesInUse[textureID]);
+
 			AddBrick(b);
 		}
 

@@ -8,9 +8,13 @@ class Brick : public GameObject
 {
 public:
 	Brick();
-	Brick(const SDL_Rect &rect, const unsigned short texID);
+	Brick(const SDL_Rect &rect, unsigned short texID, int type);
 	~Brick();
+	
 	void Update() override;
+	short type;
 };
+
+bool operator==(const Brick& lhs, const Brick& rhs);
 
 #endif

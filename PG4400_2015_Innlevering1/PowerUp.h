@@ -8,7 +8,15 @@ class PowerUp : public GameObject
 public:
 	enum powerType
 	{
-		Grow, Rocket, Magnet, Super, Split, Kill, Slow, Shrink, Rush
+		Grow, 
+		Rocket, 
+		Magnet, 
+		Super, 
+		Split,
+		Kill, 
+		Slow, 
+		Shrink, 
+		Rush
 	};
 
 	PowerUp();

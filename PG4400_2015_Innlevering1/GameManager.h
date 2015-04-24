@@ -31,7 +31,7 @@ public:
 	void Run();
 
 	void SetupGame();
-	void Play(const double dt);
+	bool Play(const double dt);
 	void MainMenu();
 	void Options();
 	void Highscores();

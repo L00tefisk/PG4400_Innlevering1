@@ -11,13 +11,27 @@ std::shared_ptr<InputManager> InputManager::GetInstance()
 }
 void InputManager::update(SDL_Event &ev)
 {
+	// Doing it this way prevents unnecessary if statements.
 	if (!handleKeyboardEvent(ev))
 		if (!handleMouseEvent(ev))
-			handleJoystickEvent(ev);	
+			handleJoystickEvent(ev);
 }
 bool InputManager::KeyDown(int key)
 {
+	previouslyCheckedKeys.push_back(key);
 	return keys[key];
+}
+bool InputManager::KeyNonRepeat(int key)
+{
+	for (int i = 0; i < previouslyCheckedKeys.size(); i++)
+		if (key == previouslyCheckedKeys[i])
+			return false;
+
+	if (keys[key])
+		previouslyCheckedKeys.push_back(key);
+
+	return keys[key];
+
 }
 int InputManager::getMouseX()
 {
@@ -57,6 +71,14 @@ bool InputManager::handleKeyboardEvent(SDL_Event &ev)
 	else if (ev.type == SDL_KEYUP)
 	{
 		keys[ev.key.keysym.scancode] = false;
+		for (auto it = previouslyCheckedKeys.begin(); it != previouslyCheckedKeys.end(); it++)
+		{
+			if (ev.key.keysym.scancode == *it)
+			{
+				previouslyCheckedKeys.erase(it);
+				break;
+			}
+		}
 		return true;
 	}
 	return false;
@@ -79,10 +101,9 @@ bool InputManager::handleMouseEvent(SDL_Event &ev)
 	}
 	else if (ev.type == SDL_MOUSEBUTTONDOWN)
 	{
-		std::cout << "Button: " << (int)ev.button.button << " pressed." << std::endl;
 		buttons[ev.button.button] = true;
 	}
-	else // Has to be the mousebutton up at this point, no point checking for it.
+	else if (ev.type == SDL_MOUSEBUTTONUP)
 	{
 		buttons[ev.button.button] = false;
 	}

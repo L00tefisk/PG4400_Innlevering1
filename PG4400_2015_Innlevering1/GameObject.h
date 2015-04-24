@@ -16,7 +16,7 @@ public:
 	virtual void Init();
 	virtual void Update(const double& dt);
 	virtual void Draw();
-	virtual Vector2D Collide(const GameObject &obj, double dt);
+	virtual Vector2D Collide(const GameObject &obj);
 
 	const SDL_Rect& getRectangle() const;
 	void setRectangle(const SDL_Rect& rect);
