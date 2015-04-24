@@ -2,7 +2,13 @@
 #include "InputManager.h"
 
 #include "Vector2D.h"
+#include "PowerUp.h"
 
+bool Ball::magnet; // How does it work?
+bool Ball::speedUp;
+bool Ball::speedDown;
+bool Ball::superBall;
+std::vector<Ball> Ball::balls;
 Ball::Ball()
 {
 }
@@ -19,12 +25,18 @@ void Ball::Init()
 	rect.h = 10;
 	centerX = rect.x + (rect.w / 2);
 	centerY = rect.y + (rect.h / 2);
-	xSpeed = 0;
-	ySpeed = 0;
+	xSpeed = 400;
+	ySpeed = -400;
 	loadResource("../Resources/Balls/ball0002.png", rect);
-	onPaddle = true;
 }
 
+void Ball::AddBall(bool onPaddle)
+{
+	Ball b;
+	b.Init();
+	b.onPaddle = onPaddle;
+	balls.push_back(b);
+}
 
 void Ball::Update(const double &dt) 
 {
@@ -50,7 +62,28 @@ void Ball::Update(const double &dt)
 
 }
 
-
+void Ball::ApplyPowerUp(int powType)
+{
+	switch (powType)
+	{
+	case PowerUp::powerType::Magnet:
+		magnet = true;
+		break;
+	case PowerUp::powerType::Rush:
+		speedUp = true;
+		break;
+	case PowerUp::powerType::Slow:
+		speedDown = true;
+		break;
+	case PowerUp::powerType::Split:
+		for (int i = balls.size() * 2; i > 0; i--)
+			AddBall(false);
+		break;
+	case PowerUp::powerType::Super:
+		superBall = true;
+		break;
+	}
+}
 
 void Ball::Fire()
 {
@@ -61,3 +94,4 @@ void Ball::Fire()
 	xSpeed = 400;
 	ySpeed = -400;
 }
+

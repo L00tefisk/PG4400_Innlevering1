@@ -42,7 +42,6 @@ private:
 
 	Level level;
 	Player player;
-	Ball ball;
 	Timer logicTimer;
 	Timer drawTimer;
 

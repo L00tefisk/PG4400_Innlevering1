@@ -25,11 +25,11 @@ public:
 	
 	virtual ~PowerUp();
 	virtual void Update(const double& dt) override;
+	powerType type;
 
 protected:
 	int size;
 	float duration;
-	powerType type;
 };
 
 #endif

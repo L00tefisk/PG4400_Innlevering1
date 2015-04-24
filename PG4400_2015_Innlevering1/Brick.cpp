@@ -35,10 +35,3 @@ bool Brick::Crack()
 	return false;
 }
 
-void Brick::ApplyPowerUp(int powType)
-{
-	switch (powType)
-	{
-		case 
-	}
-}

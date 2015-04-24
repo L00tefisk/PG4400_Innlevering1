@@ -10,8 +10,6 @@ public:
 	virtual ~PowerUp() = 0;
 protected:
 	const float fallSpeed = 1;
-	float duration;
-
 
 };
 

@@ -31,7 +31,8 @@ void GameManager::SetupGame()
 {
 	level.loadLevel();
 	player.Init();
-	ball.Init();
+	Ball::AddBall(true);
+	
 }
 
 void GameManager::Run()
@@ -85,71 +86,78 @@ bool GameManager::Play(const double dt)
 			return false;
 		}
 		if (inputManager->getMouseButton(1))
-			ball.Fire();
+		{
+			for (Ball &ball : Ball::balls)
+				ball.Fire();
+		}
 		while (logicTimer.accumulator >= logicTimer.updateRate)
 		{
 			logicTimer.accumulator -= logicTimer.updateRate;
 
 			player.Update();
-			ball.Update(dt/1000);
-
-			
-			for (Brick b : *level.getMap())
+			for (Ball &ball : Ball::balls)
 			{
-				Vector2D overlapVector = ball.Collide(b);
+				ball.Update(dt / 1000);
+
+
+				for (Brick b : *level.getMap())
+				{
+					Vector2D overlapVector = ball.Collide(b);
+					if (overlapVector.magnitude() != 0)
+					{
+						SDL_Rect ballRect = ball.getRectangle();
+						Vector2D normalizedVector = overlapVector.getNormalizedVector();
+						if (abs(normalizedVector.x) > abs(normalizedVector.y))
+							ball.ySpeed = -ball.ySpeed;
+						else
+							ball.xSpeed = -ball.xSpeed;
+
+						if (abs(overlapVector.x) < abs(overlapVector.y))
+							ballRect.x += overlapVector.x;
+						else
+							ballRect.y += overlapVector.y;
+
+						ball.setRectangle(ballRect);
+
+						if (b.Crack())
+						{
+							PowerUp pow(static_cast<PowerUp::powerType>(rand() % 9), b.getRectangle());
+							level.spawnPowerUp(pow);
+							level.RemoveBrick(b);
+						}
+						break;
+					}
+				}
+
+				Vector2D overlapVector = ball.Collide(player.paddle);
+
 				if (overlapVector.magnitude() != 0)
 				{
-					SDL_Rect ballRect = ball.getRectangle();
 					Vector2D normalizedVector = overlapVector.getNormalizedVector();
 					if (abs(normalizedVector.x) > abs(normalizedVector.y))
 						ball.ySpeed = -ball.ySpeed;
 					else
 						ball.xSpeed = -ball.xSpeed;
-
+					SDL_Rect ballRect = ball.getRectangle();
 					if (abs(overlapVector.x) < abs(overlapVector.y))
 						ballRect.x += overlapVector.x;
-					else 
+					else
 						ballRect.y += overlapVector.y;
-
 					ball.setRectangle(ballRect);
-
-					if (b.Crack())
-					{
-						PowerUp pow(static_cast<PowerUp::powerType>(rand() % 9), b.getRectangle());
-						level.spawnPowerUp(pow);
-						level.RemoveBrick(b);
-					}
-					break;
 				}
 			}
-			
-			for (auto it = level.pMap.begin(); it != level.pMap.end();) 
+
+			for (auto it = level.pMap.begin(); it != level.pMap.end();)
 			{
 				it->Update(dt / 1000);
 				Vector2D overlapVector = it->Collide(player.paddle);
 				if (overlapVector.magnitude() != 0)
 				{
+					Ball::ApplyPowerUp(it->type);
 					it = level.pMap.erase(it);
 				}
 				else
 					it++;
-			}
-
-			Vector2D overlapVector = ball.Collide(player.paddle);
-
-			if (overlapVector.magnitude() != 0)
-			{
-				Vector2D normalizedVector = overlapVector.getNormalizedVector();
-				if (abs(normalizedVector.x) > abs(normalizedVector.y))
-					ball.ySpeed = -ball.ySpeed;
-				else
-					ball.xSpeed = -ball.xSpeed;
-				SDL_Rect ballRect = ball.getRectangle();
-				if (abs(overlapVector.x) < abs(overlapVector.y))
-					ballRect.x += overlapVector.x;
-				else
-					ballRect.y += overlapVector.y;
-				ball.setRectangle(ballRect);
 			}
 
 			if (level.getMap()->size() == 0)
@@ -165,7 +173,10 @@ bool GameManager::Play(const double dt)
 			// Draw
 			SDL_RenderClear(renderer);
 			player.Draw();
-			ball.Draw();
+			
+			for (Ball &ball : Ball::balls)
+				ball.Draw();
+
 			level.draw();
 			SDL_RenderPresent(renderer);
 		}
