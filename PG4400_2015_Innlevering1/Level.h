@@ -4,7 +4,7 @@
 #include <vector>
 #include <fstream>
 #include "Brick.h"
-#include "Drawable.h"
+#include "PowerUp.h"
 
 class Level
 {
@@ -14,10 +14,14 @@ public:
 
 	void AddBrick(const Brick &b);
 	void RemoveBrick(const Brick &b);
+	void spawnPowerUp(const PowerUp &p);
 	void loadLevel();
 	void draw();
 
 	bool hasBrick(const SDL_Rect &b);
+
+	std::vector<PowerUp> pMap;
+
 	const std::shared_ptr< std::vector<Brick> > getMap();
 private:
 	std::shared_ptr< std::vector<Brick> > map;

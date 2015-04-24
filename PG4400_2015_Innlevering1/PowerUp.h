@@ -2,21 +2,24 @@
 #define POWERUP_H
 
 #include "GameObject.h"
-enum powerType
-{
-	Grow, Shrink, Slow, Rush, Rocket, Magnet, Super, Split, Kill
-};
 
 class PowerUp : public GameObject
 {
 public:
+	enum powerType
+	{
+		Grow, Shrink, Slow, Rush, Rocket, Magnet, Super, Split, Kill
+	};
+
 	PowerUp();
-	PowerUp(const powerType &type, const SDL_Rect &rect);
+	PowerUp(const powerType &type, const SDL_Rect&);
 
 	
 	virtual ~PowerUp();
 	virtual void Update(const double& dt) override;
-	
+
+	int ypos;
+
 protected:
 	int size;
 	float duration;
