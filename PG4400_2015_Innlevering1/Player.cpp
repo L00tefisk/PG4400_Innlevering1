@@ -15,7 +15,7 @@ void Player::Init()
 }
 void Player::Update()
 {
-	paddle.rect.x = inputManager->getMouseX();// -paddle.rect.w / 2;
+	paddle.rect.x = inputManager->getMouseX() - (paddle.rect.w / 2);;// -paddle.rect.w / 2;
 
 	paddle.Update(0);
 }
