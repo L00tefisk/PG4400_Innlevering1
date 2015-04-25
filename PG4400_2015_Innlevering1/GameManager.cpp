@@ -190,7 +190,6 @@ bool GameManager::Play(const double dt, std::string levelName)
 					if (overlapVector.magnitude() != 0)
 					{
 						player.ApplyPowerUp(it->type);
-						Ball::ApplyPowerUp(PowerUp::powerType::Split);
 						it = level.pMap.erase(it);
 					}
 					else

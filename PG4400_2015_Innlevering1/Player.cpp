@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include "PowerUp.h"
+#include "Ball.h"
 
 Player::Player()
 {
@@ -29,16 +30,33 @@ void Player::Draw()
 
 void Player::ApplyPowerUp(int powType)
 {
+	int shrinksize = 40;
 	switch (powType)
 	{
 	case PowerUp::powerType::Shrink:
-		if (paddle.rect.w >= 50)
-			paddle.rect.w -= 40;
+		if(paddle.rect.w > 150 - (shrinksize * 2))
+			paddle.rect.w -= shrinksize;
 		break;
 	case PowerUp::powerType::Grow:
-		if (paddle.rect.w <= 300)
-			paddle.rect.w += 40;
+		if(paddle.rect.w < 150 + shrinksize * 2)
+			paddle.rect.w += shrinksize;
 		break;
+	case PowerUp::powerType::Kill:
+		//TODO
+		break;
+	case PowerUp::powerType::Slow:
+		Ball::ApplyPowerUp(powType);
+		break;
+	case PowerUp::powerType::Rush:
+		Ball::ApplyPowerUp(powType);
+		break;
+	case PowerUp::powerType::Magnet:
+		Ball::ApplyPowerUp(powType);
+		break;
+	case PowerUp::powerType::Split:
+		Ball::ApplyPowerUp(powType);
+		break;
+
 	}
 }
 

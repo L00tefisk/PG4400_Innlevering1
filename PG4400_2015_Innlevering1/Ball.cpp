@@ -27,7 +27,7 @@ void Ball::Init()
 	centerY = rect.y + (rect.h / 2);
 	xSpeed = rand() % 800 - 400;
 	ySpeed = rand() % 800 - 400;
-	loadResource("../Resources/Balls/ball0002.png", rect);
+	loadResource("../Resources/Balls/ball0001.png", rect);
 }
 
 void Ball::AddBall(bool onPaddle)
@@ -71,10 +71,12 @@ void Ball::ApplyPowerUp(int powType)
 		magnet = true;
 		break;
 	case PowerUp::powerType::Rush:
-		speedUp = true;
+		//for(Ball b : balls)
+		//	b.ySpeed *= 1.2;
 		break;
 	case PowerUp::powerType::Slow:
-		speedDown = true;
+		//for(Ball b : balls)
+		//	b.ySpeed *= 0.8;
 		break;
 	case PowerUp::powerType::Split:
 		for (int i = 0; i < size && balls.size() < 100; i++)
