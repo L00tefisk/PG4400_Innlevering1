@@ -1,12 +1,15 @@
 #include "GameManager.h"
 #include "Vector2D.h"
 
+SDL_Renderer *GameManager::renderer;
+SDL_Window *GameManager::window;
+
 GameManager::GameManager(SDL_Window *window, SDL_Renderer *renderer)
 {
 	this->window = window;
 	this->renderer = renderer;
 
-	logicTimer = Timer((1 / 30.0) * 1000); // multiplied by 1000 because we want it in milliseconds
+	logicTimer = Timer((1 / 60.0) * 1000); // multiplied by 1000 because we want it in milliseconds
 	drawTimer = Timer((1 / 60.0) * 1000);
 	level = Level();
 	run = true;
@@ -26,10 +29,21 @@ void GameManager::Init()
 {
 
 }
-
-void GameManager::SetupGame()
+const SDL_Rect& GameManager::GetWindowRectangle()
 {
-	level.loadLevel();
+	int w, h;
+	SDL_Rect winSize;
+	SDL_GetWindowSize(window, &w, &h);
+	winSize.x = 0;
+	winSize.y = 0;
+	winSize.w = w;
+	winSize.h = h;
+	return winSize;
+}
+
+void GameManager::SetupGame(std::string nextLevel)
+{
+	level.loadLevel(nextLevel.c_str());
 	player.Init();
 	Ball::AddBall(true);
 	
@@ -55,8 +69,13 @@ void GameManager::Run()
 			MainMenu();
 			break;
 		case PLAY:
-			SetupGame();
-			Play(logicTimer.updateRate);
+			if (!Play(logicTimer.updateRate, "test"))
+				break;
+			else if (!Play(logicTimer.updateRate, "test"))
+				break;
+			else if (!Play(logicTimer.updateRate, "test"))
+				break;
+			run = false;
 			break;
 		case OPTIONS:
 			Options();
@@ -72,10 +91,12 @@ void GameManager::Run()
 	}
 }
 
-bool GameManager::Play(const double dt)
+bool GameManager::Play(const double dt, std::string levelName)
 {
+	SetupGame(levelName);
 	bool draw = false;
 	std::vector<Brick> &map = level.getMap();
+
 	while (true)
 	{
 		logicTimer.Update();
@@ -177,7 +198,7 @@ bool GameManager::Play(const double dt)
 				}
 			}
 
-			if (map.size() == 0)
+			if (level.isDone())
 				return true;
 
 			draw = true;
@@ -189,13 +210,14 @@ bool GameManager::Play(const double dt)
 			draw = false;
 			// Draw
 			SDL_RenderClear(renderer);
+			level.draw();
 			player.Draw();
 			
 			for (Ball &ball : Ball::balls)
 				ball.Draw();
 			
 			
-			level.draw();
+			
 			SDL_RenderPresent(renderer);
 		}
 	}

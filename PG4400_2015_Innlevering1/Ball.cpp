@@ -21,8 +21,8 @@ void Ball::Init()
 {
 	rect.x = 200;
 	rect.y = 200;
-	rect.w = 50;
-	rect.h = 50;
+	rect.w = 25;
+	rect.h = 25;
 	centerX = rect.x + (rect.w / 2);
 	centerY = rect.y + (rect.h / 2);
 	xSpeed = rand() % 800 - 400;
@@ -64,6 +64,7 @@ void Ball::Update(const double &dt)
 
 void Ball::ApplyPowerUp(int powType)
 {
+	int size = balls.size();
 	switch (powType)
 	{
 	case PowerUp::powerType::Magnet:
@@ -76,11 +77,20 @@ void Ball::ApplyPowerUp(int powType)
 		speedDown = true;
 		break;
 	case PowerUp::powerType::Split:
-		
-		for (int i = balls.size(); i > 0; i--)
+		for (int i = 0; i < size && balls.size() < 100; i++)
 		{
-			
 			AddBall(false);
+			balls[balls.size() - 1].rect = balls[i].rect;
+			if (balls[i].xSpeed < balls[i].ySpeed)
+			{
+				balls[balls.size() - 1].xSpeed = -balls[i].xSpeed;
+				balls[balls.size() - 1].ySpeed = balls[i].ySpeed;
+			}
+			else
+			{
+				balls[balls.size() - 1].xSpeed = balls[i].xSpeed;
+				balls[balls.size() - 1].ySpeed = -balls[i].ySpeed;
+			}
 		}
 		break;
 	case PowerUp::powerType::Super:

@@ -1,9 +1,13 @@
 #include <algorithm>
 
 #include "Level.h"
-
+#include "GameManager.h"
 Level::Level()
 {
+	indestructibleBricksCount = 0;
+
+
+	background.loadResource("../Resources/Background/background0008.png", GameManager::GetWindowRectangle());
 }
 
 Level::~Level()
@@ -35,13 +39,13 @@ void Level::spawnPowerUp(const PowerUp& pow)
 	pMap.push_back(pow);
 }
 
-void Level::loadLevel()
+void Level::loadLevel(std::string level)
 {
 	short x, y, w, h;
 	unsigned short textureID;
 	unsigned short type;
 	SDL_Rect rect;
-	std::ifstream inputStream("test", std::ifstream::binary | std::ifstream::in);
+	std::ifstream inputStream(level.c_str(), std::ifstream::binary | std::ifstream::in);
 	std::vector<std::string> resourcesInUse;
 	if (!inputStream)
 		return;
@@ -73,6 +77,9 @@ void Level::loadLevel()
 		inputStream.read(reinterpret_cast<char*>(&textureID), sizeof(unsigned short));
 		inputStream.peek();
 
+		if (type == 2)
+			indestructibleBricksCount++;
+
 		rect.x = x;
 		rect.y = y;
 		rect.w = w;
@@ -90,6 +97,11 @@ void Level::loadLevel()
 	inputStream.close();
 };
 
+void Level::changeLevel(std::string level)
+{
+	Ball::balls.clear();
+
+}
 std::vector<Brick> &Level::getMap()
 {
 	return map;
@@ -113,9 +125,17 @@ bool Level::hasBrick(const SDL_Rect& b)
 
 void Level::draw()
 {
+	background.Draw();
 	for (int i = 0; i < map.size(); i++)
 		map.at(i).Draw();
 
 	for (int i = 0; i < pMap.size(); i++)
 		pMap[i].Draw();
+
+
+}
+
+bool Level::isDone()
+{
+	return map.size() == indestructibleBricksCount;
 }

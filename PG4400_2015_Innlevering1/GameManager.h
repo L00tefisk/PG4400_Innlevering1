@@ -30,15 +30,17 @@ public:
 	void Init();
 	void Run();
 
-	void SetupGame();
-	bool Play(const double dt);
+	void SetupGame(std::string nextLevel);
+	bool Play(const double dt, std::string levelName);
 	void MainMenu();
 	void Options();
 	void Highscores();
 
+	static const SDL_Rect& GetWindowRectangle();
+
 private:
-	SDL_Window *window;
-	SDL_Renderer *renderer;
+	static SDL_Window *window;
+	static SDL_Renderer *renderer;
 
 	Level level;
 	Player player;
