@@ -13,6 +13,7 @@ public:
 	void Init();
 	void Update();
 	void Draw();
+	void ApplyPowerUp(int powType);
 
 	Paddle paddle;
 private:

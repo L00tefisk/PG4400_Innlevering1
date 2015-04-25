@@ -6,7 +6,7 @@ std::shared_ptr<InputManager> InputManager::instance = 0;
 std::shared_ptr<InputManager> InputManager::GetInstance()
 {
 	if (instance == 0)
-		instance = std::unique_ptr<InputManager>(new InputManager);
+		instance = std::shared_ptr<InputManager>(new InputManager);
 	return instance;
 }
 void InputManager::update(SDL_Event &ev)
@@ -18,7 +18,6 @@ void InputManager::update(SDL_Event &ev)
 }
 bool InputManager::KeyDown(int key)
 {
-	previouslyCheckedKeys.push_back(key);
 	return keys[key];
 }
 bool InputManager::KeyNonRepeat(int key)

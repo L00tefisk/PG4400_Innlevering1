@@ -19,14 +19,14 @@ Ball::~Ball()
 
 void Ball::Init()
 {
-	rect.x = 50;
-	rect.y = 100;
-	rect.w = 10;
-	rect.h = 10;
+	rect.x = 200;
+	rect.y = 200;
+	rect.w = 50;
+	rect.h = 50;
 	centerX = rect.x + (rect.w / 2);
 	centerY = rect.y + (rect.h / 2);
-	xSpeed = 400;
-	ySpeed = -400;
+	xSpeed = rand() % 800 - 400;
+	ySpeed = rand() % 800 - 400;
 	loadResource("../Resources/Balls/ball0002.png", rect);
 }
 
@@ -76,8 +76,12 @@ void Ball::ApplyPowerUp(int powType)
 		speedDown = true;
 		break;
 	case PowerUp::powerType::Split:
-		for (int i = balls.size() * 2; i > 0; i--)
+		
+		for (int i = balls.size(); i > 0; i--)
+		{
+			
 			AddBall(false);
+		}
 		break;
 	case PowerUp::powerType::Super:
 		superBall = true;

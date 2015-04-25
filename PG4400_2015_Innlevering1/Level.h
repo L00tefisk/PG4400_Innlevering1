@@ -22,10 +22,10 @@ public:
 
 	std::vector<PowerUp> pMap;
 
-	const std::shared_ptr< std::vector<Brick> > getMap();
+	std::vector<Brick> &getMap();
 private:
-	std::shared_ptr< std::vector<Brick> > map;
-
+	std::vector<Brick> map;
+	
 };
 
 #endif

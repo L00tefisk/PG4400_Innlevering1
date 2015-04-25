@@ -6,7 +6,7 @@ GameManager::GameManager(SDL_Window *window, SDL_Renderer *renderer)
 	this->window = window;
 	this->renderer = renderer;
 
-	logicTimer = Timer((1 / 60.0) * 1000); // multiplied by 1000 because we want it in milliseconds
+	logicTimer = Timer((1 / 30.0) * 1000); // multiplied by 1000 because we want it in milliseconds
 	drawTimer = Timer((1 / 60.0) * 1000);
 	level = Level();
 	run = true;
@@ -75,7 +75,7 @@ void GameManager::Run()
 bool GameManager::Play(const double dt)
 {
 	bool draw = false;
-	
+	std::vector<Brick> &map = level.getMap();
 	while (true)
 	{
 		logicTimer.Update();
@@ -90,24 +90,32 @@ bool GameManager::Play(const double dt)
 			for (Ball &ball : Ball::balls)
 				ball.Fire();
 		}
+
 		while (logicTimer.accumulator >= logicTimer.updateRate)
 		{
 			logicTimer.accumulator -= logicTimer.updateRate;
+			if (logicTimer.accumulator > logicTimer.updateRate * 3)
+				logicTimer.accumulator = 0;
 
 			player.Update();
+			const SDL_Rect& paddle = player.paddle.getRectangle();
+			
+			Vector2D overlapVector;
+			Vector2D normalizedVector;
+			SDL_Rect ballRect;
 			for (Ball &ball : Ball::balls)
 			{
 				ball.Update(dt / 1000);
+				ballRect = ball.getRectangle();
 
-
-				for (Brick b : *level.getMap())
+				for (auto &b : map)
 				{
-					Vector2D overlapVector = ball.Collide(b);
+					overlapVector = ball.Collide(b);
 					if (overlapVector.magnitude() != 0)
 					{
-						SDL_Rect ballRect = ball.getRectangle();
-						Vector2D normalizedVector = overlapVector.getNormalizedVector();
-						if (abs(normalizedVector.x) <= abs(normalizedVector.y))
+						normalizedVector = overlapVector.getNormalizedVector();
+
+						if (abs(normalizedVector.x) < abs(normalizedVector.y))
 							ball.xSpeed = -ball.xSpeed;
 						else
 							ball.ySpeed = -ball.ySpeed;
@@ -129,11 +137,11 @@ bool GameManager::Play(const double dt)
 					}
 				}
 
-				Vector2D overlapVector = ball.Collide(player.paddle);
+				overlapVector = ball.Collide(player.paddle);
 
 				if(overlapVector.magnitude() != 0) {
-					Vector2D normalizedVector = overlapVector.getNormalizedVector();
-					const SDL_Rect& paddle = player.paddle.getRectangle();
+					normalizedVector = overlapVector.getNormalizedVector();
+					
 					double mod = ((ball.centerX - paddle.x - paddle.w / 2) / paddle.w) * 1000;
 					if(abs(normalizedVector.x) > abs(normalizedVector.y))
 					{
@@ -141,9 +149,7 @@ bool GameManager::Play(const double dt)
 						ball.xSpeed = mod;
 					}
 						
-					//else
-					//	ball.xSpeed = -ball.xSpeed;
-					SDL_Rect ballRect = ball.getRectangle();
+					ballRect = ball.getRectangle();
 					if(abs(overlapVector.x) < abs(overlapVector.y))
 						ballRect.x += overlapVector.x;
 					else
@@ -155,21 +161,23 @@ bool GameManager::Play(const double dt)
 			for (auto it = level.pMap.begin(); it != level.pMap.end();)
 			{
 				it->Update(dt / 1000);
-				Vector2D overlapVector = it->Collide(player.paddle);
-				if (overlapVector.magnitude() != 0)
-				{
-					if(it->type == PowerUp::powerType::Shrink && player.paddle.getRectangle().w >= 50)
-						const_cast<SDL_Rect&>(player.paddle.getRectangle()).w -= 40;
-					if(it->type == PowerUp::powerType::Grow && player.paddle.getRectangle().w <= 300)
-						const_cast<SDL_Rect&>(player.paddle.getRectangle()).w += 40;
-					Ball::ApplyPowerUp(it->type);
+				if (it->getRectangle().y > 800)
 					it = level.pMap.erase(it);
-				}
 				else
-					it++;
+				{
+					overlapVector = it->Collide(player.paddle);
+					if (overlapVector.magnitude() != 0)
+					{
+						player.ApplyPowerUp(it->type);
+						Ball::ApplyPowerUp(PowerUp::powerType::Split);
+						it = level.pMap.erase(it);
+					}
+					else
+						it++;
+				}
 			}
 
-			if (level.getMap()->size() == 0)
+			if (map.size() == 0)
 				return true;
 
 			draw = true;
@@ -185,11 +193,11 @@ bool GameManager::Play(const double dt)
 			
 			for (Ball &ball : Ball::balls)
 				ball.Draw();
-
+			
+			
 			level.draw();
 			SDL_RenderPresent(renderer);
 		}
-		SDL_Delay(1);
 	}
 	return false;
 }
@@ -260,7 +268,7 @@ void GameManager::MainMenu()
 			break;
 		}
 	}
-	SDL_Delay(15);
+	//SDL_Delay(15);
 }
 void GameManager::Options()
 {

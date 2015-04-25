@@ -7,15 +7,13 @@ public:
 	Vector2D();
 	Vector2D(float x, float y);
 
-	float dot(const Vector2D &vec);
-	float project(const Vector2D &vec);
 	float magnitude();
-	Vector2D getNormal();
 	Vector2D getNormalizedVector();
 	Vector2D getVector();
 	float x;
 	float y;
 private:
+
 	float size;
 };
 

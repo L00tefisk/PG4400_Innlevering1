@@ -4,7 +4,6 @@
 
 Level::Level()
 {
-	map = std::shared_ptr<std::vector<Brick>>(new std::vector<Brick>);
 }
 
 Level::~Level()
@@ -13,19 +12,19 @@ Level::~Level()
 }
 void Level::AddBrick(const Brick &b)
 {
-	map->push_back(b);
+	map.push_back(b);
 }
 
 void Level::RemoveBrick(const Brick &b)
 {
 	SDL_Rect brickRect = b.getRectangle();
-	for (auto it = map->begin(); it != map->end(); it++)
+	for (auto it = map.begin(); it != map.end(); it++)
 	{
 		SDL_Rect rect = it->getRectangle();
 		if (brickRect.x >= rect.x && brickRect.x < rect.x + rect.w &&
 			brickRect.y >= rect.y && brickRect.y < rect.y + rect.h)
 		{
-			map->erase(it);
+			map.erase(it);
 			return;
 		}
 	}
@@ -86,31 +85,36 @@ void Level::loadLevel()
 		AddBrick(b);
 	}
 
-	std::cout << map->size() << " objects loaded " << std::endl;
+	std::cout << map.size() << " objects loaded " << std::endl;
 
 	inputStream.close();
 };
 
-const std::shared_ptr<std::vector<Brick> > Level::getMap()
+std::vector<Brick> &Level::getMap()
 {
 	return map;
 }
 
 bool Level::hasBrick(const SDL_Rect& b)
 {
-
-	for (int i = 0; i < map->size(); i++)
-		if (map->at(i).getRectangle().x == b.x &&
-			map->at(i).getRectangle().y == b.y)
-			return true;
+	SDL_Rect tempRect;
+	for (int i = 0; i < map.size(); i++)
+	{
+		tempRect = map.at(i).getRectangle();
+		if (b.x > tempRect.x + tempRect.w ||
+			b.y > tempRect.y + tempRect.h ||
+			tempRect.x > b.x + b.w ||
+			tempRect.y > b.y + b.h)
+			return false;
+	}
 	return false;
 }
 
 
 void Level::draw()
 {
-	for (int i = 0; i < map->size(); i++)
-		map->at(i).Draw();
+	for (int i = 0; i < map.size(); i++)
+		map.at(i).Draw();
 
 	for (int i = 0; i < pMap.size(); i++)
 		pMap[i].Draw();
