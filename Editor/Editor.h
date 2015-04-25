@@ -17,10 +17,11 @@ public:
 
 	void AddBrick(const Brick& b)
 	{
-		for (const Brick& brick : map)
-			if (brick == b)
-				return;
-
+		for (const Brick& brick : map) {
+			if(brick == b) {
+				RemoveBrick(brick.rect.x, brick.rect.y);
+			}
+		}
 		std::cout << "Added brick at (" << b.rect.x << "," << b.rect.y << ")" << std::endl;
 		map.push_back(b);
 		for (int i = 0; i < resourcesInUse.size(); i++)

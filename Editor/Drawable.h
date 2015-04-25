@@ -26,6 +26,11 @@ public:
 	{
 		std::vector<std::string> allTextures;
 		allTextures.push_back(std::string("../Resources/Bricks/blue.png"));
+		allTextures.push_back(std::string("../Resources/Bricks/purple.png"));
+		allTextures.push_back(std::string("../Resources/Bricks/pink.png"));
+		allTextures.push_back(std::string("../Resources/Bricks/ice.png"));
+		allTextures.push_back(std::string("../Resources/Bricks/green.png"));
+		allTextures.push_back(std::string("../Resources/Bricks/yellow.png"));
 		allTextures.push_back(std::string("../Resources/Bricks/red0001.png"));
 		allTextures.push_back(std::string("../Resources/Bricks/red0002.png"));
 		allTextures.push_back(std::string("../Resources/Bricks/red0003.png"));
