@@ -107,12 +107,12 @@ bool GameManager::Play(const double dt)
 					{
 						SDL_Rect ballRect = ball.getRectangle();
 						Vector2D normalizedVector = overlapVector.getNormalizedVector();
-						if (abs(normalizedVector.x) > abs(normalizedVector.y))
-							ball.ySpeed = -ball.ySpeed;
-						else
+						if (abs(normalizedVector.x) <= abs(normalizedVector.y))
 							ball.xSpeed = -ball.xSpeed;
+						else
+							ball.ySpeed = -ball.ySpeed;
 
-						if (abs(overlapVector.x) < abs(overlapVector.y))
+						if (abs(overlapVector.x) <= abs(overlapVector.y))
 							ballRect.x += overlapVector.x;
 						else
 							ballRect.y += overlapVector.y;
