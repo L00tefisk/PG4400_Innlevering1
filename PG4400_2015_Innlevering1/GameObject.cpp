@@ -46,17 +46,17 @@ Vector2D GameObject::Collide(const GameObject& obj)
 
 	//If there is an overlap then X1, Y1 will always be positive and X2, Y2 will always be negative
 
-	if (overlapX1 < 0 || overlapX2 >= 0 ||
-		overlapY1 < 0 || overlapY2 >= 0)
+	if (overlapX1 <= 0 || overlapX2 > 0 ||
+		overlapY1 <= 0 || overlapY2 > 0)
 		return Vector2D(0, 0);
 
 	// Return smallest x and y overlap.
-	if (abs(overlapX1) < abs(overlapX2))
+	if (abs(overlapX1) <= abs(overlapX2))
 		minX = overlapX1;
 	else
 		minX = overlapX2;
 
-	if (abs(overlapY1) < abs(overlapY2))
+	if (abs(overlapY1) <= abs(overlapY2))
 		minY = overlapY1;
 	else
 		minY = overlapY2;
