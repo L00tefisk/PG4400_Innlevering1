@@ -68,6 +68,10 @@ int main(int argc, char* argv[])
 			b.rect.x = inputManager->getMouseX() / b.rect.w * b.rect.w; // Here I (ab?)use the rounding
 			b.rect.y = inputManager->getMouseY() / b.rect.h * b.rect.h; // to lock them to a grid.
 		}
+		else if(inputManager->KeyDown(SDL_SCANCODE_LCTRL)) {
+			b.rect.x = inputManager->getMouseX() / (b.rect.w / 2) * (b.rect.w / 2); // Here I (ab?)use the rounding
+			b.rect.y = inputManager->getMouseY() / b.rect.h * b.rect.h; // to lock them to a grid.
+		}
 		else
 		{
 			b.rect.x = inputManager->getMouseX();
@@ -99,8 +103,8 @@ int main(int argc, char* argv[])
 
 			// Draw
 			SDL_RenderClear(renderer);
-			SDL_RenderCopy(renderer, Drawable::textureList[editor->currentBrickID], NULL, &b.rect);
 			editor->draw();
+			SDL_RenderCopy(renderer, Drawable::textureList[editor->currentBrickID], NULL, &b.rect);
 			SDL_RenderPresent(renderer);
 		}
 		

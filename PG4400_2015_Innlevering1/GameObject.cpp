@@ -51,12 +51,12 @@ Vector2D GameObject::Collide(const GameObject& obj)
 		return Vector2D(0, 0);
 
 	// Return smallest x and y overlap.
-	if (abs(overlapX1) < abs(overlapX2))
+	if (abs(overlapX1) <= abs(overlapX2))
 		minX = overlapX1;
 	else
 		minX = overlapX2;
 
-	if (abs(overlapY1) < abs(overlapY2))
+	if (abs(overlapY1) <= abs(overlapY2))
 		minY = overlapY1;
 	else
 		minY = overlapY2;
