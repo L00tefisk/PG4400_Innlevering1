@@ -131,15 +131,20 @@ bool GameManager::Play(const double dt)
 
 				Vector2D overlapVector = ball.Collide(player.paddle);
 
-				if (overlapVector.magnitude() != 0)
-				{
+				if(overlapVector.magnitude() != 0) {
 					Vector2D normalizedVector = overlapVector.getNormalizedVector();
-					if (abs(normalizedVector.x) > abs(normalizedVector.y))
+					const SDL_Rect& paddle = player.paddle.getRectangle();
+					double mod = ((ball.centerX - paddle.x - paddle.w / 2) / paddle.w) * 1000;
+					if(abs(normalizedVector.x) > abs(normalizedVector.y))
+					{
 						ball.ySpeed = -ball.ySpeed;
-					else
-						ball.xSpeed = -ball.xSpeed;
+						ball.xSpeed = mod;
+					}
+						
+					//else
+					//	ball.xSpeed = -ball.xSpeed;
 					SDL_Rect ballRect = ball.getRectangle();
-					if (abs(overlapVector.x) < abs(overlapVector.y))
+					if(abs(overlapVector.x) < abs(overlapVector.y))
 						ballRect.x += overlapVector.x;
 					else
 						ballRect.y += overlapVector.y;
@@ -153,6 +158,10 @@ bool GameManager::Play(const double dt)
 				Vector2D overlapVector = it->Collide(player.paddle);
 				if (overlapVector.magnitude() != 0)
 				{
+					if(it->type == PowerUp::powerType::Shrink && player.paddle.getRectangle().w >= 50)
+						const_cast<SDL_Rect&>(player.paddle.getRectangle()).w -= 40;
+					if(it->type == PowerUp::powerType::Grow && player.paddle.getRectangle().w <= 300)
+						const_cast<SDL_Rect&>(player.paddle.getRectangle()).w += 40;
 					Ball::ApplyPowerUp(it->type);
 					it = level.pMap.erase(it);
 				}

@@ -43,7 +43,7 @@ void Ball::Update(const double &dt)
 
 	if (onPaddle)
 	{
-		rect.y = 590;
+		rect.y = 720 - 50 - rect.h;
 		rect.x = InputManager::GetInstance()->getMouseX() + 35;
 	}
 	else

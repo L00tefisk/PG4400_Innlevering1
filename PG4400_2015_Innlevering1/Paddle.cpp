@@ -6,10 +6,10 @@ Paddle::Paddle()
 }
 void Paddle::Init()
 {
-	rect.x = 100;
-	rect.y = 600;
-	rect.w = 100;
-	rect.h = 25;
+	rect.x = 0;
+	rect.y = 720 - 50;
+	rect.w = 150;
+	rect.h = rect.w / 4;
 
 	lRect.h = rect.h;
 	mRect.h = rect.h;
@@ -32,6 +32,8 @@ void Paddle::Init()
 void Paddle::Update(const double& dt)
 {
 	//mRect.w = rect.w - lRect.w - rRect.w;
+	mRect.w = rect.w - lRect.w - rRect.w;
+
 	lRect.x = rect.x;
 	mRect.x = lRect.x + lRect.w;
 	rRect.x = mRect.x + mRect.w;

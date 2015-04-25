@@ -6,9 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-*.fla
 *.psd
-
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -20,6 +18,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+RECOVER*
 
 # Roslyn cache directories
 *.ide/
