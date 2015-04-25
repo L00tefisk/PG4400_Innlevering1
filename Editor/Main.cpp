@@ -57,12 +57,13 @@ int main(int argc, char* argv[])
 		b.rect.w = 1280/16;
 		b.rect.h = b.rect.w / 2;
 
-		if (b.textureID == 0)
-			b.type = 0;
-		else if (b.textureID >= 1 && b.textureID <= 3)
+		
+		if (b.textureID >= 6 && b.textureID <= 8)
 			b.type = 1;
-		else if (b.textureID == 4)
+		else if(b.textureID == 9)
 			b.type = 2;
+		else
+			b.type = 0;
 		if (inputManager->KeyDown(SDL_SCANCODE_LSHIFT))
 		{
 			b.rect.x = inputManager->getMouseX() / b.rect.w * b.rect.w; // Here I (ab?)use the rounding

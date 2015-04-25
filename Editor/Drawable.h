@@ -25,16 +25,16 @@ public:
 	static void loadAllTextures()
 	{
 		std::vector<std::string> allTextures;
-		allTextures.push_back(std::string("../Resources/Bricks/blue.png"));
-		allTextures.push_back(std::string("../Resources/Bricks/purple.png"));
-		allTextures.push_back(std::string("../Resources/Bricks/pink.png"));
-		allTextures.push_back(std::string("../Resources/Bricks/ice.png"));
-		allTextures.push_back(std::string("../Resources/Bricks/green.png"));
-		allTextures.push_back(std::string("../Resources/Bricks/yellow.png"));
-		allTextures.push_back(std::string("../Resources/Bricks/red0001.png"));
-		allTextures.push_back(std::string("../Resources/Bricks/red0002.png"));
-		allTextures.push_back(std::string("../Resources/Bricks/red0003.png"));
-		allTextures.push_back(std::string("../Resources/Bricks/unbreakable.png"));
+		allTextures.push_back(std::string("../Resources/Bricks/blue.png"));			//ID = 0;
+		allTextures.push_back(std::string("../Resources/Bricks/purple.png"));		//ID = 1;
+		allTextures.push_back(std::string("../Resources/Bricks/pink.png"));			//ID = 2;
+		allTextures.push_back(std::string("../Resources/Bricks/ice.png"));			//ID = 3;
+		allTextures.push_back(std::string("../Resources/Bricks/green.png"));		//ID = 4;
+		allTextures.push_back(std::string("../Resources/Bricks/yellow.png"));		//ID = 5;
+		allTextures.push_back(std::string("../Resources/Bricks/red0001.png"));		//ID = 6;
+		allTextures.push_back(std::string("../Resources/Bricks/red0002.png"));		//ID = 7;
+		allTextures.push_back(std::string("../Resources/Bricks/red0003.png"));		//ID = 8;
+		allTextures.push_back(std::string("../Resources/Bricks/unbreakable.png"));	//ID = 9;
 
 		for (int i = 0; i < allTextures.size(); i++)
 		{
