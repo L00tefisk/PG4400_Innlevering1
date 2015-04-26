@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 	std::vector<std::string> texturePathList;
 	std::shared_ptr<EventHandler> eventHandler = EventHandler::GetInstance();
 	std::shared_ptr<InputManager> inputManager = InputManager::GetInstance();
-	SDL_Window *window = SDL_CreateWindow("Test.", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, SDL_WINDOW_SHOWN);
+	SDL_Window *window = SDL_CreateWindow("Blue Balls Editor", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, SDL_WINDOW_SHOWN);
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if (renderer == NULL)
 		std::cout << "renderer creation failed." << std::endl;

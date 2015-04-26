@@ -25,9 +25,6 @@ class GameManager
 	friend class Player;
 
 public:
-	int WindowWidth;
-	int WindowHeight;
-
 	GameManager(SDL_Window* window, SDL_Renderer* renderer);
 	~GameManager();
 	void Run();

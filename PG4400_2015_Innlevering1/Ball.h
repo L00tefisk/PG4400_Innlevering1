@@ -13,8 +13,8 @@ public:
 	virtual void Update(const double dt) override;
 	virtual void Fire();
 	virtual void ResolveCollision(Vector2D& overlapVector);
-	virtual void Reset();
-
+	
+	static void Reset();
 	static void AddBall(bool onPaddle);
 	static void ApplyPowerUp(int powType);
 
@@ -22,10 +22,10 @@ public:
 	float xSpeed;
 
 	// Powerup flags
-	static bool magnet; // How does it work?
-	static bool speedUp;
-	static bool speedDown;
-	static bool superBall;
+	static bool powMagnet; // How does it work?
+	static bool powSpeedUp;
+	static bool powSpeedDown;
+	static bool powSuperBall;
 
 	bool onPaddle;
 	int relativeHitPositionX;

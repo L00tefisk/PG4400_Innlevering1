@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include "Vector2D.h"
+#include <time.h>
 SDL_Renderer *GameManager::renderer;
 SDL_Window *GameManager::window;
 Player GameManager::player;
@@ -67,7 +68,7 @@ void GameManager::Run()
 			break;
 		case PLAY:
 			
-			if (!Play(logicTimer.updateRate, "../Resources/Levels/tomas"))
+			if (!Play(logicTimer.updateRate, "../Resources/Levels/park"))
 				gameState = GAMEOVER;
 			else if (!Play(logicTimer.updateRate, "../Resources/Levels/park"))
 				gameState = GAMEOVER;
@@ -102,10 +103,11 @@ bool GameManager::Play(const double dt, std::string levelName)
 	Vector2D overlapVector;
 	Vector2D normalizedVector;
 	SDL_Rect ballRect;
-	srand(reinterpret_cast<unsigned int>(this));
+	srand(time(NULL));
 
 	while (true)
 	{
+
 		if (level.isDone())
 		{
 			powMap.clear();
@@ -130,22 +132,24 @@ bool GameManager::Play(const double dt, std::string levelName)
 				ball.Fire();
 		}
 
+		// This is more accurate, but will crash the program if each frame takes longer than
+		// logcitTimer.updateRate to complete.
 		while (logicTimer.accumulator >= logicTimer.updateRate)
 		{
 			logicTimer.accumulator -= logicTimer.updateRate;
 			
 			player.Update(logicTimer.updateRate);
+
 			const SDL_Rect& paddle = player.getRectangle();
 			
 			for (unsigned int i = 0; i < balls.size(); i++)
 			{
 				Ball &ball = balls[i];
 				ball.Update(dt / 1000);
-
 				ballRect = balls[i].getRectangle();
+
 				// Is the ball colliding with the paddle?
 				overlapVector = ball.Collide(player);
-
 				if (overlapVector.magnitude() != 0)
 				{
 					normalizedVector = overlapVector.getNormalizedVector();
@@ -153,13 +157,13 @@ bool GameManager::Play(const double dt, std::string levelName)
 					ball.ResolveCollision(overlapVector);
 					Vector2D ballCenter = ball.getCenter();
 
-					
 					if (abs(normalizedVector.x) > abs(normalizedVector.y))
 					{
 						ball.ySpeed *= -1;
 						ball.xSpeed = ((ball.getCenter().x - GameManager::player.getCenter().x) / GameManager::player.getRectangle().w ) * 1000;
 					}
-					if(ball.magnet)
+
+					if(ball.powMagnet)
 						ball.onPaddle = true;
 				}
 
@@ -169,7 +173,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 					overlapVector = ball.Collide(b);
 					if (overlapVector.magnitude() != 0)
 					{
-						if(!ball.superBall)
+						if(!ball.powSuperBall)
 						{
 							normalizedVector = overlapVector.getNormalizedVector();
 							if(abs(normalizedVector.x) < abs(normalizedVector.y))
@@ -192,9 +196,10 @@ bool GameManager::Play(const double dt, std::string levelName)
 					}
 				}
 
-				if (ballRect.x < 0 || ballRect.x + ballRect.w > 1280) // Did it hit the left or right side?
+				// Check against the sides of the screen
+				if (ballRect.x < 0 || ballRect.x + ballRect.w > 1280)
 					ball.xSpeed *= -1;
-				else if (ballRect.y < 0) // did it hit the top or bottom?
+				else if (ballRect.y < 0)
 					ball.ySpeed *= -1;
 				else if (ballRect.y >= 720)
 				{
@@ -203,10 +208,12 @@ bool GameManager::Play(const double dt, std::string levelName)
 					{
 						player.lives--;
 						Ball::AddBall(true);
+						Ball::Reset();
 					}
 				}
 			}
 
+			// Check against any spawned powerup
 			for (auto it = powMap.begin(); it != powMap.end();)
 			{
 				it->Update(dt / 1000);
@@ -230,7 +237,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 		if (draw)
 		{
 			draw = false;
-			// Draw
+
 			SDL_RenderClear(renderer);
 			level.draw();
 			player.Draw();
@@ -244,6 +251,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 			SDL_RenderPresent(renderer);
 		}
 	}
+
 	powMap.clear();
 	level.getMap().clear();
 	balls.clear();

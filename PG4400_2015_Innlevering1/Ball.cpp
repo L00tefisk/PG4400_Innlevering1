@@ -4,10 +4,10 @@
 #include "Vector2D.h"
 #include "PowerUp.h"
 
-bool Ball::magnet; // How does it work?
-bool Ball::speedUp;
-bool Ball::speedDown;
-bool Ball::superBall;
+bool Ball::powMagnet; // How does it work?
+bool Ball::powSpeedUp;
+bool Ball::powSpeedDown;
+bool Ball::powSuperBall;
 std::vector<Ball>& Ball::balls = GameManager::balls;
 Ball::Ball()
 {
@@ -34,10 +34,10 @@ void Ball::Init()
 
 void Ball::Reset()
 {
-	magnet = false; // How does it work?
-	speedUp = false;
-	speedDown = false;
-	superBall = false;
+	powMagnet = false; // How does it work?
+	powSpeedUp = false;
+	powSpeedDown = false;
+	powSuperBall = false;
 }
 
 void Ball::AddBall(bool onPaddle)
@@ -73,7 +73,7 @@ void Ball::ApplyPowerUp(int powType)
 	switch (powType)
 	{
 	case PowerUp::powerType::Magnet:
-		magnet = true;
+		powMagnet = true;
 		
 		break;
 	case PowerUp::powerType::Rush:
@@ -102,7 +102,7 @@ void Ball::ApplyPowerUp(int powType)
 		}
 		break;
 	case PowerUp::powerType::Super:
-		superBall = true;
+		powSuperBall = true;
 		break;
 	}
 }
@@ -121,7 +121,8 @@ void Ball::Fire()
 		return;
 
 	onPaddle = false;
-	xSpeed = ((centerX - GameManager::player.getCenter().x) / GameManager::player.getRectangle().w);
+	// mulitiplied by 100 because that seems to be a decent speed.
+	xSpeed = ((centerX - GameManager::player.getCenter().x) / GameManager::player.getRectangle().w) * 100;
 	ySpeed = -400;
 }
 
