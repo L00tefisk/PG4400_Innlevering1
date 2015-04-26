@@ -12,7 +12,6 @@ GameManager::GameManager(SDL_Window *window, SDL_Renderer *renderer)
 	GameManager::renderer = renderer;
 
 	logicTimer = Timer((1 / 60.0) * 1000); // multiplied by 1000 because we want it in milliseconds
-	drawTimer = Timer((1 / 60.0) * 1000);
 	level = Level();
 	run = true;
 

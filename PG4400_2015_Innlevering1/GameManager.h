@@ -46,7 +46,6 @@ private:
 
 	Level level;
 	Timer logicTimer;
-	Timer drawTimer;
 
 	// Only used for drawing the menu and game screens
 	GameObject menu;
