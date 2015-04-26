@@ -107,7 +107,12 @@ bool GameManager::Play(const double dt, std::string levelName)
 	while (true)
 	{
 		if (level.isDone())
+		{
+			level.pMap.clear();
+			level.getMap().clear();
+			balls.clear();
 			return true;
+		}
 
 		if (player.lives == 0)
 			break;
@@ -176,7 +181,8 @@ bool GameManager::Play(const double dt, std::string levelName)
 						if (b.Crack())
 						{
 							PowerUp pow(static_cast<PowerUp::powerType>(rand() % 9), b.getRectangle());
-							level.spawnPowerUp(pow);
+							if(rand() % 5 == 1)
+								level.spawnPowerUp(pow);
 							level.RemoveBrick(b);
 						}
 						break;

@@ -78,17 +78,16 @@ void Ball::ApplyPowerUp(int powType)
 		for (int i = 0; i < size && balls.size() < 100; i++)
 		{
 			AddBall(false);
+			float xSpeed = balls[i].xSpeed;
+			float ySpeed = balls[i].ySpeed;
+
 			balls[balls.size() - 1].rect = balls[i].rect;
-			if (balls[i].xSpeed < balls[i].ySpeed)
-			{
-				balls[balls.size() - 1].xSpeed = -balls[i].xSpeed;
-				balls[balls.size() - 1].ySpeed = balls[i].ySpeed;
-			}
-			else
-			{
-				balls[balls.size() - 1].xSpeed = balls[i].xSpeed;
-				balls[balls.size() - 1].ySpeed = -balls[i].ySpeed;
-			}
+			balls[balls.size() - 1].xSpeed = balls[i].ySpeed;
+			balls[balls.size() - 1].ySpeed = -balls[i].xSpeed;
+			AddBall(false);
+			balls[balls.size() - 1].rect = balls[i].rect;
+			balls[balls.size() - 1].xSpeed = -balls[i].ySpeed;
+			balls[balls.size() - 1].ySpeed = balls[i].xSpeed;
 		}
 		break;
 	case PowerUp::powerType::Super:

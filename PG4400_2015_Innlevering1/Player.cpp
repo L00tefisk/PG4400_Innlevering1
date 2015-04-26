@@ -66,7 +66,9 @@ void Player::ApplyPowerUp(int powType)
 			rect.w += shrinksize;
 		break;
 	case PowerUp::powerType::Kill:
-		//TODO
+		lives--;
+		GameManager::balls.clear();
+		Ball::AddBall(true);
 		break;
 	case PowerUp::powerType::Slow:
 		Ball::ApplyPowerUp(powType);

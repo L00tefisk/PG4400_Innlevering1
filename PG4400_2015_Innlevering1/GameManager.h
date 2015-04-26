@@ -23,6 +23,7 @@ enum Gamestate
 class GameManager
 {
 	friend class Ball;
+	friend class Player;
 
 public:
 	int WindowWidth;
