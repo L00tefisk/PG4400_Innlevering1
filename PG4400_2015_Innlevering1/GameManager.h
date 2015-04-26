@@ -43,6 +43,7 @@ public:
 	static const SDL_Rect& GetWindowRectangle();
 
 private:
+	int selection;
 	static SDL_Window *window;
 	static SDL_Renderer *renderer;
 

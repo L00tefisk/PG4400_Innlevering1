@@ -5,8 +5,7 @@
 
 Player::Player()
 {
-	lives = 3;
-	inputManager = InputManager::GetInstance();
+	
 }
 Player::~Player()
 {
@@ -15,6 +14,8 @@ Player::~Player()
 
 void Player::Init()
 {
+
+	inputManager = InputManager::GetInstance();
 	rect.x = 0;
 	rect.y = 720 - 50;
 	rect.w = 150;
@@ -35,10 +36,11 @@ void Player::Init()
 	loadResource("../Resources/Bats/paddle1l.png", lRect);
 	loadResource("../Resources/Bats/paddle1.png", mRect);
 	loadResource("../Resources/Bats/paddle1r.png", rRect);
+	lives = 3;
 }
 void Player::Update(const double& dt)
 {
-	rect.x = inputManager->getMouseX() - (rect.w / 2);;// -paddle.rect.w / 2;
+	rect.x = inputManager->getMouseX() - (rect.w / 2); // -paddle.rect.w / 2;
 
 	mRect.w = rect.w - lRect.w - rRect.w;
 

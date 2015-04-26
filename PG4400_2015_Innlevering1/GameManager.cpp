@@ -1,6 +1,5 @@
 #include "GameManager.h"
 #include "Vector2D.h"
-
 SDL_Renderer *GameManager::renderer;
 SDL_Window *GameManager::window;
 Player GameManager::player;
@@ -34,22 +33,15 @@ void GameManager::Init()
 const SDL_Rect& GameManager::GetWindowRectangle()
 {
 	int w, h;
-	SDL_Rect winSize;
+	SDL_Rect *winSize = new SDL_Rect;
 	SDL_GetWindowSize(window, &w, &h);
-	winSize.x = 0;
-	winSize.y = 0;
-	winSize.w = w;
-	winSize.h = h;
-	return winSize;
+	winSize->x = 0;
+	winSize->y = 0;
+	winSize->w = w;
+	winSize->h = h;
+	return *winSize;
 }
 
-void GameManager::SetupGame(std::string nextLevel)
-{
-	level.loadLevel(nextLevel.c_str());
-	player.Init();
-	Ball::AddBall(true);
-	
-}
 
 void GameManager::Run()
 {
@@ -72,11 +64,11 @@ void GameManager::Run()
 			break;
 		case PLAY:
 			
-			if (!Play(logicTimer.updateRate, "test"))
+			if (!Play(logicTimer.updateRate, "../Resources/Levels/tomas"))
 				gameState = MAINMENU;
-			else if (!Play(logicTimer.updateRate, "test"))
+			else if (!Play(logicTimer.updateRate, "../Resources/Levels/park"))
 				gameState = MAINMENU;
-			else if (!Play(logicTimer.updateRate, "test"))
+			else if (!Play(logicTimer.updateRate, "../Resources/Levels/tomas")) // <3
 				gameState = MAINMENU;
 
 			gameState = MAINMENU;
@@ -95,6 +87,13 @@ void GameManager::Run()
 	}
 }
 
+void GameManager::SetupGame(std::string levelName)
+{
+	level.loadLevel(levelName.c_str());
+	player.Init();
+	Ball::AddBall(true);
+}
+
 bool GameManager::Play(const double dt, std::string levelName)
 {
 	SetupGame(levelName);
@@ -103,6 +102,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 	Vector2D overlapVector;
 	Vector2D normalizedVector;
 	SDL_Rect ballRect;
+	srand(reinterpret_cast<unsigned int>(this));
 
 	while (true)
 	{
@@ -110,15 +110,14 @@ bool GameManager::Play(const double dt, std::string levelName)
 			return true;
 
 		if (player.lives == 0)
-			return false;
+			break;
 
 		logicTimer.Update();
 		eventHandler->update();
 
 		if (inputManager->KeyDown(SDL_SCANCODE_Q))
 		{
-			run = false;
-			return false;
+			break;
 		}
 
 		if (inputManager->getMouseButton(1))
@@ -129,17 +128,14 @@ bool GameManager::Play(const double dt, std::string levelName)
 
 		while (logicTimer.accumulator >= logicTimer.updateRate)
 		{
-
 			logicTimer.accumulator -= logicTimer.updateRate;
 			
-			if (logicTimer.accumulator > logicTimer.updateRate * 3)
-				logicTimer.accumulator = 0;
 
 			player.Update(logicTimer.updateRate);
 			const SDL_Rect& paddle = player.getRectangle();
 			
 
-			for (int i = 0; i < balls.size(); i++)
+			for (unsigned int i = 0; i < balls.size(); i++)
 			{
 				Ball &ball = balls[i];
 				ball.Update(dt / 1000);
@@ -154,7 +150,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 					
 					ball.ResolveCollision(overlapVector);
 					
-					double mod = ((ball.centerX - paddle.x - paddle.w / 2) / paddle.w) * 1000;
+					float mod = ((ball.centerX - paddle.x - paddle.w / 2) / paddle.w) * 1000;
 					
 					if (abs(normalizedVector.x) > abs(normalizedVector.y))
 					{
@@ -186,9 +182,10 @@ bool GameManager::Play(const double dt, std::string levelName)
 						break;
 					}
 				}
+
 				if (ballRect.x < 0 || ballRect.x + ballRect.w > 1280) // Did it hit the left or right side?
 					ball.xSpeed *= -1;
-				else if (ballRect.y + ballRect.h < 0) // did it hit the top or bottom?
+				else if (ballRect.y < 0) // did it hit the top or bottom?
 					ball.ySpeed *= -1;
 				else if (ballRect.y >= 720)
 				{
@@ -237,11 +234,14 @@ bool GameManager::Play(const double dt, std::string levelName)
 			SDL_RenderPresent(renderer);
 		}
 	}
+	level.pMap.clear();
+	level.getMap().clear();
+	balls.clear();
 	return false;
 }
 
 
-int selection = 0;
+
 
 void GameManager::MainMenu()
 {
@@ -250,53 +250,18 @@ void GameManager::MainMenu()
 	scr.y = 0;
 	scr.w = 1280;
 	scr.h = 720;
-	GameObject bg;
-	SDL_RenderClear(renderer);
-	bg.loadResource("../Resources/Background/menu.png", scr);
-	bg.Draw();
-	SDL_RenderPresent(renderer);
+	GameObject background;
+	background.loadResource("../Resources/Background/menu.png", scr);
 
 	if (inputManager->KeyNonRepeat(SDL_SCANCODE_DOWN))
 	{
 		if (--selection < 0)
 			selection = 3;
-
-		switch (selection)
-		{
-		case 0:
-			std::cout << "Play." << std::endl;
-			break;
-		case 1:
-			std::cout << "Options." << std::endl;
-			break;
-		case 2:
-			std::cout << "Highscore." << std::endl;
-			break;
-		case 3:
-			std::cout << "Exit." << std::endl;
-			break;
-		}
 	}
 	else if (inputManager->KeyNonRepeat(SDL_SCANCODE_UP))
 	{
 		if (++selection > 3)
 			selection = 0;
-
-		switch (selection)
-		{
-		case 0:
-			std::cout << "Play." << std::endl;
-			break;
-		case 1:
-			std::cout << "Options." << std::endl;
-			break;
-		case 2:
-			std::cout << "Highscore." << std::endl;
-			break;
-		case 3:
-			std::cout << "Exit." << std::endl;
-			break;
-		}
 	}
 
 	if (inputManager->KeyDown(SDL_SCANCODE_RETURN))
@@ -317,7 +282,10 @@ void GameManager::MainMenu()
 			break;
 		}
 	}
-	//SDL_Delay(15);
+
+	SDL_RenderClear(renderer);
+	background.Draw();
+	SDL_RenderPresent(renderer);
 }
 void GameManager::Options()
 {

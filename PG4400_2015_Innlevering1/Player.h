@@ -1,8 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Paddle.h"
 #include "InputManager.h"
+#include "GameObject.h"
 
 class Player : public GameObject
 {

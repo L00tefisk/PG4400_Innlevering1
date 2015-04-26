@@ -104,7 +104,7 @@ std::vector<Brick> &Level::getMap()
 bool Level::hasBrick(const SDL_Rect& b)
 {
 	SDL_Rect tempRect;
-	for (int i = 0; i < map.size(); i++)
+	for (unsigned int i = 0; i < map.size(); i++)
 	{
 		tempRect = map.at(i).getRectangle();
 		if (b.x > tempRect.x + tempRect.w ||
@@ -120,10 +120,10 @@ bool Level::hasBrick(const SDL_Rect& b)
 void Level::draw()
 {
 	background.Draw();
-	for (int i = 0; i < map.size(); i++)
+	for (unsigned int i = 0; i < map.size(); i++)
 		map.at(i).Draw();
 
-	for (int i = 0; i < pMap.size(); i++)
+	for (unsigned int i = 0; i < pMap.size(); i++)
 		pMap[i].Draw();
 
 
