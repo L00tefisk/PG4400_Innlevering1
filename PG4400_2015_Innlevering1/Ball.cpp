@@ -5,9 +5,7 @@
 #include "PowerUp.h"
 
 bool Ball::powMagnet; // How does it work?
-bool Ball::powSpeedUp;
-bool Ball::powSpeedDown;
-bool Ball::powSuperBall;
+bool Ball::powSuperball;
 std::vector<Ball>& Ball::balls = GameManager::balls;
 Ball::Ball()
 {
@@ -35,9 +33,7 @@ void Ball::Init()
 void Ball::Reset()
 {
 	powMagnet = false; // How does it work?
-	powSpeedUp = false;
-	powSpeedDown = false;
-	powSuperBall = false;
+	powSuperball = false;
 }
 
 void Ball::AddBall(bool onPaddle)
@@ -74,7 +70,6 @@ void Ball::ApplyPowerUp(int powType)
 	{
 	case PowerUp::powerType::Magnet:
 		powMagnet = true;
-		
 		break;
 	case PowerUp::powerType::Rush:
 		for(Ball &b : balls)
@@ -102,10 +97,20 @@ void Ball::ApplyPowerUp(int powType)
 		}
 		break;
 	case PowerUp::powerType::Super:
-		powSuperBall = true;
+		powSuperball = true;
 		break;
 	}
 }
+
+bool Ball::isPowerUpActive(int type)
+{
+	if (type == PowerUp::powerType::Super)
+		return powSuperball;
+	else if (type == PowerUp::powerType::Magnet)
+		return powMagnet;
+	return false;
+}
+
 void Ball::ResolveCollision(Vector2D &overlapVector)
 {
 	Vector2D normalizedVector = overlapVector.getNormalizedVector();

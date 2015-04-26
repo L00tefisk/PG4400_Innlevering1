@@ -17,21 +17,20 @@ public:
 	static void Reset();
 	static void AddBall(bool onPaddle);
 	static void ApplyPowerUp(int powType);
+	static bool isPowerUpActive(int powType);
 
 	float ySpeed;
 	float xSpeed;
 
-	// Powerup flags
-	static bool powMagnet; // How does it work?
-	static bool powSpeedUp;
-	static bool powSpeedDown;
-	static bool powSuperBall;
 
 	bool onPaddle;
 	int relativeHitPositionX;
 private:
 	Ball();
 
+	// Powerup flags
+	static bool	powMagnet;
+	static bool powSuperball;
 
 	static std::vector<Ball>& balls;
 

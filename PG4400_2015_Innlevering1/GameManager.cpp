@@ -163,7 +163,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 						ball.xSpeed = ((ball.getCenter().x - GameManager::player.getCenter().x) / GameManager::player.getRectangle().w ) * 1000;
 					}
 
-					if(ball.powMagnet)
+					if(ball.isPowerUpActive(PowerUp::powerType::Magnet))
 						ball.onPaddle = true;
 				}
 
@@ -173,7 +173,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 					overlapVector = ball.Collide(b);
 					if (overlapVector.magnitude() != 0)
 					{
-						if(!ball.powSuperBall)
+						if (!ball.isPowerUpActive(PowerUp::powerType::Super))
 						{
 							normalizedVector = overlapVector.getNormalizedVector();
 							if(abs(normalizedVector.x) < abs(normalizedVector.y))
