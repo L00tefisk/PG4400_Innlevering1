@@ -15,7 +15,7 @@ PowerUp::PowerUp(const powerType &type, const SDL_Rect &spawnBox)
 	rect.x = spawnBox.x + spawnBox.w / 2 - rect.w / 2;
 	rect.y = spawnBox.y + spawnBox.h / 2 - rect.h / 2;
 
-	if (type >= 5)
+	if (type >= 4)
 		loadResource("../Resources/Power ups/bg_bad.png", rect);
 	else
 		loadResource("../Resources/Power ups/bg_good.png", rect);
@@ -28,9 +28,6 @@ PowerUp::PowerUp(const powerType &type, const SDL_Rect &spawnBox)
 			break;
 		case Slow:
 			loadResource("../Resources/Power ups/slow.png", rect);
-			break;
-		case Rocket:
-			loadResource("../Resources/Power ups/rocket.png", rect);
 			break;
 		case Magnet:
 			loadResource("../Resources/Power ups/magnet.png", rect);
