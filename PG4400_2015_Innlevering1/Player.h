@@ -12,7 +12,8 @@ public:
 	~Player();
 
 	void Init() override;
-	void Update(const double& dt) override;
+	void Reset();
+	void Update(const double dt) override;
 	void ApplyPowerUp(int powType);
 
 	int lives;

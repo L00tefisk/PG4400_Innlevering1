@@ -7,8 +7,8 @@ std::vector<Ball> GameManager::balls;
 
 GameManager::GameManager(SDL_Window *window, SDL_Renderer *renderer)
 {
-	this->window = window;
-	this->renderer = renderer;
+	GameManager::window = window;
+	GameManager::renderer = renderer;
 
 	logicTimer = Timer((1 / 60.0) * 1000); // multiplied by 1000 because we want it in milliseconds
 	drawTimer = Timer((1 / 60.0) * 1000);
@@ -18,18 +18,21 @@ GameManager::GameManager(SDL_Window *window, SDL_Renderer *renderer)
 	eventHandler = EventHandler::GetInstance();
 	inputManager = InputManager::GetInstance();
 
-
+	SDL_Rect scr;
+	scr.x = 0;
+	scr.y = 0;
+	scr.w = 1280;
+	scr.h = 720;
+	menu.loadResource("../Resources/Background/menu.png", scr);
+	gameOver.loadResource("../Resources/Background/gameover.png", scr);
 	gameState = MAINMENU;
 };
+
 GameManager::~GameManager()
 {
 
 };
 
-void GameManager::Init()
-{
-
-}
 const SDL_Rect& GameManager::GetWindowRectangle()
 {
 	int w, h;
@@ -65,19 +68,16 @@ void GameManager::Run()
 		case PLAY:
 			
 			if (!Play(logicTimer.updateRate, "../Resources/Levels/tomas"))
-				gameState = MAINMENU;
+				gameState = GAMEOVER;
 			else if (!Play(logicTimer.updateRate, "../Resources/Levels/park"))
-				gameState = MAINMENU;
+				gameState = GAMEOVER;
 			else if (!Play(logicTimer.updateRate, "../Resources/Levels/tomas")) // <3
+				gameState = GAMEOVER;
+			else
 				gameState = MAINMENU;
-
-			gameState = MAINMENU;
 			break;
-		case OPTIONS:
-			Options();
-			break;
-		case HIGHSCORES:
-			Highscores();
+		case GAMEOVER:
+			GameOver();
 			break;
 		case EXIT:
 			run = false;
@@ -87,7 +87,7 @@ void GameManager::Run()
 	}
 }
 
-void GameManager::SetupGame(std::string levelName)
+void GameManager::SetupGame(const std::string& levelName)
 {
 	level.loadLevel(levelName.c_str());
 	player.Init();
@@ -108,9 +108,10 @@ bool GameManager::Play(const double dt, std::string levelName)
 	{
 		if (level.isDone())
 		{
-			level.pMap.clear();
+			powMap.clear();
 			level.getMap().clear();
 			balls.clear();
+			
 			return true;
 		}
 
@@ -121,9 +122,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 		eventHandler->update();
 
 		if (inputManager->KeyDown(SDL_SCANCODE_Q))
-		{
 			break;
-		}
 
 		if (inputManager->getMouseButton(1))
 		{
@@ -135,11 +134,9 @@ bool GameManager::Play(const double dt, std::string levelName)
 		{
 			logicTimer.accumulator -= logicTimer.updateRate;
 			
-
 			player.Update(logicTimer.updateRate);
 			const SDL_Rect& paddle = player.getRectangle();
 			
-
 			for (unsigned int i = 0; i < balls.size(); i++)
 			{
 				Ball &ball = balls[i];
@@ -154,12 +151,13 @@ bool GameManager::Play(const double dt, std::string levelName)
 					normalizedVector = overlapVector.getNormalizedVector();
 					ball.relativeHitPositionX = ballRect.x - paddle.x;
 					ball.ResolveCollision(overlapVector);
-					float mod = ((ball.centerX - paddle.x - paddle.w / 2) / paddle.w) * 1000;
+					Vector2D ballCenter = ball.getCenter();
+
 					
 					if (abs(normalizedVector.x) > abs(normalizedVector.y))
 					{
-						ball.ySpeed = -ball.ySpeed;
-						ball.xSpeed = mod;
+						ball.ySpeed *= -1;
+						ball.xSpeed = ((ball.getCenter().x - GameManager::player.getCenter().x) / GameManager::player.getRectangle().w ) * 1000;
 					}
 					if(ball.magnet)
 						ball.onPaddle = true;
@@ -171,20 +169,22 @@ bool GameManager::Play(const double dt, std::string levelName)
 					overlapVector = ball.Collide(b);
 					if (overlapVector.magnitude() != 0)
 					{
-						if(!ball.superBall) {
+						if(!ball.superBall)
+						{
 							normalizedVector = overlapVector.getNormalizedVector();
 							if(abs(normalizedVector.x) < abs(normalizedVector.y))
-								ball.xSpeed = -ball.xSpeed;
+								ball.xSpeed *= -1;
 							else
-								ball.ySpeed = -ball.ySpeed;
+								ball.ySpeed *= -1;
 
 							ball.ResolveCollision(overlapVector);
 						}
 						if (b.Crack())
 						{
-							if(rand() % 5 == 1) {
+							if(rand() % 5 == 1) 
+							{
 								PowerUp pow(static_cast<PowerUp::powerType>(rand() % 8), b.getRectangle());
-								level.spawnPowerUp(pow);
+								powMap.push_back(pow);
 							}
 							level.RemoveBrick(b);
 						}
@@ -207,26 +207,24 @@ bool GameManager::Play(const double dt, std::string levelName)
 				}
 			}
 
-			for (auto it = level.pMap.begin(); it != level.pMap.end();)
+			for (auto it = powMap.begin(); it != powMap.end();)
 			{
 				it->Update(dt / 1000);
 				if (it->getRectangle().y > 800)
-					it = level.pMap.erase(it);
+					it = powMap.erase(it);
 				else
 				{
 					overlapVector = it->Collide(player);
 					if (overlapVector.magnitude() != 0)
 					{
 						player.ApplyPowerUp(it->type);
-						it = level.pMap.erase(it);
+						it = powMap.erase(it);
 					}
 					else
 						it++;
 				}
 			}
-
 			draw = true;
-
 		}
 
 		if (draw)
@@ -240,10 +238,13 @@ bool GameManager::Play(const double dt, std::string levelName)
 			for (Ball &ball : balls)
 				ball.Draw();
 
+			for (PowerUp &pow : powMap)
+				pow.Draw();
+
 			SDL_RenderPresent(renderer);
 		}
 	}
-	level.pMap.clear();
+	powMap.clear();
 	level.getMap().clear();
 	balls.clear();
 	return false;
@@ -254,13 +255,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 
 void GameManager::MainMenu()
 {
-	SDL_Rect scr;
-	scr.x = 0;
-	scr.y = 0;
-	scr.w = 1280;
-	scr.h = 720;
-	GameObject background;
-	background.loadResource("../Resources/Background/menu.png", scr);
+
 
 	if (inputManager->KeyNonRepeat(SDL_SCANCODE_DOWN))
 	{
@@ -293,22 +288,15 @@ void GameManager::MainMenu()
 	}
 
 	SDL_RenderClear(renderer);
-	background.Draw();
+	menu.Draw();
 	SDL_RenderPresent(renderer);
 }
-void GameManager::Options()
-{
-	// if back
-	 // mainmenu
-	// if other shit
-	 // mess with other shit
-}
-void GameManager::Highscores()
-{
-	// Draw highscores
-}
 
-void GameManager::ChangeLevel()
+void GameManager::GameOver()
 {
-	balls.clear();
+	if (inputManager->KeyDown(SDL_SCANCODE_RETURN))
+		gameState = MAINMENU;
+	SDL_RenderClear(renderer);
+	gameOver.Draw();
+	SDL_RenderPresent(renderer);
 }

@@ -15,11 +15,7 @@ Brick::Brick(int x, int y, int w, int h, unsigned short type)
 	brickType = type;
 	hp = 1;
 }
-Brick::Brick(const SDL_Rect& rect, unsigned short type) : 
-Brick(rect.x, rect.y, rect.w, rect.h, type)
-{
 
-}
 Brick::~Brick()
 {
 

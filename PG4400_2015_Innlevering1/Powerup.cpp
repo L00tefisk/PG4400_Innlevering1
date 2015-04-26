@@ -55,7 +55,7 @@ PowerUp::PowerUp(const powerType &type, const SDL_Rect &spawnBox)
 PowerUp::~PowerUp () {
 
 }
-void PowerUp::Update(const double& dt)
+void PowerUp::Update(const double dt)
 {
 	//if(rect.y > 720)//GameManager::WindowHeight)
 	rect.y += 400 * dt;

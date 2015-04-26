@@ -15,13 +15,13 @@ void GameObject::Init()
 {
 	// Intentionally left blank.
 }
-void GameObject::Draw()
+void GameObject::Draw() 
 {
 	for (int i = 0; i < textureIDList.size(); i++)
 		SDL_RenderCopy(renderer, textureList[textureIDList[i]], NULL, &drawList[textureIDList[i]]);
 }
 
-void GameObject::Update(const double& dt)
+void GameObject::Update(const double dt)
 {
 	// Intentionally left blank.
 }
@@ -69,7 +69,10 @@ const SDL_Rect& GameObject::getRectangle() const
 {
 	return rect;
 }
-
+Vector2D GameObject::getCenter() const
+{
+	return Vector2D(centerX, centerY);
+}
 void GameObject::setRectangle(const SDL_Rect& rect)
 {
 	this->rect = rect;

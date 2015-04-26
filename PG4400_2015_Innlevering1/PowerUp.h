@@ -23,7 +23,7 @@ public:
 
 	
 	virtual ~PowerUp();
-	virtual void Update(const double& dt) override;
+	virtual void Update(const double dt) override;
 	powerType type;
 
 protected:

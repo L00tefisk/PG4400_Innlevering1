@@ -38,15 +38,19 @@ void Player::Init()
 	loadResource("../Resources/Bats/paddle1r.png", rRect);
 	lives = 3;
 }
-void Player::Update(const double& dt)
+
+void Player::Update(const double dt)
 {
 	rect.x = inputManager->getMouseX() - (rect.w / 2); // -paddle.rect.w / 2;
+	centerX = rect.x + (rect.w / 2);
+	centerY = rect.y + (rect.h / 2);
 
 	mRect.w = rect.w - lRect.w - rRect.w;
 
 	lRect.x = rect.x;
 	mRect.x = lRect.x + lRect.w;
 	rRect.x = mRect.x + mRect.w;
+
 	drawList[textureIDList[0]] = lRect;
 	drawList[textureIDList[1]] = mRect;
 	drawList[textureIDList[2]] = rRect;

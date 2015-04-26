@@ -5,8 +5,6 @@
 Level::Level()
 {
 	indestructibleBricksCount = 0;
-
-
 	background.loadResource("../Resources/Background/background0008.png", GameManager::GetWindowRectangle());
 }
 
@@ -32,11 +30,6 @@ void Level::RemoveBrick(const Brick &b)
 			return;
 		}
 	}
-}
-
-void Level::spawnPowerUp(const PowerUp& pow)
-{
-	pMap.push_back(pow);
 }
 
 void Level::loadLevel(std::string level)
@@ -87,10 +80,8 @@ void Level::loadLevel(std::string level)
 			rect.y = y;
 			rect.w = w;
 			rect.h = h;
-			Brick b(rect, type);
+			Brick b(rect.x, rect.y, rect.w, rect.h, type);
 			b.loadResource(resourcesInUse[textureID], rect);
-			b.centerX = rect.x + (rect.w / 2);
-			b.centerY = rect.y + (rect.h / 2);
 
 			AddBrick(b);
 		}
@@ -129,10 +120,6 @@ void Level::draw()
 	background.Draw();
 	for (unsigned int i = 0; i < map.size(); i++)
 		map.at(i).Draw();
-
-	for (unsigned int i = 0; i < pMap.size(); i++)
-		pMap[i].Draw();
-
 
 }
 

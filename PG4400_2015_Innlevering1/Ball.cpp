@@ -32,6 +32,14 @@ void Ball::Init()
 	relativeHitPositionX = 80;
 }
 
+void Ball::Reset()
+{
+	magnet = false; // How does it work?
+	speedUp = false;
+	speedDown = false;
+	superBall = false;
+}
+
 void Ball::AddBall(bool onPaddle)
 {
 	Ball b;
@@ -40,7 +48,7 @@ void Ball::AddBall(bool onPaddle)
 	balls.push_back(b);
 }
 
-void Ball::Update(const double &dt) 
+void Ball::Update(const double dt) 
 {
 	
 	if (onPaddle)
@@ -66,6 +74,7 @@ void Ball::ApplyPowerUp(int powType)
 	{
 	case PowerUp::powerType::Magnet:
 		magnet = true;
+		
 		break;
 	case PowerUp::powerType::Rush:
 		for(Ball &b : balls)
@@ -112,7 +121,7 @@ void Ball::Fire()
 		return;
 
 	onPaddle = false;
-	xSpeed = ((centerX - GameManager::player.getRectangle().x - GameManager::player.getRectangle().w / 2) / GameManager::player.getRectangle().w);
+	xSpeed = ((centerX - GameManager::player.getCenter().x) / GameManager::player.getRectangle().w);
 	ySpeed = -400;
 }
 

@@ -21,7 +21,6 @@ int main(int argc, char* argv[])
 	
 	SDL_ShowCursor(false);
 
-	GameManager.Init();
 	GameManager.Run();
 	
 	TTF_Quit();

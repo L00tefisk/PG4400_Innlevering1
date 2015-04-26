@@ -15,8 +15,7 @@ enum Gamestate
 {
 	MAINMENU,
 	PLAY,
-	OPTIONS,
-	HIGHSCORES,
+	GAMEOVER,
 	EXIT
 };
 
@@ -29,17 +28,15 @@ public:
 	int WindowWidth;
 	int WindowHeight;
 
-	GameManager(SDL_Window *window, SDL_Renderer *renderer);
+	GameManager(SDL_Window* window, SDL_Renderer* renderer);
 	~GameManager();
-	void Init();
 	void Run();
 
-	void SetupGame(std::string nextLevel);
+	void SetupGame(const std::string& nextLevel);
 	bool Play(const double dt, std::string levelName);
 	void MainMenu();
-	void Options();
-	void Highscores();
-	void ChangeLevel();
+	void GameOver();
+
 
 	static const SDL_Rect& GetWindowRectangle();
 
@@ -57,9 +54,13 @@ private:
 	std::shared_ptr<InputManager> inputManager;
 	bool run;
 
+	GameObject menu;
+	GameObject gameOver;
+
 protected:
 	static Player player;
 	static std::vector<Ball> balls;
+	std::vector<PowerUp> powMap;
 };
 
 #endif
