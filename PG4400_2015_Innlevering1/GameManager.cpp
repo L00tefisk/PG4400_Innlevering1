@@ -62,7 +62,7 @@ void GameManager::Run()
 	{
 		eventHandler->update();
 
-		if (eventHandler->quit)
+		if (eventHandler->quit || inputManager->KeyDown(SDL_SCANCODE_Q))
 			run = false;
 
 		switch (gameState)
@@ -71,13 +71,15 @@ void GameManager::Run()
 			MainMenu();
 			break;
 		case PLAY:
+			
 			if (!Play(logicTimer.updateRate, "test"))
-				break;
+				gameState = MAINMENU;
 			else if (!Play(logicTimer.updateRate, "test"))
-				break;
+				gameState = MAINMENU;
 			else if (!Play(logicTimer.updateRate, "test"))
-				break;
-			run = false;
+				gameState = MAINMENU;
+
+			gameState = MAINMENU;
 			break;
 		case OPTIONS:
 			Options();
@@ -98,21 +100,27 @@ bool GameManager::Play(const double dt, std::string levelName)
 	SetupGame(levelName);
 	bool draw = false;
 	std::vector<Brick> &map = level.getMap();
+	Vector2D overlapVector;
+	Vector2D normalizedVector;
+	SDL_Rect ballRect;
 
 	while (true)
 	{
 		if (level.isDone())
 			return true;
+
 		if (player.lives == 0)
 			return false;
 
 		logicTimer.Update();
 		eventHandler->update();
+
 		if (inputManager->KeyDown(SDL_SCANCODE_Q))
 		{
 			run = false;
 			return false;
 		}
+
 		if (inputManager->getMouseButton(1))
 		{
 			for (Ball &ball : balls)
@@ -121,16 +129,16 @@ bool GameManager::Play(const double dt, std::string levelName)
 
 		while (logicTimer.accumulator >= logicTimer.updateRate)
 		{
+
 			logicTimer.accumulator -= logicTimer.updateRate;
+			
 			if (logicTimer.accumulator > logicTimer.updateRate * 3)
 				logicTimer.accumulator = 0;
 
 			player.Update(logicTimer.updateRate);
 			const SDL_Rect& paddle = player.getRectangle();
 			
-			Vector2D overlapVector;
-			Vector2D normalizedVector;
-			SDL_Rect ballRect;
+
 			for (int i = 0; i < balls.size(); i++)
 			{
 				Ball &ball = balls[i];
@@ -185,6 +193,11 @@ bool GameManager::Play(const double dt, std::string levelName)
 				else if (ballRect.y >= 720)
 				{
 					balls.erase(balls.begin() + i);
+					if (balls.size() == 0)
+					{
+						player.lives--;
+						Ball::AddBall(true);
+					}
 				}
 			}
 
