@@ -25,7 +25,7 @@ void Drawable::Init(SDL_Renderer *rend)
 void Drawable::loadResource(const std::string &path, const SDL_Rect& target)
 {
 	// search if the resource we want is already loaded
-	for (int i = 0; i < loadedResources.size(); i++)
+	for (unsigned int i = 0; i < loadedResources.size(); i++)
 	{
 		if (loadedResources[i] == path)
 		{

@@ -13,19 +13,18 @@ class InputManager
 {
 public:
 	static std::shared_ptr<InputManager> GetInstance();
-	bool KeyDown(int key);
+	bool KeyDown(int key) const;
 	bool KeyNonRepeat(int key);
-	int getMouseX();
-	int getMouseY();
-	bool getMouseButton(int button);
+	int getMouseX() const;
+	int getMouseY() const;
+	bool getMouseButton(int button) const;
 
 	void update(SDL_Event &ev);
+
 private:
 	InputManager();
 	bool handleKeyboardEvent(SDL_Event &ev);
 	bool handleMouseEvent(SDL_Event &ev);
-	bool handleJoystickEvent(SDL_Event &ev);
-
 	static std::shared_ptr<InputManager> instance;
 
 	// Keyboard variables

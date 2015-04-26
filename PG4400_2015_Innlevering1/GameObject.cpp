@@ -17,7 +17,7 @@ void GameObject::Init()
 }
 void GameObject::Draw() 
 {
-	for (int i = 0; i < textureIDList.size(); i++)
+	for (unsigned int i = 0; i < textureIDList.size(); i++)
 		SDL_RenderCopy(renderer, textureList[textureIDList[i]], NULL, &drawList[textureIDList[i]]);
 }
 

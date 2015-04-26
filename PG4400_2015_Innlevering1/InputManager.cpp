@@ -12,17 +12,17 @@ std::shared_ptr<InputManager> InputManager::GetInstance()
 void InputManager::update(SDL_Event &ev)
 {
 	// Doing it this way prevents unnecessary if statements.
-	if (!handleKeyboardEvent(ev))
-		if (!handleMouseEvent(ev))
-			handleJoystickEvent(ev);	
+	handleKeyboardEvent(ev);
+	handleMouseEvent(ev);
+
 }
-bool InputManager::KeyDown(int key)
+bool InputManager::KeyDown(int key) const
 {
 	return keys[key];
 }
 bool InputManager::KeyNonRepeat(int key)
 {
-	for (int i = 0; i < previouslyCheckedKeys.size(); i++)
+	for (unsigned int i = 0; i < previouslyCheckedKeys.size(); i++)
 		if (key == previouslyCheckedKeys[i])
 			return false;
 	
@@ -32,15 +32,15 @@ bool InputManager::KeyNonRepeat(int key)
 	return keys[key];
 
 }
-int InputManager::getMouseX()
+int InputManager::getMouseX() const
 {
 	return x;
 }
-int InputManager::getMouseY()
+int InputManager::getMouseY() const
 {
 	return y;
 }
-bool InputManager::getMouseButton(int button)
+bool InputManager::getMouseButton(int button) const
 {
 	return buttons[button];
 }
@@ -106,10 +106,5 @@ bool InputManager::handleMouseEvent(SDL_Event &ev)
 	{
 		buttons[ev.button.button] = false;
 	}
-	return true;
-}
-bool InputManager::handleJoystickEvent(SDL_Event &ev)
-{
-	// Not implemented yet
 	return true;
 }
