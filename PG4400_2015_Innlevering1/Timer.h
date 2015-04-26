@@ -10,12 +10,12 @@ public:
 	Timer(double updateRate);
 	void Update();
 
+	Uint32 updateRate;
+	Uint32 accumulator;
+private:
 	Uint32 time;
 	Uint32 previousTime;
 	Uint32 dt;
-	double updateRate;
-	double accumulator;
-private:
-
+	
 };
 #endif

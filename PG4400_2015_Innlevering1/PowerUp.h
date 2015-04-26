@@ -21,7 +21,6 @@ public:
 	PowerUp();
 	PowerUp(const powerType &type, const SDL_Rect&);
 
-	
 	virtual ~PowerUp();
 	virtual void Update(const double dt) override;
 	powerType type;

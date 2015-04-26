@@ -15,7 +15,9 @@ public:
 
 	virtual ~Brick();
 	bool Crack();
-
+	void DestroyBrick();
+	unsigned short getHP() const;
+	unsigned short getBrickType() const;
 private:
 	unsigned short hp;
 	unsigned short brickType;

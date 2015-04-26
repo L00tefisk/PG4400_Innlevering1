@@ -13,7 +13,11 @@ Brick::Brick(int x, int y, int w, int h, unsigned short type)
 	centerX = x + (w / 2);
 	centerY = y + (h / 2);
 	brickType = type;
-	hp = 1;
+	if (brickType == 2)
+		hp = 90;
+	else 
+		hp = 1;
+	
 }
 
 Brick::~Brick()
@@ -21,15 +25,22 @@ Brick::~Brick()
 
 }
 
-
+void Brick::DestroyBrick()
+{
+	hp = 0;
+}
 
 bool Brick::Crack()
 {
-	if (brickType != 2)
-	{
-		return --hp == 0;
-	}
-
-	return false;
+	return --hp == 0;
 }
 
+unsigned short Brick::getHP() const
+{
+	return hp;
+}
+
+unsigned short Brick::getBrickType() const
+{
+	return brickType;
+}

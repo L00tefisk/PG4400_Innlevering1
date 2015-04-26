@@ -70,7 +70,7 @@ void GameManager::Run()
 			
 			if (!Play(logicTimer.updateRate, "../Resources/Levels/park"))
 				gameState = GAMEOVER;
-			else if (!Play(logicTimer.updateRate, "../Resources/Levels/park"))
+			else if (!Play(logicTimer.updateRate, "../Resources/Levels/sunset"))
 				gameState = GAMEOVER;
 			else if (!Play(logicTimer.updateRate, "../Resources/Levels/tomas")) // <3
 				gameState = GAMEOVER;
@@ -113,7 +113,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 			powMap.clear();
 			level.getMap().clear();
 			balls.clear();
-			
+			Ball::Reset();
 			return true;
 		}
 
@@ -183,24 +183,41 @@ bool GameManager::Play(const double dt, std::string levelName)
 
 							ball.ResolveCollision(overlapVector);
 						}
-						if (b.Crack())
+						if (b.Crack() || ball.isPowerUpActive(PowerUp::powerType::Super))
 						{
 							if(rand() % 5 == 1) 
 							{
 								PowerUp pow(static_cast<PowerUp::powerType>(rand() % 8), b.getRectangle());
 								powMap.push_back(pow);
 							}
-							level.RemoveBrick(b);
+							
+							if (b.getHP() <= 0 || ball.isPowerUpActive(PowerUp::powerType::Super))
+							{
+								level.RemoveBrick(b);
+								break;
+							}
 						}
-						break;
+						
 					}
+					
 				}
 
 				// Check against the sides of the screen
-				if (ballRect.x < 0 || ballRect.x + ballRect.w > 1280)
+				if (ballRect.x < 0)
+				{
+					ballRect.x = 0;
 					ball.xSpeed *= -1;
+				}
+				else if (ballRect.x + ballRect.w > GameManager::GetWindowRectangle().w)
+				{
+					ballRect.x = GameManager::GetWindowRectangle().w - ballRect.w;
+					ball.xSpeed *= -1;
+				}
 				else if (ballRect.y < 0)
+				{
+					ballRect.y = 0;
 					ball.ySpeed *= -1;
+				}
 				else if (ballRect.y >= 720)
 				{
 					balls.erase(balls.begin() + i);
@@ -211,6 +228,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 						Ball::Reset();
 					}
 				}
+				ball.setRectangle(ballRect);
 			}
 
 			// Check against any spawned powerup
@@ -255,6 +273,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 	powMap.clear();
 	level.getMap().clear();
 	balls.clear();
+	Ball::Reset();
 	return false;
 }
 

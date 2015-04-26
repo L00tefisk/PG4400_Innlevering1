@@ -38,7 +38,9 @@ public:
 	static const SDL_Rect& GetWindowRectangle();
 
 private:
+	bool run;
 	int selection;
+	unsigned short gameState;
 	static SDL_Window *window;
 	static SDL_Renderer *renderer;
 
@@ -46,13 +48,13 @@ private:
 	Timer logicTimer;
 	Timer drawTimer;
 
-	unsigned short gameState;
-	std::shared_ptr<EventHandler> eventHandler;
-	std::shared_ptr<InputManager> inputManager;
-	bool run;
-
+	// Only used for drawing the menu and game screens
 	GameObject menu;
 	GameObject gameOver;
+
+	std::shared_ptr<EventHandler> eventHandler;
+	std::shared_ptr<InputManager> inputManager;
+
 
 protected:
 	static Player player;

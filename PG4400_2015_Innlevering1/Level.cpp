@@ -26,6 +26,8 @@ void Level::RemoveBrick(const Brick &b)
 		if (brickRect.x >= rect.x && brickRect.x < rect.x + rect.w &&
 			brickRect.y >= rect.y && brickRect.y < rect.y + rect.h)
 		{
+			if (b.getBrickType() == 2)
+				indestructibleBricksCount--;
 			map.erase(it);
 			return;
 		}

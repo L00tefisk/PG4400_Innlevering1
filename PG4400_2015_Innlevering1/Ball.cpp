@@ -56,10 +56,9 @@ void Ball::Update(const double dt)
 	{
 		rect.x += xSpeed * dt;
 		rect.y += ySpeed * dt;
-		centerX = rect.x + (rect.w / 2);
-		centerY = rect.y + (rect.h / 2);
-		
 	}
+	centerX = rect.x + (rect.w / 2);
+	centerY = rect.y + (rect.h / 2);
 	drawList[textureIDList[0]] = rect;
 }
 
@@ -127,7 +126,7 @@ void Ball::Fire()
 
 	onPaddle = false;
 	// mulitiplied by 100 because that seems to be a decent speed.
-	xSpeed = ((centerX - GameManager::player.getCenter().x) / GameManager::player.getRectangle().w) * 100;
+	xSpeed = ((centerX - GameManager::player.getCenter().x) / GameManager::player.getRectangle().w) * 1000;
 	ySpeed = -400;
 }
 
