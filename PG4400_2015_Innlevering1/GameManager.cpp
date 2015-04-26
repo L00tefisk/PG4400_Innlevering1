@@ -245,6 +245,17 @@ int selection = 0;
 
 void GameManager::MainMenu()
 {
+	SDL_Rect scr;
+	scr.x = 0;
+	scr.y = 0;
+	scr.w = 1280;
+	scr.h = 720;
+	GameObject bg;
+	SDL_RenderClear(renderer);
+	bg.loadResource("../Resources/Background/menu.png", scr);
+	bg.Draw();
+	SDL_RenderPresent(renderer);
+
 	if (inputManager->KeyNonRepeat(SDL_SCANCODE_DOWN))
 	{
 		if (--selection < 0)
