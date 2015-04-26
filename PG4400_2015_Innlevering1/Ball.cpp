@@ -29,6 +29,7 @@ void Ball::Init()
 	xSpeed = rand() % 800 - 400;
 	ySpeed = rand() % 800 - 400;
 	loadResource("../Resources/Balls/ball0001.png", rect);
+	relativeHitPositionX = 80;
 }
 
 void Ball::AddBall(bool onPaddle)
@@ -41,11 +42,11 @@ void Ball::AddBall(bool onPaddle)
 
 void Ball::Update(const double &dt) 
 {
-
+	
 	if (onPaddle)
 	{
-		rect.y = GameManager::player.getRectangle().y - rect.h;
-		rect.x = InputManager::GetInstance()->getMouseX();
+		rect.y = GameManager::player.getRectangle().y - rect.h - 1;
+		rect.x = GameManager::player.getRectangle().x + relativeHitPositionX;
 	}
 	else
 	{
@@ -67,12 +68,12 @@ void Ball::ApplyPowerUp(int powType)
 		magnet = true;
 		break;
 	case PowerUp::powerType::Rush:
-		//for(Ball b : balls)
-		//	b.ySpeed *= 1.2;
+		for(Ball &b : balls)
+			b.ySpeed *= 1.2;
 		break;
 	case PowerUp::powerType::Slow:
-		//for(Ball b : balls)
-		//	b.ySpeed *= 0.8;
+		for(Ball &b : balls)
+			b.ySpeed *= 0.8;
 		break;
 	case PowerUp::powerType::Split:
 		for (int i = 0; i < size && balls.size() < 100; i++)
@@ -84,6 +85,7 @@ void Ball::ApplyPowerUp(int powType)
 			balls[balls.size() - 1].rect = balls[i].rect;
 			balls[balls.size() - 1].xSpeed = balls[i].ySpeed;
 			balls[balls.size() - 1].ySpeed = -balls[i].xSpeed;
+			
 			AddBall(false);
 			balls[balls.size() - 1].rect = balls[i].rect;
 			balls[balls.size() - 1].xSpeed = -balls[i].ySpeed;
@@ -98,7 +100,6 @@ void Ball::ApplyPowerUp(int powType)
 void Ball::ResolveCollision(Vector2D &overlapVector)
 {
 	Vector2D normalizedVector = overlapVector.getNormalizedVector();
-
 	if (abs(overlapVector.x) < abs(overlapVector.y))
 		rect.x += overlapVector.x;
 	else
@@ -111,7 +112,7 @@ void Ball::Fire()
 		return;
 
 	onPaddle = false;
-	xSpeed = 400;
+	xSpeed = ((centerX - GameManager::player.getRectangle().x - GameManager::player.getRectangle().w / 2) / GameManager::player.getRectangle().w);
 	ySpeed = -400;
 }
 

@@ -152,9 +152,8 @@ bool GameManager::Play(const double dt, std::string levelName)
 				if (overlapVector.magnitude() != 0)
 				{
 					normalizedVector = overlapVector.getNormalizedVector();
-					
+					ball.relativeHitPositionX = ballRect.x - paddle.x;
 					ball.ResolveCollision(overlapVector);
-					
 					float mod = ((ball.centerX - paddle.x - paddle.w / 2) / paddle.w) * 1000;
 					
 					if (abs(normalizedVector.x) > abs(normalizedVector.y))
