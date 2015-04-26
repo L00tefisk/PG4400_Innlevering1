@@ -17,9 +17,10 @@ public:
 
 	void AddBrick(const Brick& b)
 	{
-		for (const Brick& brick : map) {
+		for(const Brick& brick : map) {
 			if(brick == b) {
 				RemoveBrick(brick.rect.x, brick.rect.y);
+				break;
 			}
 		}
 		std::cout << "Added brick at (" << b.rect.x << "," << b.rect.y << ")" << std::endl;
