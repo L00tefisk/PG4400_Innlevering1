@@ -162,6 +162,8 @@ bool GameManager::Play(const double dt, std::string levelName)
 						ball.ySpeed = -ball.ySpeed;
 						ball.xSpeed = mod;
 					}
+					if(ball.magnet)
+						ball.onPaddle = true;
 				}
 
 				// Is it colliding with any of the bricks?
@@ -170,14 +172,15 @@ bool GameManager::Play(const double dt, std::string levelName)
 					overlapVector = ball.Collide(b);
 					if (overlapVector.magnitude() != 0)
 					{
-						normalizedVector = overlapVector.getNormalizedVector();
-						if (abs(normalizedVector.x) < abs(normalizedVector.y))
-							ball.xSpeed = -ball.xSpeed;
-						else
-							ball.ySpeed = -ball.ySpeed;
+						if(!ball.superBall) {
+							normalizedVector = overlapVector.getNormalizedVector();
+							if(abs(normalizedVector.x) < abs(normalizedVector.y))
+								ball.xSpeed = -ball.xSpeed;
+							else
+								ball.ySpeed = -ball.ySpeed;
 
-						ball.ResolveCollision(overlapVector);
-
+							ball.ResolveCollision(overlapVector);
+						}
 						if (b.Crack())
 						{
 							PowerUp pow(static_cast<PowerUp::powerType>(rand() % 9), b.getRectangle());

@@ -20,18 +20,20 @@ public:
 
 	float ySpeed;
 	float xSpeed;
-	
+
+	static bool magnet; // How does it work?
+	static bool speedUp;
+	static bool speedDown;
+	static bool superBall;
+
+	bool onPaddle;
 private:
 	Ball();
 
 	static std::vector<Ball>& balls;
 
 	// Powerup flags
-	static bool magnet; // How does it work?
-	static bool speedUp;
-	static bool speedDown;
-	static bool superBall;
-	bool onPaddle;
+	
 
 };
 

@@ -82,7 +82,9 @@ void Player::ApplyPowerUp(int powType)
 	case PowerUp::powerType::Split:
 		Ball::ApplyPowerUp(powType);
 		break;
-
+	case PowerUp::powerType::Super:
+		Ball::ApplyPowerUp(powType);
+		break;
 	}
 }
 
