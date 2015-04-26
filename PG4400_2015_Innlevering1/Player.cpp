@@ -5,6 +5,7 @@
 
 Player::Player()
 {
+	life = 3;
 	inputManager = InputManager::GetInstance();
 }
 Player::~Player()

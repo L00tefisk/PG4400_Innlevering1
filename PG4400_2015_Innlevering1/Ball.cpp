@@ -53,8 +53,24 @@ void Ball::Update(const double &dt)
 
 		if (rect.x < 0 || rect.x + rect.w > 1280)
 			xSpeed *= -1;
-		if (rect.y < 0 || rect.y + rect.h > 720)
+		if (rect.y + rect.h < 0)
 			ySpeed *= -1;
+		if (rect.y >= 720) {
+			if (balls.size() > 1) {
+				for (auto it = balls.begin(); it != balls.end();)
+				{
+					if (&(it->rect) == &rect) {
+						balls.erase(it);
+						break;
+					}
+					else
+						it++;
+				}
+			}
+			else {
+				onPaddle = true;
+			}
+		}
 	}
 	centerX = rect.x + (rect.w / 2);
 	centerY = rect.y + (rect.h / 2);

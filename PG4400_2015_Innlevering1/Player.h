@@ -16,8 +16,11 @@ public:
 	void ApplyPowerUp(int powType);
 
 	Paddle paddle;
+
+	int life;
 private:
 	std::shared_ptr<InputManager> inputManager;
+	
 };
 
 #endif
