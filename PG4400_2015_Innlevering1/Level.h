@@ -8,6 +8,7 @@
 
 class Level
 {
+
 public:
 	Level();
 	~Level();
@@ -23,12 +24,15 @@ public:
 	bool isDone();
 
 	std::vector<PowerUp> pMap;
-
 	std::vector<Brick> &getMap();
-private:
+
+protected:
 	std::vector<Brick> map;
+
+private:
 	unsigned short indestructibleBricksCount;
 	GameObject background;
+
 	
 };
 

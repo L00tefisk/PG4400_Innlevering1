@@ -22,9 +22,12 @@ enum Gamestate
 
 class GameManager
 {
+	friend class Ball;
+
 public:
 	int WindowWidth;
 	int WindowHeight;
+
 	GameManager(SDL_Window *window, SDL_Renderer *renderer);
 	~GameManager();
 	void Init();
@@ -35,6 +38,7 @@ public:
 	void MainMenu();
 	void Options();
 	void Highscores();
+	void ChangeLevel();
 
 	static const SDL_Rect& GetWindowRectangle();
 
@@ -43,16 +47,17 @@ private:
 	static SDL_Renderer *renderer;
 
 	Level level;
-	Player player;
 	Timer logicTimer;
 	Timer drawTimer;
 
 	unsigned short gameState;
 	std::shared_ptr<EventHandler> eventHandler;
 	std::shared_ptr<InputManager> inputManager;
-
-
 	bool run;
+
+protected:
+	static Player player;
+	static std::vector<Ball> balls;
 };
 
 #endif

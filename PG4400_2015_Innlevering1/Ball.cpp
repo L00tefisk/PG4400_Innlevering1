@@ -8,9 +8,10 @@ bool Ball::magnet; // How does it work?
 bool Ball::speedUp;
 bool Ball::speedDown;
 bool Ball::superBall;
-std::vector<Ball> Ball::balls;
+std::vector<Ball>& Ball::balls = GameManager::balls;
 Ball::Ball()
 {
+
 }
 
 Ball::~Ball()
@@ -20,7 +21,7 @@ Ball::~Ball()
 void Ball::Init()
 {
 	rect.x = 200;
-	rect.y = 200;
+	rect.y = 600;
 	rect.w = 25;
 	rect.h = 25;
 	centerX = rect.x + (rect.w / 2);
@@ -43,39 +44,18 @@ void Ball::Update(const double &dt)
 
 	if (onPaddle)
 	{
-		rect.y = 720 - 50 - rect.h;
-		rect.x = InputManager::GetInstance()->getMouseX() + 35;
+		rect.y = GameManager::player.getRectangle().y - rect.h;
+		rect.x = InputManager::GetInstance()->getMouseX();
 	}
 	else
 	{
 		rect.x += xSpeed * dt;
 		rect.y += ySpeed * dt;
-
-		if (rect.x < 0 || rect.x + rect.w > 1280)
-			xSpeed *= -1;
-		if (rect.y + rect.h < 0)
-			ySpeed *= -1;
-		if (rect.y >= 720) {
-			if (balls.size() > 1) {
-				for (auto it = balls.begin(); it != balls.end();)
-				{
-					if (&(it->rect) == &rect) {
-						balls.erase(it);
-						break;
-					}
-					else
-						it++;
-				}
-			}
-			else {
-				onPaddle = true;
-			}
-		}
+		centerX = rect.x + (rect.w / 2);
+		centerY = rect.y + (rect.h / 2);
+		
 	}
-	centerX = rect.x + (rect.w / 2);
-	centerY = rect.y + (rect.h / 2);
 	drawList[textureIDList[0]] = rect;
-
 }
 
 void Ball::ApplyPowerUp(int powType)
@@ -115,6 +95,15 @@ void Ball::ApplyPowerUp(int powType)
 		superBall = true;
 		break;
 	}
+}
+void Ball::ResolveCollision(Vector2D &overlapVector)
+{
+	Vector2D normalizedVector = overlapVector.getNormalizedVector();
+
+	if (abs(overlapVector.x) < abs(overlapVector.y))
+		rect.x += overlapVector.x;
+	else
+		rect.y += overlapVector.y;
 }
 
 void Ball::Fire()

@@ -18,8 +18,6 @@ public:
 	bool Crack();
 
 private:
-
-
 	unsigned short hp;
 	unsigned short brickType;
 };

@@ -4,23 +4,26 @@
 #include "Paddle.h"
 #include "InputManager.h"
 
-class Player
+class Player : public GameObject
 {
+	friend class Ball;
 public:
 	Player();
 	~Player();
 
-	void Init();
-	void Update();
-	void Draw();
+	void Init() override;
+	void Update(const double& dt) override;
 	void ApplyPowerUp(int powType);
 
-	Paddle paddle;
-
-	int life;
+	int lives;
 private:
+	int leftTextureID;
+	int rightTextureID;
+	SDL_Rect lRect;
+	SDL_Rect mRect;
+	SDL_Rect rRect;
+
 	std::shared_ptr<InputManager> inputManager;
-	
 };
 
 #endif

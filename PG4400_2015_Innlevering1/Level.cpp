@@ -96,12 +96,6 @@ void Level::loadLevel(std::string level)
 
 	inputStream.close();
 };
-
-void Level::changeLevel(std::string level)
-{
-	Ball::balls.clear();
-
-}
 std::vector<Brick> &Level::getMap()
 {
 	return map;

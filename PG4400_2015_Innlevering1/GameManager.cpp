@@ -3,6 +3,8 @@
 
 SDL_Renderer *GameManager::renderer;
 SDL_Window *GameManager::window;
+Player GameManager::player;
+std::vector<Ball> GameManager::balls;
 
 GameManager::GameManager(SDL_Window *window, SDL_Renderer *renderer)
 {
@@ -99,6 +101,11 @@ bool GameManager::Play(const double dt, std::string levelName)
 
 	while (true)
 	{
+		if (level.isDone())
+			return true;
+		if (player.lives == 0)
+			return false;
+
 		logicTimer.Update();
 		eventHandler->update();
 		if (inputManager->KeyDown(SDL_SCANCODE_Q))
@@ -108,7 +115,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 		}
 		if (inputManager->getMouseButton(1))
 		{
-			for (Ball &ball : Ball::balls)
+			for (Ball &ball : balls)
 				ball.Fire();
 		}
 
@@ -118,35 +125,49 @@ bool GameManager::Play(const double dt, std::string levelName)
 			if (logicTimer.accumulator > logicTimer.updateRate * 3)
 				logicTimer.accumulator = 0;
 
-			player.Update();
-			const SDL_Rect& paddle = player.paddle.getRectangle();
+			player.Update(logicTimer.updateRate);
+			const SDL_Rect& paddle = player.getRectangle();
 			
 			Vector2D overlapVector;
 			Vector2D normalizedVector;
 			SDL_Rect ballRect;
-			for (Ball &ball : Ball::balls)
+			for (int i = 0; i < balls.size(); i++)
 			{
+				Ball &ball = balls[i];
 				ball.Update(dt / 1000);
-				ballRect = ball.getRectangle();
 
+				ballRect = balls[i].getRectangle();
+				// Is the ball colliding with the paddle?
+				overlapVector = ball.Collide(player);
+
+				if (overlapVector.magnitude() != 0)
+				{
+					normalizedVector = overlapVector.getNormalizedVector();
+					
+					ball.ResolveCollision(overlapVector);
+					
+					double mod = ((ball.centerX - paddle.x - paddle.w / 2) / paddle.w) * 1000;
+					
+					if (abs(normalizedVector.x) > abs(normalizedVector.y))
+					{
+						ball.ySpeed = -ball.ySpeed;
+						ball.xSpeed = mod;
+					}
+				}
+
+				// Is it colliding with any of the bricks?
 				for (auto &b : map)
 				{
 					overlapVector = ball.Collide(b);
 					if (overlapVector.magnitude() != 0)
 					{
 						normalizedVector = overlapVector.getNormalizedVector();
-
 						if (abs(normalizedVector.x) < abs(normalizedVector.y))
 							ball.xSpeed = -ball.xSpeed;
 						else
 							ball.ySpeed = -ball.ySpeed;
 
-						if (abs(overlapVector.x) <= abs(overlapVector.y))
-							ballRect.x += overlapVector.x;
-						else
-							ballRect.y += overlapVector.y;
-
-						ball.setRectangle(ballRect);
+						ball.ResolveCollision(overlapVector);
 
 						if (b.Crack())
 						{
@@ -157,25 +178,13 @@ bool GameManager::Play(const double dt, std::string levelName)
 						break;
 					}
 				}
-
-				overlapVector = ball.Collide(player.paddle);
-
-				if(overlapVector.magnitude() != 0) {
-					normalizedVector = overlapVector.getNormalizedVector();
-					
-					double mod = ((ball.centerX - paddle.x - paddle.w / 2) / paddle.w) * 1000;
-					if(abs(normalizedVector.x) > abs(normalizedVector.y))
-					{
-						ball.ySpeed = -ball.ySpeed;
-						ball.xSpeed = mod;
-					}
-						
-					ballRect = ball.getRectangle();
-					if(abs(overlapVector.x) < abs(overlapVector.y))
-						ballRect.x += overlapVector.x;
-					else
-						ballRect.y += overlapVector.y;
-					ball.setRectangle(ballRect);
+				if (ballRect.x < 0 || ballRect.x + ballRect.w > 1280) // Did it hit the left or right side?
+					ball.xSpeed *= -1;
+				else if (ballRect.y + ballRect.h < 0) // did it hit the top or bottom?
+					ball.ySpeed *= -1;
+				else if (ballRect.y >= 720)
+				{
+					balls.erase(balls.begin() + i);
 				}
 			}
 
@@ -186,7 +195,7 @@ bool GameManager::Play(const double dt, std::string levelName)
 					it = level.pMap.erase(it);
 				else
 				{
-					overlapVector = it->Collide(player.paddle);
+					overlapVector = it->Collide(player);
 					if (overlapVector.magnitude() != 0)
 					{
 						player.ApplyPowerUp(it->type);
@@ -196,9 +205,6 @@ bool GameManager::Play(const double dt, std::string levelName)
 						it++;
 				}
 			}
-
-			if (level.isDone())
-				return true;
 
 			draw = true;
 
@@ -212,11 +218,9 @@ bool GameManager::Play(const double dt, std::string levelName)
 			level.draw();
 			player.Draw();
 			
-			for (Ball &ball : Ball::balls)
+			for (Ball &ball : balls)
 				ball.Draw();
-			
-			
-			
+
 			SDL_RenderPresent(renderer);
 		}
 	}
@@ -301,4 +305,9 @@ void GameManager::Options()
 void GameManager::Highscores()
 {
 	// Draw highscores
+}
+
+void GameManager::ChangeLevel()
+{
+	balls.clear();
 }
